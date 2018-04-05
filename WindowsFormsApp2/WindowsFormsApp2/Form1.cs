@@ -3,6 +3,9 @@ using System.Windows.Forms;
 using ICARCOMLib;
 using System.Drawing;
 using System.IO;
+using System.Configuration;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace WindowsFormsApp2
 {
@@ -12,16 +15,39 @@ namespace WindowsFormsApp2
         public IcarConstants.IcarConstants Iconstants;
         public ICAR Icar;
         Boolean config;
+        SqlCommand command;
+        SqlConnection connection;
+        String connectStr;
 
         public Main()
         {
+            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=|DataDirectory|" + @"\Database1.mdf" + ";Integrated Security=True";
             InitializeComponent();
+
+            connection = new SqlConnection(connectStr);
+            try
+            {
+                connection.Open();
+                //MessageBox.Show("Connection open!");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot open connection!");
+            }
             //ICAR 
             Iconstants = new IcarConstants.IcarConstants();
             Icar = new ICAR();
             Icar.initialize();
             checkIcarError();
             config = false;
+
+            command = new SqlCommand("SELECT Name FROM Person", connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                VisitingCombo.Items.Add(reader["Name"].ToString());
+            }
+            connection.Close();
         }
 
         private void checkIcarError()
@@ -71,25 +97,25 @@ namespace WindowsFormsApp2
         {
             String[] x = new String[20];
             String output;
-         
+
             //docType
             String[] result = res.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0].Split(null);
             TypeBox.Text = result[1];
 
             //Name
-            int spot = 0 ;
+            int spot = 0;
             while (!result[spot].Equals("NAME:"))
             {
                 spot++;
             }
 
             spot++;
-            for(int i=0; !result[spot].Equals("SURNAME:");i++,spot++)
+            for (int i = 0; !result[spot].Equals("SURNAME:"); i++, spot++)
             {
                 x[i] = result[spot];
             }
             output = x[0];
-            for(int i = 1; x[i]!=null; i++)
+            for (int i = 1; x[i] != null; i++)
             {
                 output = output + " " + x[i];
             }
@@ -103,7 +129,7 @@ namespace WindowsFormsApp2
                 x[i] = result[spot];
             }
 
-            
+
             output = x[0];
             for (int i = 1; x[i] != null; i++)
             {
@@ -112,7 +138,7 @@ namespace WindowsFormsApp2
             SurnameBox.Text = output;
 
             //cardNumber
-            spot +=3;
+            spot += 3;
             cardNBox.Text = result[spot];
 
 
@@ -125,7 +151,7 @@ namespace WindowsFormsApp2
             spot += 1;
             if (result[spot++].Equals("M"))
             {
-                
+
                 MaleCheck.Checked = true;
                 FemaleCheck.Checked = false;
             }
@@ -245,11 +271,14 @@ namespace WindowsFormsApp2
             Icar.checkError();
         }
 
-        private void Exit_Click(object sender, EventArgs e) => Environment.Exit(0);
+        private void Exit_Click(object sender, EventArgs e) {
+            connection.Close();
+            Environment.Exit(0);
+        }
 
         private void DeliveryYes_CheckedChanged(object sender, EventArgs e)
         {
-            if(DeliveryYes.Checked == true)
+            if (DeliveryYes.Checked == true)
             {
                 DeliveryNo.Checked = false;
             }
@@ -271,5 +300,59 @@ namespace WindowsFormsApp2
             }
         }
 
+        private void InButton_Click(object sender, EventArgs e)
+        {
+            String gender;
+            if (MaleCheck.Checked == true)
+            {
+                gender = "M";
+            }
+            else
+            {
+                gender = "F";
+            }
+
+            int delivery;
+            if (DeliveryNo.Checked == true)
+            {
+                delivery = 0;
+            }
+            else
+            {
+                delivery = 1;
+            }
+
+            connection.Open();
+            String query = "INSERT INTO Visits(Name,Surname,DocType,DocNumber,Gender,Company,Delivery,Entrance,Visiting) VALUES(" + NameBox.Text + " , " + SurnameBox.Text + " , " +
+                TypeBox.Text + " , " + cardNBox.Text + " , " + gender + " , " + Companybox.Text + " , "
+                + delivery + " ," + System.DateTime.Now + " , " + VisitingCombo.Text + ")";
+            command = new SqlCommand(query, connection);
+            connection.Execute("")
+
+            SqlDataReader reader = command.ExecuteReader();
+            connection.Close();
+            
+            MessageBox.Show("---" +VisitingCombo.Text.TrimEnd(' ')+ "---------");
+
+            //command = new SqlCommand("INSERT " + NameBox.Text + ", " + SurnameBox.Text + ", " +
+            //    TypeBox.Text + ", " + cardNBox.Text + ", " + gender + ", " + Companybox.Text + ", "
+            //    + delivery + "," + System.DateTime.Now+", " + VisitingCombo.Text, connection);
+
+            clearFields();
+        }
+
+        private void clearFields()
+        {
+            Photo.Image = null;
+            cardNBox.Text = null;
+            TypeBox.Text = null;
+            NameBox.Text = null;
+            SurnameBox.Text = null;
+            Companybox.Text = null;
+            MaleCheck.Checked = false;
+            FemaleCheck.Checked = false;
+            DeliveryNo.Checked = false;
+            DeliveryYes.Checked = false;
+        }
     }
 }

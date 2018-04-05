@@ -33,7 +33,7 @@
             this.NameBox = new System.Windows.Forms.TextBox();
             this.SurnameBox = new System.Windows.Forms.TextBox();
             this.cardNBox = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.Companybox = new System.Windows.Forms.TextBox();
             this.TypeBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TypeLabel = new System.Windows.Forms.Label();
@@ -50,7 +50,7 @@
             this.DeliveryYes = new System.Windows.Forms.CheckBox();
             this.DeliveryNo = new System.Windows.Forms.CheckBox();
             this.VisitingLabel = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.VisitingCombo = new System.Windows.Forms.ComboBox();
             this.PrintButton = new System.Windows.Forms.Button();
             this.InButton = new System.Windows.Forms.Button();
             this.OutButton = new System.Windows.Forms.Button();
@@ -88,12 +88,12 @@
             this.cardNBox.Size = new System.Drawing.Size(200, 20);
             this.cardNBox.TabIndex = 3;
             // 
-            // textBox4
+            // Companybox
             // 
-            this.textBox4.Location = new System.Drawing.Point(235, 220);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(200, 20);
-            this.textBox4.TabIndex = 4;
+            this.Companybox.Location = new System.Drawing.Point(235, 220);
+            this.Companybox.Name = "Companybox";
+            this.Companybox.Size = new System.Drawing.Size(200, 20);
+            this.Companybox.TabIndex = 4;
             // 
             // TypeBox
             // 
@@ -256,13 +256,13 @@
             this.VisitingLabel.TabIndex = 34;
             this.VisitingLabel.Text = "Visiting";
             // 
-            // comboBox1
+            // VisitingCombo
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(455, 161);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(200, 21);
-            this.comboBox1.TabIndex = 35;
+            this.VisitingCombo.FormattingEnabled = true;
+            this.VisitingCombo.Location = new System.Drawing.Point(455, 161);
+            this.VisitingCombo.Name = "VisitingCombo";
+            this.VisitingCombo.Size = new System.Drawing.Size(200, 21);
+            this.VisitingCombo.TabIndex = 35;
             // 
             // PrintButton
             // 
@@ -281,6 +281,7 @@
             this.InButton.TabIndex = 37;
             this.InButton.Text = "Check In";
             this.InButton.UseVisualStyleBackColor = true;
+            this.InButton.Click += new System.EventHandler(this.InButton_Click);
             // 
             // OutButton
             // 
@@ -311,7 +312,7 @@
             this.Controls.Add(this.OutButton);
             this.Controls.Add(this.InButton);
             this.Controls.Add(this.PrintButton);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.VisitingCombo);
             this.Controls.Add(this.VisitingLabel);
             this.Controls.Add(this.DeliveryNo);
             this.Controls.Add(this.FemaleCheck);
@@ -327,7 +328,7 @@
             this.Controls.Add(this.TypeLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TypeBox);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.Companybox);
             this.Controls.Add(this.cardNBox);
             this.Controls.Add(this.SurnameBox);
             this.Controls.Add(this.NameBox);
@@ -345,7 +346,7 @@
         private System.Windows.Forms.TextBox NameBox;
         private System.Windows.Forms.TextBox SurnameBox;
         private System.Windows.Forms.TextBox cardNBox;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox Companybox;
         private System.Windows.Forms.TextBox TypeBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label TypeLabel;
@@ -364,7 +365,7 @@
         private System.Windows.Forms.CheckBox DeliveryYes;
         private System.Windows.Forms.CheckBox DeliveryNo;
         private System.Windows.Forms.Label VisitingLabel;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox VisitingCombo;
         private System.Windows.Forms.Button PrintButton;
         private System.Windows.Forms.Button InButton;
         private System.Windows.Forms.Button OutButton;
