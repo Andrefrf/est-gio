@@ -14,13 +14,16 @@ namespace WindowsFormsApp2
     {
         public IcarConstants.IcarConstants Iconstants;
         public ICAR Icar;
-        Boolean config;
+        protected Boolean config;
         SqlCommand command;
         SqlConnection connection;
         String connectStr;
+        public bool tester;
+        private static String SPLITTER = "|";
 
         public Main()
         {
+            tester = true;
             connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=|DataDirectory|" + @"\Database1.mdf" + ";Integrated Security=True";
             InitializeComponent();
 
@@ -89,7 +92,8 @@ namespace WindowsFormsApp2
             }
             Photo.Image = img;
 
-            String res = Icar.getResultString().Replace(" # ", "\n");
+            
+            String res = Icar.getResultString().Replace(" # ", " |\n");
             processResult(res);
         }
 
@@ -110,7 +114,7 @@ namespace WindowsFormsApp2
             }
 
             spot++;
-            for (int i = 0; !result[spot].Equals("SURNAME:"); i++, spot++)
+            for (int i = 0; !result[spot].Equals(SPLITTER); i++, spot++)
             {
                 x[i] = result[spot];
             }
@@ -121,10 +125,12 @@ namespace WindowsFormsApp2
             }
             NameBox.Text = output;
 
+
+            
             //surname
             output = null;
-            spot++;
-            for (int i = 0; !result[spot].Equals("ID_NUMBER:"); i++, spot++)
+            spot+=2;
+            for (int i = 0; !result[spot].Equals(SPLITTER); i++, spot++)
             {
                 x[i] = result[spot];
             }
@@ -138,28 +144,38 @@ namespace WindowsFormsApp2
             SurnameBox.Text = output;
 
             //cardNumber
-            spot += 3;
-            cardNBox.Text = result[spot];
+            while (!result[spot].Equals("DOC_NUMBER:"))
+            {
+                spot++;
+            } spot++;
+
+            MessageBox.Show(result[spot]);
+            Char[] s = result[spot++].ToCharArray();
+            for(int i = 0; i < 8; i++)
+            {
+                cardNBox.Text += s[i]; 
+            }
+            //cardNBox.Text = result[spot++];
 
 
             //gender
-            while (!result[spot].Equals("SEX:"))
-            {
-                spot++;
-            }
+            //while (!result[spot].Equals("SEX:"))
+            //{
+            //    spot++;
+            //}
 
-            spot += 1;
-            if (result[spot++].Equals("M"))
-            {
+            //spot += 1;
+            //if (result[spot++].Equals("M"))
+            //{
 
-                MaleCheck.Checked = true;
-                FemaleCheck.Checked = false;
-            }
-            else
-            {
-                MaleCheck.Checked = false;
-                FemaleCheck.Checked = true;
-            }
+            //    MaleCheck.Checked = true;
+            //    FemaleCheck.Checked = false;
+            //}
+            //else
+            //{
+            //    MaleCheck.Checked = false;
+            //    FemaleCheck.Checked = true;
+            //}
         }
 
         //configures device
@@ -323,16 +339,53 @@ namespace WindowsFormsApp2
             }
 
             connection.Open();
-            String query = "INSERT INTO Visits(Name,Surname,DocType,DocNumber,Gender,Company,Delivery,Entrance,Visiting) VALUES(" + NameBox.Text + " , " + SurnameBox.Text + " , " +
-                TypeBox.Text + " , " + cardNBox.Text + " , " + gender + " , " + Companybox.Text + " , "
+            string type = "";
+            if (TypeBox.Text.Equals("IDENTITY")){
+                type = "id";
+            }
+            else if (TypeBox.Text.Equals("PASSPORT"))
+            {
+                type = "passport";
+            }
+            else if (TypeBox.Text.Equals("DRIVER_LICENSE"))
+            {
+                type = "driver";
+            }
+            else if (TypeBox.Text.Equals("VISA"))
+            {
+                type = "visa";
+            }
+            else if (TypeBox.Text.Equals("TRIPULATION"))
+            {
+                type = "tripulation";
+            }
+            else if (TypeBox.Text.Equals("RESIDENT_CARD"))
+            {
+                type = "resident";
+            }
+            else if (TypeBox.Text.Equals("PERSONAL_CARD"))
+            {
+                type = "personal";
+            }
+            else
+            {
+                type = "mrzNotRecognized";
+            }
+            String query = "INSERT INTO Visits(Name,Surname,DocType,DocNumber,Gender,Company,Delivery,Entrance,Visiting) VALUES(" + NameBox.Text.Split(null)[0] + " , " + SurnameBox.Text.Split(null)[0] + " , " +
+                type + " , " + cardNBox.Text + " , " + gender + " , " + Companybox.Text + " , "
                 + delivery + " ," + System.DateTime.Now + " , " + VisitingCombo.Text + ")";
-            command = new SqlCommand(query, connection);
-            connection.Execute("")
 
-            SqlDataReader reader = command.ExecuteReader();
-            connection.Close();
             
-            MessageBox.Show("---" +VisitingCombo.Text.TrimEnd(' ')+ "---------");
+            command = new SqlCommand(query, connection);
+
+            MessageBox.Show(query);
+            try { SqlDataReader reader = command.ExecuteReader(); }
+            catch (Exception)
+            {
+                //MessageBox.Show();
+            }
+            
+            connection.Close();
 
             //command = new SqlCommand("INSERT " + NameBox.Text + ", " + SurnameBox.Text + ", " +
             //    TypeBox.Text + ", " + cardNBox.Text + ", " + gender + ", " + Companybox.Text + ", "

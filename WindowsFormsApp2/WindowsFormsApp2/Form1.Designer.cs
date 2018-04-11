@@ -61,9 +61,9 @@
             // Photo
             // 
             this.Photo.BackColor = System.Drawing.SystemColors.Info;
-            this.Photo.Location = new System.Drawing.Point(27, 38);
+            this.Photo.Location = new System.Drawing.Point(12, 22);
             this.Photo.Name = "Photo";
-            this.Photo.Size = new System.Drawing.Size(167, 188);
+            this.Photo.Size = new System.Drawing.Size(185, 155);
             this.Photo.TabIndex = 0;
             this.Photo.TabStop = false;
             // 

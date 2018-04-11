@@ -2,6 +2,7 @@
 using ICARCOMLib;
 using IcarConstants;
 using System.Windows.Forms;
+using WindowsFormsApp2.Properties;
 
 
 
