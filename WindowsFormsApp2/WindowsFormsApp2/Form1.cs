@@ -99,16 +99,24 @@ namespace WindowsFormsApp2
 
         private void processResult(string res)
         {
-            String[] x = new String[20];
-            String output;
 
             //docType
             String[] result = res.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0].Split(null);
             TypeBox.Text = result[1];
 
-            //Name
+
+            NameBox.Text = searchField("NAME:", result);
+            SurnameBox.Text = searchField("SURNAME:", result);
+            cardNBox.Text = searchField("DOC_NUMBER:", result);
+            
+        }
+
+        private string searchField(string input, String[] result)
+        {
+            String output;
+            String[] x = new String[20];
             int spot = 0;
-            while (!result[spot].Equals("NAME:"))
+            while (!result[spot].Equals(input))
             {
                 spot++;
             }
@@ -124,58 +132,7 @@ namespace WindowsFormsApp2
                 output = output + " " + x[i];
             }
             NameBox.Text = output;
-
-
-            
-            //surname
-            output = null;
-            spot+=2;
-            for (int i = 0; !result[spot].Equals(SPLITTER); i++, spot++)
-            {
-                x[i] = result[spot];
-            }
-
-
-            output = x[0];
-            for (int i = 1; x[i] != null; i++)
-            {
-                output = output + " " + x[i];
-            }
-            SurnameBox.Text = output;
-
-            //cardNumber
-            while (!result[spot].Equals("DOC_NUMBER:"))
-            {
-                spot++;
-            } spot++;
-
-            MessageBox.Show(result[spot]);
-            Char[] s = result[spot++].ToCharArray();
-            for(int i = 0; i < 8; i++)
-            {
-                cardNBox.Text += s[i]; 
-            }
-            //cardNBox.Text = result[spot++];
-
-
-            //gender
-            //while (!result[spot].Equals("SEX:"))
-            //{
-            //    spot++;
-            //}
-
-            //spot += 1;
-            //if (result[spot++].Equals("M"))
-            //{
-
-            //    MaleCheck.Checked = true;
-            //    FemaleCheck.Checked = false;
-            //}
-            //else
-            //{
-            //    MaleCheck.Checked = false;
-            //    FemaleCheck.Checked = true;
-            //}
+            return output;
         }
 
         //configures device
@@ -375,14 +332,13 @@ namespace WindowsFormsApp2
                 type + " , " + cardNBox.Text + " , " + gender + " , " + Companybox.Text + " , "
                 + delivery + " ," + System.DateTime.Now + " , " + VisitingCombo.Text + ")";
 
-            
+
             command = new SqlCommand(query, connection);
 
-            MessageBox.Show(query);
-            try { SqlDataReader reader = command.ExecuteReader(); }
-            catch (Exception)
+            try { command.ExecuteNonQuery(); }
+            catch (Exception ex)
             {
-                //MessageBox.Show();
+                MessageBox.Show(ex.ToString());
             }
             
             connection.Close();
