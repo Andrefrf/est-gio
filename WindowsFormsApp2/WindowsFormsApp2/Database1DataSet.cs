@@ -4,6 +4,10 @@
 
     partial class Database1DataSet
     {
+        partial class VisitsDataTable
+        {
+        }
+
         partial class PersonDataTable
         {
         }

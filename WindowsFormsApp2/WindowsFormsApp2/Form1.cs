@@ -6,25 +6,27 @@ using System.IO;
 using System.Configuration;
 using System.Data.SqlClient;
 using Dapper;
+using System.Data;
+using System.Linq;
+using System.Text;
 
 namespace WindowsFormsApp2
 {
 
     public partial class Main : Form
     {
+        private const string V = " , ";
         public IcarConstants.IcarConstants Iconstants;
         public ICAR Icar;
         protected Boolean config;
-        SqlCommand command;
         SqlConnection connection;
         String connectStr;
-        public bool tester;
         private static String SPLITTER = "|";
 
         public Main()
         {
-            tester = true;
             connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=|DataDirectory|" + @"\Database1.mdf" + ";Integrated Security=True";
+            MessageBox.Show(connectStr);
             InitializeComponent();
 
             connection = new SqlConnection(connectStr);
@@ -44,7 +46,7 @@ namespace WindowsFormsApp2
             checkIcarError();
             config = false;
 
-            command = new SqlCommand("SELECT Name FROM Person", connection);
+            SqlCommand command = new SqlCommand("SELECT Name FROM Person", connection);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -92,7 +94,7 @@ namespace WindowsFormsApp2
             }
             Photo.Image = img;
 
-            
+
             String res = Icar.getResultString().Replace(" # ", " |\n");
             processResult(res);
         }
@@ -107,8 +109,9 @@ namespace WindowsFormsApp2
 
             NameBox.Text = searchField("NAME:", result);
             SurnameBox.Text = searchField("SURNAME:", result);
-            cardNBox.Text = searchField("DOC_NUMBER:", result);
-            
+
+            idNBox.Text = searchField("DOC_NUMBER:", result).Substring(0, 8);
+
         }
 
         private string searchField(string input, String[] result)
@@ -131,7 +134,6 @@ namespace WindowsFormsApp2
             {
                 output = output + " " + x[i];
             }
-            NameBox.Text = output;
             return output;
         }
 
@@ -244,7 +246,8 @@ namespace WindowsFormsApp2
             Icar.checkError();
         }
 
-        private void Exit_Click(object sender, EventArgs e) {
+        private void Exit_Click(object sender, EventArgs e)
+        {
             connection.Close();
             Environment.Exit(0);
         }
@@ -275,14 +278,19 @@ namespace WindowsFormsApp2
 
         private void InButton_Click(object sender, EventArgs e)
         {
+
             String gender;
             if (MaleCheck.Checked == true)
             {
                 gender = "M";
             }
-            else
+            else if (FemaleCheck.Checked == true)
             {
                 gender = "F";
+            }
+            else
+            {
+                gender = null;
             }
 
             int delivery;
@@ -295,9 +303,9 @@ namespace WindowsFormsApp2
                 delivery = 1;
             }
 
-            connection.Open();
             string type = "";
-            if (TypeBox.Text.Equals("IDENTITY")){
+            if (TypeBox.Text.Equals("IDENTITY"))
+            {
                 type = "id";
             }
             else if (TypeBox.Text.Equals("PASSPORT"))
@@ -328,32 +336,90 @@ namespace WindowsFormsApp2
             {
                 type = "mrzNotRecognized";
             }
-            String query = "INSERT INTO Visits(Name,Surname,DocType,DocNumber,Gender,Company,Delivery,Entrance,Visiting) VALUES(" + NameBox.Text.Split(null)[0] + " , " + SurnameBox.Text.Split(null)[0] + " , " +
-                type + " , " + cardNBox.Text + " , " + gender + " , " + Companybox.Text + " , "
-                + delivery + " ," + System.DateTime.Now + " , " + VisitingCombo.Text + ")";
-
-
-            command = new SqlCommand(query, connection);
-
-            try { command.ExecuteNonQuery(); }
-            catch (Exception ex)
+            StringBuilder sb = new StringBuilder();
+            //sb.Append();
+            using (SqlCommand com = new SqlCommand())
             {
-                MessageBox.Show(ex.ToString());
+
+                //com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(NameBox.Text);
+                //com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = valuesCheck(SurnameBox.Text);
+                //com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = valuesCheck(type);
+                //com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = valuesCheck(idNBox.Text);
+                //com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = valuesCheck(gender);
+                //com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
+                //com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
+                //com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
+                //com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
+                //com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = valuesCheck(VisitingCombo.Text);
+
+                
+
+                com.CommandType = System.Data.CommandType.Text;
+
+                com.CommandText = "INSERT INTO Visits(Name,Surname,DocType,IdNumber,Gender,Company,Delivery,Entrance,Out,Visiting) VALUES(@Name,@Surname,@DocType,@DocNumber,@Gender,@Company,@Delivery,@Entrance,@Out,@Visiting)";
+                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = "André";
+                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = "Ferreira";
+                com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = "id";
+                com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = "17286597";
+                com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = "M";
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = "Algo";
+                com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = 0;
+                com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
+                com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
+                com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = getVisiting("Miguel Santos");
+
+                com.Connection = connection;
+
+                connection.Open();
+
+                using (SqlDataReader reader = com.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        for(int i = 0; i< reader.FieldCount; i++)
+                        {
+                            Console.WriteLine(reader.GetValue(i));
+                        }
+                        Console.Write("DONE!");
+                    }
+                }
+                    com.ExecuteNonQuery();
             }
-            
+
             connection.Close();
 
-            //command = new SqlCommand("INSERT " + NameBox.Text + ", " + SurnameBox.Text + ", " +
-            //    TypeBox.Text + ", " + cardNBox.Text + ", " + gender + ", " + Companybox.Text + ", "
-            //    + delivery + "," + System.DateTime.Now+", " + VisitingCombo.Text, connection);
-
             clearFields();
+        }
+
+        private object getVisiting(string v)
+        {
+            connection.Open();
+
+            SqlCommand com = new SqlCommand("SELECT Name FROM Person WHERE Name = @Name", connection);
+            com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = v;
+
+            SqlDataReader reader = com.ExecuteReader();
+            reader.Read();
+            String res = reader["Name"].ToString();
+
+            connection.Close();
+
+            return res;
+        }
+
+        private object valuesCheck(string text)
+        {
+            if (text == null)
+            {
+                return DBNull.Value;
+            }
+            else return text;
         }
 
         private void clearFields()
         {
             Photo.Image = null;
-            cardNBox.Text = null;
+            idNBox.Text = null;
             TypeBox.Text = null;
             NameBox.Text = null;
             SurnameBox.Text = null;

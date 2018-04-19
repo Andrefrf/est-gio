@@ -32,7 +32,7 @@
             this.Photo = new System.Windows.Forms.PictureBox();
             this.NameBox = new System.Windows.Forms.TextBox();
             this.SurnameBox = new System.Windows.Forms.TextBox();
-            this.cardNBox = new System.Windows.Forms.TextBox();
+            this.idNBox = new System.Windows.Forms.TextBox();
             this.Companybox = new System.Windows.Forms.TextBox();
             this.TypeBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -81,12 +81,12 @@
             this.SurnameBox.Size = new System.Drawing.Size(200, 20);
             this.SurnameBox.TabIndex = 2;
             // 
-            // cardNBox
+            // idNBox
             // 
-            this.cardNBox.Location = new System.Drawing.Point(455, 104);
-            this.cardNBox.Name = "cardNBox";
-            this.cardNBox.Size = new System.Drawing.Size(200, 20);
-            this.cardNBox.TabIndex = 3;
+            this.idNBox.Location = new System.Drawing.Point(455, 104);
+            this.idNBox.Name = "idNBox";
+            this.idNBox.Size = new System.Drawing.Size(200, 20);
+            this.idNBox.TabIndex = 3;
             // 
             // Companybox
             // 
@@ -108,9 +108,9 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(452, 88);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.Size = new System.Drawing.Size(81, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Card number";
+            this.label3.Text = "Identity Number";
             // 
             // TypeLabel
             // 
@@ -329,7 +329,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TypeBox);
             this.Controls.Add(this.Companybox);
-            this.Controls.Add(this.cardNBox);
+            this.Controls.Add(this.idNBox);
             this.Controls.Add(this.SurnameBox);
             this.Controls.Add(this.NameBox);
             this.Controls.Add(this.Photo);
@@ -345,7 +345,7 @@
         private System.Windows.Forms.PictureBox Photo;
         private System.Windows.Forms.TextBox NameBox;
         private System.Windows.Forms.TextBox SurnameBox;
-        private System.Windows.Forms.TextBox cardNBox;
+        private System.Windows.Forms.TextBox idNBox;
         private System.Windows.Forms.TextBox Companybox;
         private System.Windows.Forms.TextBox TypeBox;
         private System.Windows.Forms.Label label3;
