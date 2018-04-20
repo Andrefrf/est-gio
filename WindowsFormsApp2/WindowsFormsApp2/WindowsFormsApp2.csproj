@@ -74,25 +74,70 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database1DataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="MainApp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainApp.Designer.cs">
+      <DependentUpon>MainApp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="Configurations.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="Configurations.Designer.cs">
+      <DependentUpon>Configurations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="newBuilding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="newBuilding.Designer.cs">
+      <DependentUpon>newBuilding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewEmployee.Designer.cs">
+      <DependentUpon>NewEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewCompFloorBuild.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewCompFloorBuild.Designer.cs">
+      <DependentUpon>NewCompFloorBuild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddComp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddComp.Designer.cs">
+      <DependentUpon>AddComp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="newFloor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="newFloor.Designer.cs">
+      <DependentUpon>newFloor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainApp.resx">
+      <DependentUpon>MainApp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="Configurations.resx">
+      <DependentUpon>Configurations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="newBuilding.resx">
+      <DependentUpon>newBuilding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewEmployee.resx">
+      <DependentUpon>NewEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewCompFloorBuild.resx">
+      <DependentUpon>NewCompFloorBuild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddComp.resx">
+      <DependentUpon>AddComp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="newFloor.resx">
+      <DependentUpon>newFloor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,12 +185,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database1.mdf">
+    <Content Include="Database.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Database1_log.ldf">
+    <Content Include="Database_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Database1.mdf</DependentUpon>
+      <DependentUpon>Database.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

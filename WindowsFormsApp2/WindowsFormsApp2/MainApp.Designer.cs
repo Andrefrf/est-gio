@@ -41,12 +41,9 @@
             this.Surname = new System.Windows.Forms.Label();
             this.DeliveryLabel = new System.Windows.Forms.Label();
             this.CompanyLabel = new System.Windows.Forms.Label();
-            this.Gender = new System.Windows.Forms.Label();
             this.Scan = new System.Windows.Forms.Button();
             this.Configure = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
-            this.MaleCheck = new System.Windows.Forms.CheckBox();
-            this.FemaleCheck = new System.Windows.Forms.CheckBox();
             this.DeliveryYes = new System.Windows.Forms.CheckBox();
             this.DeliveryNo = new System.Windows.Forms.CheckBox();
             this.VisitingLabel = new System.Windows.Forms.Label();
@@ -55,15 +52,19 @@
             this.InButton = new System.Windows.Forms.Button();
             this.OutButton = new System.Windows.Forms.Button();
             this.VisitorButton = new System.Windows.Forms.Button();
+            this.CompLabel = new System.Windows.Forms.Label();
+            this.CompCombo = new System.Windows.Forms.ComboBox();
+            this.VisitingAdd = new System.Windows.Forms.Button();
+            this.VCompAdd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Photo)).BeginInit();
             this.SuspendLayout();
             // 
             // Photo
             // 
             this.Photo.BackColor = System.Drawing.SystemColors.Info;
-            this.Photo.Location = new System.Drawing.Point(12, 22);
+            this.Photo.Location = new System.Drawing.Point(26, 12);
             this.Photo.Name = "Photo";
-            this.Photo.Size = new System.Drawing.Size(185, 155);
+            this.Photo.Size = new System.Drawing.Size(160, 170);
             this.Photo.TabIndex = 0;
             this.Photo.TabStop = false;
             // 
@@ -90,7 +91,7 @@
             // 
             // Companybox
             // 
-            this.Companybox.Location = new System.Drawing.Point(235, 220);
+            this.Companybox.Location = new System.Drawing.Point(235, 160);
             this.Companybox.Name = "Companybox";
             this.Companybox.Size = new System.Drawing.Size(200, 20);
             this.Companybox.TabIndex = 4;
@@ -146,7 +147,7 @@
             // 
             this.DeliveryLabel.AutoSize = true;
             this.DeliveryLabel.BackColor = System.Drawing.Color.Transparent;
-            this.DeliveryLabel.Location = new System.Drawing.Point(232, 273);
+            this.DeliveryLabel.Location = new System.Drawing.Point(452, 144);
             this.DeliveryLabel.Name = "DeliveryLabel";
             this.DeliveryLabel.Size = new System.Drawing.Size(79, 13);
             this.DeliveryLabel.TabIndex = 17;
@@ -156,27 +157,17 @@
             // 
             this.CompanyLabel.AutoSize = true;
             this.CompanyLabel.BackColor = System.Drawing.Color.Transparent;
-            this.CompanyLabel.Location = new System.Drawing.Point(232, 204);
+            this.CompanyLabel.Location = new System.Drawing.Point(232, 144);
             this.CompanyLabel.Name = "CompanyLabel";
             this.CompanyLabel.Size = new System.Drawing.Size(51, 13);
             this.CompanyLabel.TabIndex = 18;
             this.CompanyLabel.Text = "Company";
             // 
-            // Gender
-            // 
-            this.Gender.AutoSize = true;
-            this.Gender.BackColor = System.Drawing.Color.Transparent;
-            this.Gender.Location = new System.Drawing.Point(232, 144);
-            this.Gender.Name = "Gender";
-            this.Gender.Size = new System.Drawing.Size(42, 13);
-            this.Gender.TabIndex = 20;
-            this.Gender.Text = "Gender";
-            // 
             // Scan
             // 
-            this.Scan.Location = new System.Drawing.Point(235, 357);
+            this.Scan.Location = new System.Drawing.Point(235, 441);
             this.Scan.Name = "Scan";
-            this.Scan.Size = new System.Drawing.Size(191, 75);
+            this.Scan.Size = new System.Drawing.Size(298, 102);
             this.Scan.TabIndex = 23;
             this.Scan.Text = "Scan";
             this.Scan.UseVisualStyleBackColor = true;
@@ -184,7 +175,7 @@
             // 
             // Configure
             // 
-            this.Configure.Location = new System.Drawing.Point(12, 330);
+            this.Configure.Location = new System.Drawing.Point(26, 441);
             this.Configure.Name = "Configure";
             this.Configure.Size = new System.Drawing.Size(191, 48);
             this.Configure.TabIndex = 24;
@@ -194,7 +185,7 @@
             // 
             // Exit
             // 
-            this.Exit.Location = new System.Drawing.Point(12, 384);
+            this.Exit.Location = new System.Drawing.Point(26, 495);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(191, 48);
             this.Exit.TabIndex = 25;
@@ -202,32 +193,10 @@
             this.Exit.UseVisualStyleBackColor = true;
             this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
-            // MaleCheck
-            // 
-            this.MaleCheck.AutoCheck = false;
-            this.MaleCheck.AutoSize = true;
-            this.MaleCheck.Location = new System.Drawing.Point(235, 161);
-            this.MaleCheck.Name = "MaleCheck";
-            this.MaleCheck.Size = new System.Drawing.Size(49, 17);
-            this.MaleCheck.TabIndex = 27;
-            this.MaleCheck.Text = "Male";
-            this.MaleCheck.UseVisualStyleBackColor = true;
-            // 
-            // FemaleCheck
-            // 
-            this.FemaleCheck.AutoCheck = false;
-            this.FemaleCheck.AutoSize = true;
-            this.FemaleCheck.Location = new System.Drawing.Point(366, 161);
-            this.FemaleCheck.Name = "FemaleCheck";
-            this.FemaleCheck.Size = new System.Drawing.Size(60, 17);
-            this.FemaleCheck.TabIndex = 28;
-            this.FemaleCheck.Text = "Female";
-            this.FemaleCheck.UseVisualStyleBackColor = true;
-            // 
             // DeliveryYes
             // 
             this.DeliveryYes.AutoSize = true;
-            this.DeliveryYes.Location = new System.Drawing.Point(240, 298);
+            this.DeliveryYes.Location = new System.Drawing.Point(455, 161);
             this.DeliveryYes.Name = "DeliveryYes";
             this.DeliveryYes.Size = new System.Drawing.Size(44, 17);
             this.DeliveryYes.TabIndex = 30;
@@ -238,7 +207,7 @@
             // DeliveryNo
             // 
             this.DeliveryNo.AutoSize = true;
-            this.DeliveryNo.Location = new System.Drawing.Point(395, 298);
+            this.DeliveryNo.Location = new System.Drawing.Point(610, 161);
             this.DeliveryNo.Name = "DeliveryNo";
             this.DeliveryNo.Size = new System.Drawing.Size(40, 17);
             this.DeliveryNo.TabIndex = 31;
@@ -250,7 +219,7 @@
             // 
             this.VisitingLabel.AutoSize = true;
             this.VisitingLabel.BackColor = System.Drawing.Color.Transparent;
-            this.VisitingLabel.Location = new System.Drawing.Point(452, 145);
+            this.VisitingLabel.Location = new System.Drawing.Point(46, 268);
             this.VisitingLabel.Name = "VisitingLabel";
             this.VisitingLabel.Size = new System.Drawing.Size(40, 13);
             this.VisitingLabel.TabIndex = 34;
@@ -259,14 +228,14 @@
             // VisitingCombo
             // 
             this.VisitingCombo.FormattingEnabled = true;
-            this.VisitingCombo.Location = new System.Drawing.Point(455, 161);
+            this.VisitingCombo.Location = new System.Drawing.Point(49, 284);
             this.VisitingCombo.Name = "VisitingCombo";
-            this.VisitingCombo.Size = new System.Drawing.Size(200, 21);
+            this.VisitingCombo.Size = new System.Drawing.Size(114, 21);
             this.VisitingCombo.TabIndex = 35;
             // 
             // PrintButton
             // 
-            this.PrintButton.Location = new System.Drawing.Point(12, 276);
+            this.PrintButton.Location = new System.Drawing.Point(26, 387);
             this.PrintButton.Name = "PrintButton";
             this.PrintButton.Size = new System.Drawing.Size(191, 48);
             this.PrintButton.TabIndex = 36;
@@ -275,7 +244,7 @@
             // 
             // InButton
             // 
-            this.InButton.Location = new System.Drawing.Point(455, 263);
+            this.InButton.Location = new System.Drawing.Point(539, 387);
             this.InButton.Name = "InButton";
             this.InButton.Size = new System.Drawing.Size(200, 75);
             this.InButton.TabIndex = 37;
@@ -285,7 +254,7 @@
             // 
             // OutButton
             // 
-            this.OutButton.Location = new System.Drawing.Point(455, 357);
+            this.OutButton.Location = new System.Drawing.Point(539, 468);
             this.OutButton.Name = "OutButton";
             this.OutButton.Size = new System.Drawing.Size(200, 75);
             this.OutButton.TabIndex = 38;
@@ -294,19 +263,60 @@
             // 
             // VisitorButton
             // 
-            this.VisitorButton.Location = new System.Drawing.Point(455, 205);
+            this.VisitorButton.Location = new System.Drawing.Point(235, 387);
             this.VisitorButton.Name = "VisitorButton";
-            this.VisitorButton.Size = new System.Drawing.Size(191, 48);
+            this.VisitorButton.Size = new System.Drawing.Size(296, 48);
             this.VisitorButton.TabIndex = 39;
             this.VisitorButton.Text = "Visitors";
             this.VisitorButton.UseVisualStyleBackColor = true;
+            // 
+            // CompLabel
+            // 
+            this.CompLabel.AutoSize = true;
+            this.CompLabel.Location = new System.Drawing.Point(232, 268);
+            this.CompLabel.Name = "CompLabel";
+            this.CompLabel.Size = new System.Drawing.Size(121, 13);
+            this.CompLabel.TabIndex = 40;
+            this.CompLabel.Text = "Company/Floor/Building";
+            // 
+            // CompCombo
+            // 
+            this.CompCombo.FormattingEnabled = true;
+            this.CompCombo.Location = new System.Drawing.Point(235, 284);
+            this.CompCombo.Name = "CompCombo";
+            this.CompCombo.Size = new System.Drawing.Size(121, 21);
+            this.CompCombo.TabIndex = 41;
+            // 
+            // VisitingAdd
+            // 
+            this.VisitingAdd.Location = new System.Drawing.Point(169, 282);
+            this.VisitingAdd.Name = "VisitingAdd";
+            this.VisitingAdd.Size = new System.Drawing.Size(42, 23);
+            this.VisitingAdd.TabIndex = 45;
+            this.VisitingAdd.Text = "Add";
+            this.VisitingAdd.UseVisualStyleBackColor = true;
+            this.VisitingAdd.Click += new System.EventHandler(this.VisitingAdd_Click);
+            // 
+            // VCompAdd
+            // 
+            this.VCompAdd.Location = new System.Drawing.Point(364, 282);
+            this.VCompAdd.Name = "VCompAdd";
+            this.VCompAdd.Size = new System.Drawing.Size(43, 23);
+            this.VCompAdd.TabIndex = 46;
+            this.VCompAdd.Text = "Add";
+            this.VCompAdd.UseVisualStyleBackColor = true;
+            this.VCompAdd.Click += new System.EventHandler(this.VCompAdd_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(671, 450);
+            this.ClientSize = new System.Drawing.Size(826, 555);
+            this.Controls.Add(this.VCompAdd);
+            this.Controls.Add(this.VisitingAdd);
+            this.Controls.Add(this.CompCombo);
+            this.Controls.Add(this.CompLabel);
             this.Controls.Add(this.VisitorButton);
             this.Controls.Add(this.DeliveryYes);
             this.Controls.Add(this.OutButton);
@@ -315,12 +325,9 @@
             this.Controls.Add(this.VisitingCombo);
             this.Controls.Add(this.VisitingLabel);
             this.Controls.Add(this.DeliveryNo);
-            this.Controls.Add(this.FemaleCheck);
-            this.Controls.Add(this.MaleCheck);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.Configure);
             this.Controls.Add(this.Scan);
-            this.Controls.Add(this.Gender);
             this.Controls.Add(this.CompanyLabel);
             this.Controls.Add(this.DeliveryLabel);
             this.Controls.Add(this.Surname);
@@ -356,12 +363,9 @@
         private System.Windows.Forms.Label Surname;
         private System.Windows.Forms.Label DeliveryLabel;
         private System.Windows.Forms.Label CompanyLabel;
-        private System.Windows.Forms.Label Gender;
         private System.Windows.Forms.Button Scan;
         private System.Windows.Forms.Button Configure;
         private System.Windows.Forms.Button Exit;
-        private System.Windows.Forms.CheckBox MaleCheck;
-        private System.Windows.Forms.CheckBox FemaleCheck;
         private System.Windows.Forms.CheckBox DeliveryYes;
         private System.Windows.Forms.CheckBox DeliveryNo;
         private System.Windows.Forms.Label VisitingLabel;
@@ -370,6 +374,10 @@
         private System.Windows.Forms.Button InButton;
         private System.Windows.Forms.Button OutButton;
         private System.Windows.Forms.Button VisitorButton;
+        private System.Windows.Forms.Label CompLabel;
+        private System.Windows.Forms.ComboBox CompCombo;
+        private System.Windows.Forms.Button VisitingAdd;
+        private System.Windows.Forms.Button VCompAdd;
     }
 }
 

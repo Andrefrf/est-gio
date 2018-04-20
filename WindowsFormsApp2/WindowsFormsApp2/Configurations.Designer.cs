@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp2
 {
-    partial class Form2
+    partial class Configurations
     {
         /// <summary>
         /// Required designer variable.
@@ -252,6 +252,7 @@
             this.button2.TabIndex = 19;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // UpperCaseCheck
             // 
@@ -420,7 +421,7 @@
             this.DateFormatCombo.Size = new System.Drawing.Size(265, 21);
             this.DateFormatCombo.TabIndex = 35;
             // 
-            // Form2
+            // Configurations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -460,7 +461,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form2";
+            this.Name = "Configurations";
             this.Text = "Configuration";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -8,12 +8,12 @@ using WindowsFormsApp2.Properties;
 
 namespace WindowsFormsApp2
 {
-    public partial class Form2 : Form 
+    public partial class Configurations : Form 
     {
         public ICAR icar;
         public IcarConstants.IcarConstants Iconstants;
 
-        public Form2(ICARCOMLib.ICAR icar)
+        public Configurations(ICARCOMLib.ICAR icar)
         {
             InitializeComponent();
             this.icar = icar;
@@ -315,6 +315,11 @@ namespace WindowsFormsApp2
             icar.checkError();
             icar.setPropertyNumber(Iconstants.getTwainSizeY(), 111);
             icar.checkError();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

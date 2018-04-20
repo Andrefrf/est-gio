@@ -25,20 +25,11 @@ namespace WindowsFormsApp2
 
         public Main()
         {
-            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=|DataDirectory|" + @"\Database1.mdf" + ";Integrated Security=True";
-            MessageBox.Show(connectStr);
+            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=|DataDirectory|" + @"\Database.mdf" + ";Integrated Security=True";
             InitializeComponent();
 
             connection = new SqlConnection(connectStr);
-            try
-            {
-                connection.Open();
-                //MessageBox.Show("Connection open!");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot open connection!");
-            }
+            
             //ICAR 
             Iconstants = new IcarConstants.IcarConstants();
             Icar = new ICAR();
@@ -46,13 +37,8 @@ namespace WindowsFormsApp2
             checkIcarError();
             config = false;
 
-            SqlCommand command = new SqlCommand("SELECT Name FROM Person", connection);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                VisitingCombo.Items.Add(reader["Name"].ToString());
-            }
-            connection.Close();
+            fillVisiting();
+            fillCompany();
         }
 
         private void checkIcarError()
@@ -145,7 +131,7 @@ namespace WindowsFormsApp2
 
         public void configure()
         {
-            Form2 conf = new Form2(Icar);
+            Configurations conf = new Configurations(Icar);
             conf.ShowDialog();
             config = true;
         }
@@ -279,20 +265,6 @@ namespace WindowsFormsApp2
         private void InButton_Click(object sender, EventArgs e)
         {
 
-            String gender;
-            if (MaleCheck.Checked == true)
-            {
-                gender = "M";
-            }
-            else if (FemaleCheck.Checked == true)
-            {
-                gender = "F";
-            }
-            else
-            {
-                gender = null;
-            }
-
             int delivery;
             if (DeliveryNo.Checked == true)
             {
@@ -337,53 +309,43 @@ namespace WindowsFormsApp2
                 type = "mrzNotRecognized";
             }
             StringBuilder sb = new StringBuilder();
-            //sb.Append();
-            using (SqlCommand com = new SqlCommand())
+            sb.Append("INSERT INTO Visits(Name,Surname,DocType,IdNumber,Company,Delivery,Entrance,Out,Visiting) VALUES(@Name,@Surname,@DocType,@DocNumber,@Company,@Delivery,@Entrance,@Out,@Visiting)");
+            using (SqlCommand com = new SqlCommand(sb.ToString(),connection))
             {
 
-                //com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(NameBox.Text);
-                //com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = valuesCheck(SurnameBox.Text);
-                //com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = valuesCheck(type);
-                //com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = valuesCheck(idNBox.Text);
-                //com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = valuesCheck(gender);
-                //com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
-                //com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
-                //com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
-                //com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
-                //com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = valuesCheck(VisitingCombo.Text);
+                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(NameBox.Text);
+                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = valuesCheck(SurnameBox.Text);
+                com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = valuesCheck(type);
+                com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = valuesCheck(idNBox.Text);
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
+                com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
+                com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
+                com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
+                com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = valuesCheck(VisitingCombo.Text);
 
-                
+
 
                 com.CommandType = System.Data.CommandType.Text;
 
-                com.CommandText = "INSERT INTO Visits(Name,Surname,DocType,IdNumber,Gender,Company,Delivery,Entrance,Out,Visiting) VALUES(@Name,@Surname,@DocType,@DocNumber,@Gender,@Company,@Delivery,@Entrance,@Out,@Visiting)";
-                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = "André";
-                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = "Ferreira";
-                com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = "id";
-                com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = "17286597";
-                com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = "M";
-                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = "Algo";
-                com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = 0;
-                com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
-                com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
-                com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = getVisiting("Miguel Santos");
+                //com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = "André";
+                //com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = "Ferreira";
+                //com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = "id";
+                //com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = "17283597";
+                //com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = "M";
+                //com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = "Algo";
+                //com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = 0;
+                //com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
+                //com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
+                //com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = getVisiting("Miguel Santos");
 
                 com.Connection = connection;
 
                 connection.Open();
 
-                using (SqlDataReader reader = com.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        for(int i = 0; i< reader.FieldCount; i++)
-                        {
-                            Console.WriteLine(reader.GetValue(i));
-                        }
-                        Console.Write("DONE!");
-                    }
-                }
-                    com.ExecuteNonQuery();
+                com.ExecuteNonQuery();
+                SqlTransaction trans = connection.BeginTransaction();
+                trans.Commit();
+                MessageBox.Show("Data Inserted!");
             }
 
             connection.Close();
@@ -424,10 +386,48 @@ namespace WindowsFormsApp2
             NameBox.Text = null;
             SurnameBox.Text = null;
             Companybox.Text = null;
-            MaleCheck.Checked = false;
-            FemaleCheck.Checked = false;
             DeliveryNo.Checked = false;
             DeliveryYes.Checked = false;
+        }
+
+        private void VisitingAdd_Click(object sender, EventArgs e)
+        {
+            PersonForm form = new PersonForm(connection);
+            form.ShowDialog();
+            VisitingCombo.Items.Clear();
+            fillVisiting();
+        }
+
+        private void fillVisiting()
+        {
+            connection.Open();
+            SqlCommand command = new SqlCommand("SELECT Name FROM ToVisit", connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                VisitingCombo.Items.Add(reader["Name"].ToString());
+            }
+            connection.Close();
+        }
+
+        private void VCompAdd_Click(object sender, EventArgs e)
+        {
+            NewCompFloorBuild form = new NewCompFloorBuild(connection);
+            form.ShowDialog();
+            CompCombo.Items.Clear();
+            fillCompany();
+        }
+
+        private void fillCompany()
+        {
+            connection.Open();
+            SqlCommand command = new SqlCommand("SELECT * FROM Companies", connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                CompCombo.Items.Add(reader["Company"].ToString().Trim()+","+reader["Floor"].ToString().Trim() + "," + reader["Building"].ToString().Trim());
+            }
+            connection.Close();
         }
     }
 }
