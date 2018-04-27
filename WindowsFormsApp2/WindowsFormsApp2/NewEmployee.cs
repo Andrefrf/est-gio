@@ -22,6 +22,11 @@ namespace WindowsFormsApp2
             companyFill();
         }
 
+        public PersonForm(SqlConnection connection, string text) : this(connection)
+        {
+            Text = text;
+        }
+
         private void companyFill()
         {
             try
@@ -47,13 +52,11 @@ namespace WindowsFormsApp2
         {
             String name = NameBox.Text;
             StringBuilder sb = new StringBuilder();
-            sb.Append("INSERT INTO ToVisit(Name) VALUES(@Name)");
+            sb.Append("INSERT INTO ToVisit(Name,Id) VALUES(@Name,@Id)");
             using (SqlCommand com = new SqlCommand(sb.ToString(), connect))
             {
                 connect.Open();
                 com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(name);
-
-
 
                 com.CommandType = System.Data.CommandType.Text;
 

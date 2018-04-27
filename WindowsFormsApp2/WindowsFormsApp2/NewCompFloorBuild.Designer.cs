@@ -30,15 +30,11 @@
         {
             this.CompanyLabel = new System.Windows.Forms.Label();
             this.FloorLabel = new System.Windows.Forms.Label();
-            this.BuildingLabel = new System.Windows.Forms.Label();
             this.DoneButton = new System.Windows.Forms.Button();
             this.AddCompany = new System.Windows.Forms.Button();
             this.CompanyCombo = new System.Windows.Forms.ComboBox();
-            this.BuildingCombo = new System.Windows.Forms.ComboBox();
-            this.FloorCombo = new System.Windows.Forms.ComboBox();
-            this.AddFloorButton = new System.Windows.Forms.Button();
-            this.AddBuildingFloor = new System.Windows.Forms.Button();
             this.HelpButton = new System.Windows.Forms.Button();
+            this.DepartmentBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // CompanyLabel
@@ -53,20 +49,11 @@
             // FloorLabel
             // 
             this.FloorLabel.AutoSize = true;
-            this.FloorLabel.Location = new System.Drawing.Point(12, 45);
+            this.FloorLabel.Location = new System.Drawing.Point(12, 62);
             this.FloorLabel.Name = "FloorLabel";
-            this.FloorLabel.Size = new System.Drawing.Size(33, 13);
+            this.FloorLabel.Size = new System.Drawing.Size(65, 13);
             this.FloorLabel.TabIndex = 1;
-            this.FloorLabel.Text = "Floor:";
-            // 
-            // BuildingLabel
-            // 
-            this.BuildingLabel.AutoSize = true;
-            this.BuildingLabel.Location = new System.Drawing.Point(12, 71);
-            this.BuildingLabel.Name = "BuildingLabel";
-            this.BuildingLabel.Size = new System.Drawing.Size(47, 13);
-            this.BuildingLabel.TabIndex = 2;
-            this.BuildingLabel.Text = "Building:";
+            this.FloorLabel.Text = "Department:";
             // 
             // DoneButton
             // 
@@ -93,47 +80,9 @@
             this.CompanyCombo.FormattingEnabled = true;
             this.CompanyCombo.Location = new System.Drawing.Point(80, 14);
             this.CompanyCombo.Name = "CompanyCombo";
-            this.CompanyCombo.Size = new System.Drawing.Size(164, 21);
+            this.CompanyCombo.Size = new System.Drawing.Size(163, 21);
             this.CompanyCombo.TabIndex = 8;
             this.CompanyCombo.SelectedIndexChanged += new System.EventHandler(this.CompanySelected);
-            // 
-            // BuildingCombo
-            // 
-            this.BuildingCombo.Enabled = false;
-            this.BuildingCombo.FormattingEnabled = true;
-            this.BuildingCombo.Location = new System.Drawing.Point(80, 68);
-            this.BuildingCombo.Name = "BuildingCombo";
-            this.BuildingCombo.Size = new System.Drawing.Size(164, 21);
-            this.BuildingCombo.TabIndex = 9;
-            // 
-            // FloorCombo
-            // 
-            this.FloorCombo.Enabled = false;
-            this.FloorCombo.FormattingEnabled = true;
-            this.FloorCombo.Location = new System.Drawing.Point(80, 42);
-            this.FloorCombo.Name = "FloorCombo";
-            this.FloorCombo.Size = new System.Drawing.Size(164, 21);
-            this.FloorCombo.TabIndex = 10;
-            // 
-            // AddFloorButton
-            // 
-            this.AddFloorButton.Location = new System.Drawing.Point(261, 40);
-            this.AddFloorButton.Name = "AddFloorButton";
-            this.AddFloorButton.Size = new System.Drawing.Size(62, 23);
-            this.AddFloorButton.TabIndex = 11;
-            this.AddFloorButton.Text = "Add";
-            this.AddFloorButton.UseVisualStyleBackColor = true;
-            this.AddFloorButton.Click += new System.EventHandler(this.AddFloorButton_Click);
-            // 
-            // AddBuildingFloor
-            // 
-            this.AddBuildingFloor.Location = new System.Drawing.Point(261, 66);
-            this.AddBuildingFloor.Name = "AddBuildingFloor";
-            this.AddBuildingFloor.Size = new System.Drawing.Size(62, 23);
-            this.AddBuildingFloor.TabIndex = 12;
-            this.AddBuildingFloor.Text = "Add";
-            this.AddBuildingFloor.UseVisualStyleBackColor = true;
-            this.AddBuildingFloor.Click += new System.EventHandler(this.AddBuildingFloor_Click);
             // 
             // HelpButton
             // 
@@ -145,20 +94,24 @@
             this.HelpButton.UseVisualStyleBackColor = true;
             this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
             // 
+            // DepartmentBox
+            // 
+            this.DepartmentBox.Enabled = false;
+            this.DepartmentBox.Location = new System.Drawing.Point(80, 59);
+            this.DepartmentBox.Name = "DepartmentBox";
+            this.DepartmentBox.Size = new System.Drawing.Size(236, 20);
+            this.DepartmentBox.TabIndex = 14;
+            // 
             // NewCompFloorBuild
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(330, 155);
+            this.Controls.Add(this.DepartmentBox);
             this.Controls.Add(this.HelpButton);
-            this.Controls.Add(this.AddBuildingFloor);
-            this.Controls.Add(this.AddFloorButton);
-            this.Controls.Add(this.FloorCombo);
-            this.Controls.Add(this.BuildingCombo);
             this.Controls.Add(this.CompanyCombo);
             this.Controls.Add(this.AddCompany);
             this.Controls.Add(this.DoneButton);
-            this.Controls.Add(this.BuildingLabel);
             this.Controls.Add(this.FloorLabel);
             this.Controls.Add(this.CompanyLabel);
             this.Name = "NewCompFloorBuild";
@@ -172,14 +125,10 @@
 
         private System.Windows.Forms.Label CompanyLabel;
         private System.Windows.Forms.Label FloorLabel;
-        private System.Windows.Forms.Label BuildingLabel;
         private System.Windows.Forms.Button DoneButton;
         private System.Windows.Forms.Button AddCompany;
         private System.Windows.Forms.ComboBox CompanyCombo;
-        private System.Windows.Forms.ComboBox BuildingCombo;
-        private System.Windows.Forms.ComboBox FloorCombo;
-        private System.Windows.Forms.Button AddFloorButton;
-        private System.Windows.Forms.Button AddBuildingFloor;
         private new System.Windows.Forms.Button HelpButton;
+        private System.Windows.Forms.TextBox DepartmentBox;
     }
 }

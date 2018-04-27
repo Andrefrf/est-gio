@@ -22,26 +22,12 @@ namespace WindowsFormsApp2
 
         private void AddCompButton_Click(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("INSERT INTO Companies(Company) VALUES(@Comapny)");
-            using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
-            {
+            this.Hide();
+        }
 
-                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = CompanyBox.Text;
-
-                com.CommandType = System.Data.CommandType.Text;
-
-                com.Connection = connection;
-
-                connection.Open();
-
-                com.ExecuteNonQuery();
-                SqlTransaction trans = connection.BeginTransaction();
-                trans.Commit();
-                MessageBox.Show("Company created");
-            }
-            connection.Close();
-            this.Close();
+        public String getComp()
+        {
+            return CompanyBox.Text;
         }
     }
 }

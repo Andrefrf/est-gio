@@ -29,10 +29,8 @@ namespace WindowsFormsApp2
             sb.Append("UPDATE Companies Set Floor = @Floor Where Company = @Company");
             using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
             {
-
                 com.Parameters.Add("@Floor", SqlDbType.NVarChar).Value = FloorBox.Text;
-                com.Parameters.Add("@Floor", SqlDbType.NVarChar).Value = comp;
-
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = comp;
 
                 com.CommandType = System.Data.CommandType.Text;
 

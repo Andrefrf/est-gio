@@ -37,7 +37,6 @@ namespace WindowsFormsApp2
             checkIcarError();
             config = false;
 
-            fillVisiting();
             fillCompany();
         }
 
@@ -264,7 +263,7 @@ namespace WindowsFormsApp2
 
         private void InButton_Click(object sender, EventArgs e)
         {
-
+            
             int delivery;
             if (DeliveryNo.Checked == true)
             {
@@ -353,22 +352,6 @@ namespace WindowsFormsApp2
             clearFields();
         }
 
-        private object getVisiting(string v)
-        {
-            connection.Open();
-
-            SqlCommand com = new SqlCommand("SELECT Name FROM Person WHERE Name = @Name", connection);
-            com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = v;
-
-            SqlDataReader reader = com.ExecuteReader();
-            reader.Read();
-            String res = reader["Name"].ToString();
-
-            connection.Close();
-
-            return res;
-        }
-
         private object valuesCheck(string text)
         {
             if (text == null)
@@ -400,8 +383,11 @@ namespace WindowsFormsApp2
 
         private void fillVisiting()
         {
+            String[] company = CompCombo.Text.Split(',');
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT Name FROM ToVisit", connection);
+            SqlCommand command = new SqlCommand("SELECT Name FROM WorkerCompany WHERE Company = @Company AND Department = @Department", connection);
+            command.Parameters.Add("@Company", SqlDbType.NVarChar).Value = company[0];
+            command.Parameters.Add("@Department", SqlDbType.NVarChar).Value = company[1];
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -421,13 +407,25 @@ namespace WindowsFormsApp2
         private void fillCompany()
         {
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM Companies", connection);
+            SqlCommand command = new SqlCommand("SELECT Company,Department FROM Companies", connection);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                CompCombo.Items.Add(reader["Company"].ToString().Trim()+","+reader["Floor"].ToString().Trim() + "," + reader["Building"].ToString().Trim());
+                CompCombo.Items.Add(reader["Company"].ToString().Trim()+","+reader["Department"].ToString().Trim());
             }
             connection.Close();
+        }
+
+        private void selectedChange(object sender, EventArgs e)
+        {
+            VisitingCombo.Enabled = true;
+            VisitingCombo.Items.Clear();
+            fillVisiting();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

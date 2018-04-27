@@ -23,6 +23,17 @@ namespace WindowsFormsApp2
 
         private void AddBurron_Click(object sender, EventArgs e)
         {
+            using (SqlCommand com = new SqlCommand("Insert into Companies(Name, Department, ID values (@Company, @Department, @ID",connect))
+            {
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = CompanyCombo.Text;
+                com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = DepartmentBox.Text;
+                com.Parameters.Add("@ID", SqlDbType.Int).Value = "NEXT VALUE FROM Id_Seq_Company";
+                connect.Open();
+                com.ExecuteNonQuery();
+                SqlTransaction trans = connect.BeginTransaction();
+                trans.Commit();
+                connect.Close();
+            }
             this.Close();
         }
 
@@ -34,55 +45,7 @@ namespace WindowsFormsApp2
             {
                 continue;
             }
-            companyFill();
-            floorFill();
-            buildingFill();
-        }
-
-
-        private void AddFloorButton_Click(object sender, EventArgs e)
-        {
-            newFloor form = new newFloor(connect, CompanyCombo.Text);
-            form.ShowDialog();
-            while (!this.ContainsFocus)
-            {
-                continue;
-            }
-            floorFill();
-            buildingFill();
-        }
-
-        private void AddBuildingFloor_Click(object sender, EventArgs e)
-        {
-            newBuilding form = new newBuilding(connect, CompanyCombo.Text);
-            form.ShowDialog();
-            while (!this.ContainsFocus)
-            {
-                continue;
-            }
-            floorFill();
-            buildingFill();
-        }
-
-        private void buildingFill()
-        {
-            try
-            {
-                connect.Open();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Could not connect to DB");
-            }
-
-            SqlCommand command = new SqlCommand("SELECT Building FROM Companies WHERE Company = @Company", connect);
-            command.Parameters.Add("@Company", SqlDbType.NVarChar).Value = CompanyCombo.Text;
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                BuildingCombo.Items.Add(reader["Building"].ToString());
-            }
-            connect.Close();
+            CompanyCombo.Items.Add(form.getComp());
         }
 
         private void companyFill()
@@ -96,7 +59,7 @@ namespace WindowsFormsApp2
                 MessageBox.Show("Could not connect to DB");
             }
 
-            SqlCommand command = new SqlCommand("SELECT Company FROM Companies", connect);
+            SqlCommand command = new SqlCommand("SELECT DISTINCT Company FROM Companies", connect);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -105,39 +68,15 @@ namespace WindowsFormsApp2
             connect.Close();
         }
 
-        private void floorFill()
-        {
-            try
-            {
-                connect.Open();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Could not connect to DB");
-            }
-
-            SqlCommand command = new SqlCommand("SELECT Floor FROM Companies WHERE Company = @Company", connect);
-            command.Parameters.Add("@Company", SqlDbType.NVarChar).Value = CompanyCombo.Text;
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                CompanyCombo.Items.Add(reader["Floor"].ToString());
-            }
-            connect.Close();
-        }
 
         private void HelpButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This form inserts information about a company. You must select a company (If the company you want doesn't exist you can create a new one)" +
-                "and you can define the floor and/or building it is located in.");
+            MessageBox.Show("");
         }
 
         private void CompanySelected(object sender,EventArgs e)
         {
-            FloorCombo.Enabled = true;
-            BuildingCombo.Enabled = true;
-            floorFill();
-            buildingFill();
+            DepartmentBox.Enabled = true;
         }
 
     }
