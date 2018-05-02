@@ -52,34 +52,29 @@ namespace WindowsFormsApp2
         {
             try
             {
+                connect.Open();
                 String name = NameBox.Text;
                 StringBuilder sb = new StringBuilder();
                 sb.Append("INSERT INTO Workers(Name,WorkerId) VALUES(@Name,NEXT VALUE For Id_Seq_Worker)");
                 using (SqlCommand com = new SqlCommand(sb.ToString(), connect))
                 {
-                    connect.Open();
                     com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(name);
                     com.CommandType = System.Data.CommandType.Text;
 
                     com.ExecuteNonQuery();
                     SqlTransaction trans = connect.BeginTransaction();
                     trans.Commit();
-                    connect.Close();
                 }
                 using (SqlCommand com = new SqlCommand("Insert into WorksIn(Company,WorkerId) values(@Company,@Worker)", connect))
                 {
                     int IDw = getWorkerId(name);
-                    connect.Close();
                     int IDc = getCompanyId(companyCombo.Text);
-                    connect.Close();
 
                     com.Parameters.Add("@Company", SqlDbType.Int).Value = IDc;
                     com.Parameters.Add("@Worker", SqlDbType.Int).Value = IDw;
-                    connect.Open();
                     com.ExecuteNonQuery();
                     SqlTransaction trans = connect.BeginTransaction();
                     trans.Commit();
-
                 }
 
                 connect.Close();

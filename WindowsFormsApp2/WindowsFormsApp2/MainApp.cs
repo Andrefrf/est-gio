@@ -25,7 +25,7 @@ namespace WindowsFormsApp2
 
         public Main()
         {
-            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=|DataDirectory|" + @"\Database.mdf" + ";Integrated Security=True";
+            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename="+ @"C:\USERS\USER\DESKTOP\ICARVISITOR\EST-GIO\WINDOWSFORMSAPP2\WINDOWSFORMSAPP2\Database.mdf" + ";Integrated Security=True";
             InitializeComponent();
 
             connection = new SqlConnection(connectStr);
