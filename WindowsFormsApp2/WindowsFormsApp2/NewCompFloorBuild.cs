@@ -23,18 +23,25 @@ namespace WindowsFormsApp2
 
         private void AddBurron_Click(object sender, EventArgs e)
         {
-            using (SqlCommand com = new SqlCommand("Insert into Companies(Name, Department, ID values (@Company, @Department, @ID",connect))
+            try
             {
-                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = CompanyCombo.Text;
-                com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = DepartmentBox.Text;
-                com.Parameters.Add("@ID", SqlDbType.Int).Value = "NEXT VALUE FROM Id_Seq_Company";
-                connect.Open();
-                com.ExecuteNonQuery();
-                SqlTransaction trans = connect.BeginTransaction();
-                trans.Commit();
+                using (SqlCommand com = new SqlCommand("insert into companies(Company, Department ,ID) Values(@Company,@Department, Next Value for Id_Seq_Company)", connect))
+                {
+                    com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = CompanyCombo.Text;
+                    com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = DepartmentBox.Text;
+                    connect.Open();
+                    com.ExecuteNonQuery();
+                    SqlTransaction trans = connect.BeginTransaction();
+                    trans.Commit();
+                    connect.Close();
+                }
+                this.Close();
+            }
+            catch(SqlException)
+            {
+                MessageBox.Show("Department already exists in this company");
                 connect.Close();
             }
-            this.Close();
         }
 
         private void AddCompany_Click(object sender, EventArgs e)

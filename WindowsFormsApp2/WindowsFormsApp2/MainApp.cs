@@ -307,6 +307,9 @@ namespace WindowsFormsApp2
             {
                 type = "mrzNotRecognized";
             }
+
+            int Visiting = getWorker();
+            addPerson();
             StringBuilder sb = new StringBuilder();
             sb.Append("INSERT INTO Visits(Name,Surname,DocType,IdNumber,Company,Delivery,Entrance,Out,Visiting) VALUES(@Name,@Surname,@DocType,@DocNumber,@Company,@Delivery,@Entrance,@Out,@Visiting)");
             using (SqlCommand com = new SqlCommand(sb.ToString(),connection))
@@ -320,7 +323,7 @@ namespace WindowsFormsApp2
                 com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
                 com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
                 com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
-                com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = valuesCheck(VisitingCombo.Text);
+                com.Parameters.Add("@Visiting", SqlDbType.Int).Value = Visiting;
 
 
 
@@ -350,6 +353,35 @@ namespace WindowsFormsApp2
             connection.Close();
 
             clearFields();
+        }
+
+        private void addPerson()
+        {
+            connection.Open();
+            SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber)",connection);
+            connection.Close();
+        }
+
+        private int getWorker()
+        {
+            int WorkId = 0;
+            String[] compText = CompCombo.Text.Split(',');
+            connection.Open();
+
+            SqlCommand com  = new SqlCommand("Select Id from WorkerCompany Where Name = @Name AND Company = @Company AND Department = @Department", connection);
+
+            com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = VisitingCombo.Text.Trim();
+            com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compText[0];
+            com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compText[1];
+
+            com.ExecuteNonQuery();
+            SqlDataReader reader = com.ExecuteReader();
+            while (reader.Read())
+            {
+                WorkId = Int32.Parse(reader["Id"].ToString()) ;
+            }
+            connection.Close();
+            return WorkId;
         }
 
         private object valuesCheck(string text)
@@ -419,13 +451,10 @@ namespace WindowsFormsApp2
         private void selectedChange(object sender, EventArgs e)
         {
             VisitingCombo.Enabled = true;
+            VisitingAdd.Enabled = true;
+            VisitingCombo.Text = null;
             VisitingCombo.Items.Clear();
             fillVisiting();
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

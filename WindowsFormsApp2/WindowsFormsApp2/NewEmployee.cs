@@ -38,11 +38,11 @@ namespace WindowsFormsApp2
                 MessageBox.Show("Could not connect to DB");
             }
 
-            SqlCommand command = new SqlCommand("SELECT Company FROM Companies", connect);
+            SqlCommand command = new SqlCommand("SELECT Company,Department FROM Companies", connect);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                companyCombo.Items.Add(reader["Company"].ToString());
+                companyCombo.Items.Add(reader["Company"].ToString() + "," + reader["Department"].ToString());
             }
             connect.Close();
         }
@@ -50,27 +50,76 @@ namespace WindowsFormsApp2
 
         private void Save_Click(object sender, EventArgs e)
         {
-            String name = NameBox.Text;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("INSERT INTO ToVisit(Name,Id) VALUES(@Name,@Id)");
-            using (SqlCommand com = new SqlCommand(sb.ToString(), connect))
+            try
+            {
+                String name = NameBox.Text;
+                StringBuilder sb = new StringBuilder();
+                sb.Append("INSERT INTO Workers(Name,WorkerId) VALUES(@Name,NEXT VALUE For Id_Seq_Worker)");
+                using (SqlCommand com = new SqlCommand(sb.ToString(), connect))
+                {
+                    connect.Open();
+                    com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(name);
+                    com.CommandType = System.Data.CommandType.Text;
+
+                    com.ExecuteNonQuery();
+                    SqlTransaction trans = connect.BeginTransaction();
+                    trans.Commit();
+                    connect.Close();
+                }
+                using (SqlCommand com = new SqlCommand("Insert into WorksIn(Company,WorkerId) values(@Company,@Worker)", connect))
+                {
+                    int IDw = getWorkerId(name);
+                    connect.Close();
+                    int IDc = getCompanyId(companyCombo.Text);
+                    connect.Close();
+
+                    com.Parameters.Add("@Company", SqlDbType.Int).Value = IDc;
+                    com.Parameters.Add("@Worker", SqlDbType.Int).Value = IDw;
+                    connect.Open();
+                    com.ExecuteNonQuery();
+                    SqlTransaction trans = connect.BeginTransaction();
+                    trans.Commit();
+
+                }
+
+                connect.Close();
+                this.Close();
+            }
+            catch (SqlException exc)
+            {
+                MessageBox.Show("This worker is already in the company and department");
+                MessageBox.Show(exc.Message.ToString());
+                connect.Close();
+            }
+        }
+
+        private int getCompanyId(string text)
+        {
+            String[] compD = text.Split(',');
+            using (SqlCommand com = new SqlCommand("Select ID from Companies where Company = @Company AND Department = @Department", connect))
             {
                 connect.Open();
-                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(name);
 
-                com.CommandType = System.Data.CommandType.Text;
-
-                com.Connection = connect;
-
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compD[0];
+                com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compD[1];
 
                 com.ExecuteNonQuery();
-                SqlTransaction trans = connect.BeginTransaction();
-                trans.Commit();
-                MessageBox.Show("Data Inserted!");
+                SqlDataReader r = com.ExecuteReader();
+                r.Read();
+                return Int32.Parse(r["ID"].ToString());
             }
+        }
 
-            connect.Close();
-            this.Close();
+        private int getWorkerId(string name)
+        {
+            using (SqlCommand com = new SqlCommand("Select WorkerId from Workers where Name = @Name", connect)) { 
+            connect.Open();
+            com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = name;
+            com.ExecuteNonQuery();
+            SqlDataReader r = com.ExecuteReader();
+            r.Read();
+            return Int32.Parse(r["WorkerId"].ToString());
+            }
         }
 
         private object valuesCheck(string text)
@@ -81,5 +130,9 @@ namespace WindowsFormsApp2
             }
             else return text;
         }
+    }
+
+    internal class int32
+    {
     }
 }

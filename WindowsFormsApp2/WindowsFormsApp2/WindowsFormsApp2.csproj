@@ -78,12 +78,6 @@
     <Compile Include="Configurations.Designer.cs">
       <DependentUpon>Configurations.cs</DependentUpon>
     </Compile>
-    <Compile Include="newBuilding.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="newBuilding.Designer.cs">
-      <DependentUpon>newBuilding.cs</DependentUpon>
-    </Compile>
     <Compile Include="NewEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,12 +96,6 @@
     <Compile Include="AddComp.Designer.cs">
       <DependentUpon>AddComp.cs</DependentUpon>
     </Compile>
-    <Compile Include="newFloor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="newFloor.Designer.cs">
-      <DependentUpon>newFloor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainApp.resx">
@@ -115,9 +103,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configurations.resx">
       <DependentUpon>Configurations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="newBuilding.resx">
-      <DependentUpon>newBuilding.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewEmployee.resx">
       <DependentUpon>NewEmployee.cs</DependentUpon>
@@ -127,9 +112,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddComp.resx">
       <DependentUpon>AddComp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="newFloor.resx">
-      <DependentUpon>newFloor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
