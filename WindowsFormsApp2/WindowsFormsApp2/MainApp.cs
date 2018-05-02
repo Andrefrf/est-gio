@@ -273,72 +273,24 @@ namespace WindowsFormsApp2
             {
                 delivery = 1;
             }
-
-            string type = "";
-            if (TypeBox.Text.Equals("IDENTITY"))
-            {
-                type = "id";
-            }
-            else if (TypeBox.Text.Equals("PASSPORT"))
-            {
-                type = "passport";
-            }
-            else if (TypeBox.Text.Equals("DRIVER_LICENSE"))
-            {
-                type = "driver";
-            }
-            else if (TypeBox.Text.Equals("VISA"))
-            {
-                type = "visa";
-            }
-            else if (TypeBox.Text.Equals("TRIPULATION"))
-            {
-                type = "tripulation";
-            }
-            else if (TypeBox.Text.Equals("RESIDENT_CARD"))
-            {
-                type = "resident";
-            }
-            else if (TypeBox.Text.Equals("PERSONAL_CARD"))
-            {
-                type = "personal";
-            }
-            else
-            {
-                type = "mrzNotRecognized";
-            }
-
             int Visiting = getWorker();
             addPerson();
+            int res = getPerson();
             StringBuilder sb = new StringBuilder();
-            sb.Append("INSERT INTO Visits(Name,Surname,DocType,IdNumber,Company,Delivery,Entrance,Out,Visiting) VALUES(@Name,@Surname,@DocType,@DocNumber,@Company,@Delivery,@Entrance,@Out,@Visiting)");
+            int company = getCompany();
+            sb.Append("INSERT INTO Visits(PersonID,Company,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany) VALUES(@PersonID,@Company,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany)");
             using (SqlCommand com = new SqlCommand(sb.ToString(),connection))
             {
-
-                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(NameBox.Text);
-                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = valuesCheck(SurnameBox.Text);
-                com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = valuesCheck(type);
-                com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = valuesCheck(idNBox.Text);
-                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
+                com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
+                com.Parameters.Add("@Company", SqlDbType.Int).Value = company;
                 com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
                 com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
                 com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
-                com.Parameters.Add("@Visiting", SqlDbType.Int).Value = Visiting;
-
-
+                com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
+                com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = valuesCheck(cardNBox.Text);
+                com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
 
                 com.CommandType = System.Data.CommandType.Text;
-
-                //com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = "André";
-                //com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = "Ferreira";
-                //com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = "id";
-                //com.Parameters.Add("@DocNumber", SqlDbType.NVarChar).Value = "17283597";
-                //com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = "M";
-                //com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = "Algo";
-                //com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = 0;
-                //com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
-                //com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
-                //com.Parameters.Add("@Visiting", SqlDbType.NVarChar).Value = getVisiting("Miguel Santos");
 
                 com.Connection = connection;
 
@@ -355,10 +307,76 @@ namespace WindowsFormsApp2
             clearFields();
         }
 
+        private int getPerson()
+        {
+            int WorkId = 0;
+            connection.Open();
+
+            SqlCommand com = new SqlCommand("Select PersonID from Person Where DocType = @Doctype AND IdNumber = @IdNumber", connection);
+
+            com.Parameters.Add("@Doctype", SqlDbType.NVarChar).Value = TypeBox.Text;
+            com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
+
+            com.ExecuteNonQuery();
+            SqlDataReader reader = com.ExecuteReader();
+            while (reader.Read())
+            {
+                WorkId = Int32.Parse(reader["PersonID"].ToString());
+            }
+            connection.Close();
+            return WorkId;
+        }
+
+        private int getCompany()
+        {
+            connection.Open();
+            String[] compDep = CompCombo.Text.Split(',');
+            int compID = 0;
+            try
+            {
+                SqlCommand com = new SqlCommand("Select ID from Companies where Company = @Company AND Department = @Department  ", connection);
+
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compDep[0];
+                com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compDep[1];
+
+                com.ExecuteNonQuery();
+                SqlDataReader r = com.ExecuteReader();
+                r.Read();
+                compID = Int32.Parse(r["ID"].ToString());
+
+            }
+            catch (SqlException)
+            {
+
+            }
+            connection.Close();
+            return compID;
+        }
+
         private void addPerson()
         {
             connection.Open();
-            SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber)",connection);
+            
+            try
+            {
+                SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber,PersonID) values(@Name,@Surname,@DocType,@IdNumber,NEXT VALUE FOR Person_Id_Seq)", connection);
+
+                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = NameBox.Text;
+                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = SurnameBox.Text;
+                com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = TypeBox.Text;
+                com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
+
+                
+
+                com.ExecuteNonQuery();
+                SqlTransaction trans = connection.BeginTransaction();
+                trans.Commit();
+                
+            }
+            catch (SqlException)
+            {
+
+            }
             connection.Close();
         }
 
@@ -403,6 +421,7 @@ namespace WindowsFormsApp2
             Companybox.Text = null;
             DeliveryNo.Checked = false;
             DeliveryYes.Checked = false;
+            cardNBox.Text = null;
         }
 
         private void VisitingAdd_Click(object sender, EventArgs e)
@@ -455,6 +474,12 @@ namespace WindowsFormsApp2
             VisitingCombo.Text = null;
             VisitingCombo.Items.Clear();
             fillVisiting();
+        }
+
+        private void OutButton_Click(object sender, EventArgs e)
+        {
+            CheckOut form = new CheckOut();
+            form.Show();
         }
     }
 }

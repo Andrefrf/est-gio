@@ -57,6 +57,8 @@
             this.VisitingAdd = new System.Windows.Forms.Button();
             this.VCompAdd = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cardNLabel = new System.Windows.Forms.Label();
+            this.cardNBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.Photo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -106,9 +108,8 @@
             this.Companybox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Companybox.Location = new System.Drawing.Point(206, 181);
             this.Companybox.Name = "Companybox";
-            this.Companybox.Size = new System.Drawing.Size(217, 26);
+            this.Companybox.Size = new System.Drawing.Size(171, 26);
             this.Companybox.TabIndex = 4;
-            this.Companybox.Text = "AAAAA";
             // 
             // TypeBox
             // 
@@ -282,6 +283,7 @@
             this.OutButton.TabIndex = 38;
             this.OutButton.Text = "Check Out";
             this.OutButton.UseVisualStyleBackColor = true;
+            this.OutButton.Click += new System.EventHandler(this.OutButton_Click);
             // 
             // VisitorButton
             // 
@@ -335,6 +337,8 @@
             // 
             this.groupBox1.AutoSize = true;
             this.groupBox1.BackColor = System.Drawing.Color.Lavender;
+            this.groupBox1.Controls.Add(this.cardNLabel);
+            this.groupBox1.Controls.Add(this.cardNBox);
             this.groupBox1.Controls.Add(this.DeliveryYes);
             this.groupBox1.Controls.Add(this.DeliveryNo);
             this.groupBox1.Controls.Add(this.CompanyLabel);
@@ -357,6 +361,26 @@
             this.groupBox1.Size = new System.Drawing.Size(605, 291);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
+            // 
+            // cardNLabel
+            // 
+            this.cardNLabel.AutoSize = true;
+            this.cardNLabel.BackColor = System.Drawing.Color.Transparent;
+            this.cardNLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardNLabel.Location = new System.Drawing.Point(398, 158);
+            this.cardNLabel.Name = "cardNLabel";
+            this.cardNLabel.Size = new System.Drawing.Size(97, 18);
+            this.cardNLabel.TabIndex = 33;
+            this.cardNLabel.Text = "Card Number";
+            // 
+            // cardNBox
+            // 
+            this.cardNBox.BackColor = System.Drawing.SystemColors.Window;
+            this.cardNBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardNBox.Location = new System.Drawing.Point(401, 181);
+            this.cardNBox.Name = "cardNBox";
+            this.cardNBox.Size = new System.Drawing.Size(147, 26);
+            this.cardNBox.TabIndex = 32;
             // 
             // Main
             // 
@@ -421,6 +445,8 @@
         private System.Windows.Forms.Button VisitingAdd;
         private System.Windows.Forms.Button VCompAdd;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label cardNLabel;
+        private System.Windows.Forms.TextBox cardNBox;
     }
 }
 

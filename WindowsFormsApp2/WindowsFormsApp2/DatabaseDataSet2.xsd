@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DatabaseDataSet2" targetNamespace="http://tempuri.org/DatabaseDataSet2.xsd" xmlns:mstns="http://tempuri.org/DatabaseDataSet2.xsd" xmlns="http://tempuri.org/DatabaseDataSet2.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Database1ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Database1ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.WindowsFormsApp2.Properties.Settings.GlobalReference.Default.Database1ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="toCheckOutTableAdapter" GeneratorDataComponentClassName="toCheckOutTableAdapter" Name="toCheckOut" UserDataComponentName="toCheckOutTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="Database1ConnectionString (Settings)" DbObjectName="dbo.toCheckOut" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Name, Surname, Type, Document, Entrance, Card FROM dbo.toCheckOut</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Name" DataSetColumn="Name" />
+              <Mapping SourceColumn="Surname" DataSetColumn="Surname" />
+              <Mapping SourceColumn="Type" DataSetColumn="Type" />
+              <Mapping SourceColumn="Document" DataSetColumn="Document" />
+              <Mapping SourceColumn="Entrance" DataSetColumn="Entrance" />
+              <Mapping SourceColumn="Card" DataSetColumn="Card" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DatabaseDataSet2" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="DatabaseDataSet2" msprop:Generator_UserDSName="DatabaseDataSet2">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="toCheckOut" msprop:Generator_TableClassName="toCheckOutDataTable" msprop:Generator_TableVarName="tabletoCheckOut" msprop:Generator_TablePropName="toCheckOut" msprop:Generator_RowDeletingName="toCheckOutRowDeleting" msprop:Generator_RowChangingName="toCheckOutRowChanging" msprop:Generator_RowEvHandlerName="toCheckOutRowChangeEventHandler" msprop:Generator_RowDeletedName="toCheckOutRowDeleted" msprop:Generator_UserTableName="toCheckOut" msprop:Generator_RowChangedName="toCheckOutRowChanged" msprop:Generator_RowEvArgName="toCheckOutRowChangeEvent" msprop:Generator_RowClassName="toCheckOutRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Surname" msprop:Generator_ColumnVarNameInTable="columnSurname" msprop:Generator_ColumnPropNameInRow="Surname" msprop:Generator_ColumnPropNameInTable="SurnameColumn" msprop:Generator_UserColumnName="Surname">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" msprop:Generator_UserColumnName="Type">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Document" msprop:Generator_ColumnVarNameInTable="columnDocument" msprop:Generator_ColumnPropNameInRow="Document" msprop:Generator_ColumnPropNameInTable="DocumentColumn" msprop:Generator_UserColumnName="Document">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Entrance" msprop:Generator_ColumnVarNameInTable="columnEntrance" msprop:Generator_ColumnPropNameInRow="Entrance" msprop:Generator_ColumnPropNameInTable="EntranceColumn" msprop:Generator_UserColumnName="Entrance" type="xs:dateTime" />
+              <xs:element name="Card" msprop:Generator_ColumnVarNameInTable="columnCard" msprop:Generator_ColumnPropNameInRow="Card" msprop:Generator_ColumnPropNameInTable="CardColumn" msprop:Generator_UserColumnName="Card" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:toCheckOut" />
+      <xs:field xpath="mstns:Type" />
+      <xs:field xpath="mstns:Document" />
+      <xs:field xpath="mstns:Entrance" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

@@ -52,24 +52,29 @@ namespace WindowsFormsApp2
         {
             try
             {
-                connect.Open();
                 String name = NameBox.Text;
                 StringBuilder sb = new StringBuilder();
                 sb.Append("INSERT INTO Workers(Name,WorkerId) VALUES(@Name,NEXT VALUE For Id_Seq_Worker)");
                 using (SqlCommand com = new SqlCommand(sb.ToString(), connect))
                 {
+                    connect.Open();
+
                     com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = valuesCheck(name);
                     com.CommandType = System.Data.CommandType.Text;
 
                     com.ExecuteNonQuery();
                     SqlTransaction trans = connect.BeginTransaction();
                     trans.Commit();
+                    connect.Close();
                 }
                 using (SqlCommand com = new SqlCommand("Insert into WorksIn(Company,WorkerId) values(@Company,@Worker)", connect))
                 {
                     int IDw = getWorkerId(name);
+                    connect.Close();
                     int IDc = getCompanyId(companyCombo.Text);
+                    connect.Close();
 
+                    connect.Open();
                     com.Parameters.Add("@Company", SqlDbType.Int).Value = IDc;
                     com.Parameters.Add("@Worker", SqlDbType.Int).Value = IDw;
                     com.ExecuteNonQuery();
@@ -94,7 +99,6 @@ namespace WindowsFormsApp2
             using (SqlCommand com = new SqlCommand("Select ID from Companies where Company = @Company AND Department = @Department", connect))
             {
                 connect.Open();
-
                 com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compD[0];
                 com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compD[1];
 
@@ -107,13 +111,15 @@ namespace WindowsFormsApp2
 
         private int getWorkerId(string name)
         {
-            using (SqlCommand com = new SqlCommand("Select WorkerId from Workers where Name = @Name", connect)) { 
-            connect.Open();
-            com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = name;
-            com.ExecuteNonQuery();
-            SqlDataReader r = com.ExecuteReader();
-            r.Read();
-            return Int32.Parse(r["WorkerId"].ToString());
+            using (SqlCommand com = new SqlCommand("Select WorkerId from Workers where Name = @Name", connect))
+            {
+
+                connect.Open();
+                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = name;
+                com.ExecuteNonQuery();
+                SqlDataReader r = com.ExecuteReader();
+                r.Read();
+                return Int32.Parse(r["WorkerId"].ToString());
             }
         }
 
