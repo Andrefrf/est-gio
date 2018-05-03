@@ -30,24 +30,24 @@
         {
             this.components = new System.ComponentModel.Container();
             this.databasecheckout = new System.Windows.Forms.DataGridView();
-            this.databaseDataSet1BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.databaseDataSet1 = new WindowsFormsApp2.DatabaseDataSet1();
-            this.ReturnButton = new System.Windows.Forms.Button();
-            this.databaseDataSet2 = new WindowsFormsApp2.DatabaseDataSet2();
-            this.toCheckOutBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.toCheckOutTableAdapter = new WindowsFormsApp2.DatabaseDataSet2TableAdapters.toCheckOutTableAdapter();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.surnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.documentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.entranceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cardDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toCheckOutBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.databaseDataSet2 = new WindowsFormsApp2.DatabaseDataSet2();
+            this.databaseDataSet1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.databaseDataSet1 = new WindowsFormsApp2.DatabaseDataSet1();
+            this.ReturnButton = new System.Windows.Forms.Button();
+            this.toCheckOutTableAdapter = new WindowsFormsApp2.DatabaseDataSet2TableAdapters.toCheckOutTableAdapter();
             this.OutButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.databasecheckout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // databasecheckout
@@ -69,40 +69,6 @@
             this.databasecheckout.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.databasecheckout.Size = new System.Drawing.Size(650, 261);
             this.databasecheckout.TabIndex = 0;
-            // 
-            // databaseDataSet1BindingSource
-            // 
-            this.databaseDataSet1BindingSource.DataSource = this.databaseDataSet1;
-            this.databaseDataSet1BindingSource.Position = 0;
-            // 
-            // databaseDataSet1
-            // 
-            this.databaseDataSet1.DataSetName = "DatabaseDataSet1";
-            this.databaseDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // ReturnButton
-            // 
-            this.ReturnButton.Location = new System.Drawing.Point(395, 279);
-            this.ReturnButton.Name = "ReturnButton";
-            this.ReturnButton.Size = new System.Drawing.Size(209, 40);
-            this.ReturnButton.TabIndex = 1;
-            this.ReturnButton.Text = "Back";
-            this.ReturnButton.UseVisualStyleBackColor = true;
-            this.ReturnButton.Click += new System.EventHandler(this.ReturnButton_Click);
-            // 
-            // databaseDataSet2
-            // 
-            this.databaseDataSet2.DataSetName = "DatabaseDataSet2";
-            this.databaseDataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // toCheckOutBindingSource
-            // 
-            this.toCheckOutBindingSource.DataMember = "toCheckOut";
-            this.toCheckOutBindingSource.DataSource = this.databaseDataSet2;
-            // 
-            // toCheckOutTableAdapter
-            // 
-            this.toCheckOutTableAdapter.ClearBeforeFill = true;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -140,6 +106,40 @@
             this.cardDataGridViewTextBoxColumn.HeaderText = "Card";
             this.cardDataGridViewTextBoxColumn.Name = "cardDataGridViewTextBoxColumn";
             // 
+            // toCheckOutBindingSource
+            // 
+            this.toCheckOutBindingSource.DataMember = "toCheckOut";
+            this.toCheckOutBindingSource.DataSource = this.databaseDataSet2;
+            // 
+            // databaseDataSet2
+            // 
+            this.databaseDataSet2.DataSetName = "DatabaseDataSet2";
+            this.databaseDataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // databaseDataSet1BindingSource
+            // 
+            this.databaseDataSet1BindingSource.DataSource = this.databaseDataSet1;
+            this.databaseDataSet1BindingSource.Position = 0;
+            // 
+            // databaseDataSet1
+            // 
+            this.databaseDataSet1.DataSetName = "DatabaseDataSet1";
+            this.databaseDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // ReturnButton
+            // 
+            this.ReturnButton.Location = new System.Drawing.Point(395, 279);
+            this.ReturnButton.Name = "ReturnButton";
+            this.ReturnButton.Size = new System.Drawing.Size(209, 40);
+            this.ReturnButton.TabIndex = 1;
+            this.ReturnButton.Text = "Back";
+            this.ReturnButton.UseVisualStyleBackColor = true;
+            this.ReturnButton.Click += new System.EventHandler(this.ReturnButton_Click);
+            // 
+            // toCheckOutTableAdapter
+            // 
+            this.toCheckOutTableAdapter.ClearBeforeFill = true;
+            // 
             // OutButton
             // 
             this.OutButton.Location = new System.Drawing.Point(93, 279);
@@ -162,10 +162,10 @@
             this.Text = "Check Out";
             this.Load += new System.EventHandler(this.CheckOut_Load);
             ((System.ComponentModel.ISupportInitialize)(this.databasecheckout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

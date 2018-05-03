@@ -30,7 +30,6 @@ namespace WindowsFormsApp2
 
         private void OutButton_Click(object sender, EventArgs e)
         {
-            databasecheckout.SelectedRows.
         }
     }
 }

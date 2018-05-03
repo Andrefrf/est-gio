@@ -38,6 +38,9 @@ namespace WindowsFormsApp2
             config = false;
 
             fillCompany();
+
+            CompCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            VisitingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void checkIcarError()
@@ -367,7 +370,6 @@ namespace WindowsFormsApp2
                 com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
 
                 
-
                 com.ExecuteNonQuery();
                 SqlTransaction trans = connection.BeginTransaction();
                 trans.Commit();

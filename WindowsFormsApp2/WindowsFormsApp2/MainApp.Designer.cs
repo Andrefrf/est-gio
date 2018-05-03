@@ -79,6 +79,7 @@
             this.NameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NameBox.Location = new System.Drawing.Point(209, 55);
             this.NameBox.Name = "NameBox";
+            this.NameBox.ReadOnly = true;
             this.NameBox.Size = new System.Drawing.Size(168, 13);
             this.NameBox.TabIndex = 1;
             // 
@@ -89,6 +90,7 @@
             this.SurnameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SurnameBox.Location = new System.Drawing.Point(420, 55);
             this.SurnameBox.Name = "SurnameBox";
+            this.SurnameBox.ReadOnly = true;
             this.SurnameBox.Size = new System.Drawing.Size(182, 13);
             this.SurnameBox.TabIndex = 2;
             // 
@@ -99,6 +101,7 @@
             this.idNBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.idNBox.Location = new System.Drawing.Point(420, 116);
             this.idNBox.Name = "idNBox";
+            this.idNBox.ReadOnly = true;
             this.idNBox.Size = new System.Drawing.Size(182, 13);
             this.idNBox.TabIndex = 3;
             // 
@@ -118,6 +121,7 @@
             this.TypeBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TypeBox.Location = new System.Drawing.Point(209, 116);
             this.TypeBox.Name = "TypeBox";
+            this.TypeBox.ReadOnly = true;
             this.TypeBox.Size = new System.Drawing.Size(168, 13);
             this.TypeBox.TabIndex = 5;
             // 
