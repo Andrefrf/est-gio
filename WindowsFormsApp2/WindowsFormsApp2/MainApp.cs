@@ -41,6 +41,7 @@ namespace WindowsFormsApp2
 
             CompCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             VisitingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cardNBox.Text = null;
         }
 
         private void checkIcarError()
@@ -284,13 +285,14 @@ namespace WindowsFormsApp2
             sb.Append("INSERT INTO Visits(PersonID,Company,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany) VALUES(@PersonID,@Company,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany)");
             using (SqlCommand com = new SqlCommand(sb.ToString(),connection))
             {
+
                 com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
                 com.Parameters.Add("@Company", SqlDbType.Int).Value = company;
                 com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
-                com.Parameters.Add("@Entrance", SqlDbType.Date).Value = DateTime.Now;
-                com.Parameters.Add("@Out", SqlDbType.Date).Value = DBNull.Value;
+                com.Parameters.Add("@Entrance", SqlDbType.DateTime2).Value = DateTime.Now;
+                com.Parameters.Add("@Out", SqlDbType.DateTime2).Value = DBNull.Value;
                 com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
-                com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = valuesCheck(cardNBox.Text);
+                com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text); 
                 com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
 
                 com.CommandType = System.Data.CommandType.Text;
@@ -308,6 +310,20 @@ namespace WindowsFormsApp2
             connection.Close();
 
             clearFields();
+
+            
+        }
+
+        private object checkCard(String cardn)
+        {
+            if(cardn == "")
+            {
+                return DBNull.Value;
+            }
+            else
+            {
+                return Int32.Parse(cardn);
+            }
         }
 
         private int getPerson()
@@ -480,8 +496,14 @@ namespace WindowsFormsApp2
 
         private void OutButton_Click(object sender, EventArgs e)
         {
-            CheckOut form = new CheckOut();
+            CheckOut form = new CheckOut(connection);
             form.Show();
+            this.Enabled = false;
+            while (form.Focused)
+            {
+                continue;
+            }
+            this.Enabled = true;
         }
     }
 }
