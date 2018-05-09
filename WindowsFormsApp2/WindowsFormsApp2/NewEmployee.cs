@@ -131,6 +131,11 @@ namespace WindowsFormsApp2
             }
             else return text;
         }
+
+        private void OutButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
     internal class int32

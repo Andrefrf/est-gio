@@ -78,7 +78,7 @@ namespace WindowsFormsApp2
 
         private void HelpButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("");
+            this.Close();
         }
 
         private void CompanySelected(object sender,EventArgs e)

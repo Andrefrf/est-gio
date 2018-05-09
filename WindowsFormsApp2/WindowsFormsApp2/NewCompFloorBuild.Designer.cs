@@ -33,7 +33,7 @@
             this.DoneButton = new System.Windows.Forms.Button();
             this.AddCompany = new System.Windows.Forms.Button();
             this.CompanyCombo = new System.Windows.Forms.ComboBox();
-            this.HelpButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
             this.DepartmentBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -84,15 +84,15 @@
             this.CompanyCombo.TabIndex = 8;
             this.CompanyCombo.SelectedIndexChanged += new System.EventHandler(this.CompanySelected);
             // 
-            // HelpButton
+            // CancelButton
             // 
-            this.HelpButton.Location = new System.Drawing.Point(183, 111);
-            this.HelpButton.Name = "HelpButton";
-            this.HelpButton.Size = new System.Drawing.Size(139, 31);
-            this.HelpButton.TabIndex = 13;
-            this.HelpButton.Text = "Help";
-            this.HelpButton.UseVisualStyleBackColor = true;
-            this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
+            this.CancelButton.Location = new System.Drawing.Point(183, 111);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(139, 31);
+            this.CancelButton.TabIndex = 13;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.HelpButton_Click);
             // 
             // DepartmentBox
             // 
@@ -108,7 +108,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(330, 155);
             this.Controls.Add(this.DepartmentBox);
-            this.Controls.Add(this.HelpButton);
+            this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.CompanyCombo);
             this.Controls.Add(this.AddCompany);
             this.Controls.Add(this.DoneButton);
@@ -128,7 +128,7 @@
         private System.Windows.Forms.Button DoneButton;
         private System.Windows.Forms.Button AddCompany;
         private System.Windows.Forms.ComboBox CompanyCombo;
-        private new System.Windows.Forms.Button HelpButton;
+        private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.TextBox DepartmentBox;
     }
 }

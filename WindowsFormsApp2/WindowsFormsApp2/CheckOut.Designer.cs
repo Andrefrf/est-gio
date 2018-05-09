@@ -35,6 +35,7 @@
             this.CheckOutButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.outGrid = new System.Windows.Forms.DataGridView();
+            this.goodCheckOut = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outGrid)).BeginInit();
@@ -56,7 +57,7 @@
             // 
             // CheckOutButton
             // 
-            this.CheckOutButton.Location = new System.Drawing.Point(160, 223);
+            this.CheckOutButton.Location = new System.Drawing.Point(160, 278);
             this.CheckOutButton.Name = "CheckOutButton";
             this.CheckOutButton.Size = new System.Drawing.Size(152, 51);
             this.CheckOutButton.TabIndex = 1;
@@ -66,7 +67,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(457, 223);
+            this.ExitButton.Location = new System.Drawing.Point(457, 278);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(152, 51);
             this.ExitButton.TabIndex = 2;
@@ -87,11 +88,25 @@
             this.outGrid.TabIndex = 0;
             this.outGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // goodCheckOut
+            // 
+            this.goodCheckOut.AutoSize = true;
+            this.goodCheckOut.BackColor = System.Drawing.SystemColors.Control;
+            this.goodCheckOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.goodCheckOut.ForeColor = System.Drawing.Color.Lime;
+            this.goodCheckOut.Location = new System.Drawing.Point(351, 233);
+            this.goodCheckOut.Name = "goodCheckOut";
+            this.goodCheckOut.Size = new System.Drawing.Size(123, 13);
+            this.goodCheckOut.TabIndex = 3;
+            this.goodCheckOut.Text = "Visitor checked Out!";
+            this.goodCheckOut.Visible = false;
+            // 
             // CheckOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(837, 286);
+            this.ClientSize = new System.Drawing.Size(837, 341);
+            this.Controls.Add(this.goodCheckOut);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.CheckOutButton);
             this.Controls.Add(this.outGrid);
@@ -102,6 +117,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.outGrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -112,5 +128,6 @@
         private System.Windows.Forms.Button CheckOutButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.DataGridView outGrid;
+        private System.Windows.Forms.Label goodCheckOut;
     }
 }

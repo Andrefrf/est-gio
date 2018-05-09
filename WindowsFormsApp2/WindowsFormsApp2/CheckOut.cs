@@ -37,10 +37,11 @@ namespace WindowsFormsApp2
         private void CheckOutButton_Click(object sender, EventArgs e)
         {
             int outId = 0;
-            connect.Open();
+            DateTime dT = (DateTime)selectRow.Cells[4].Value;
+
             using (SqlCommand com = new SqlCommand("SELECT PersonID as ID from Person where Name = @Name AND Surname = @Surname AND IdNumber = @IdNumber AND DocType = @DocType", connect))
             {
-
+                connect.Open();
                 com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = selectRow.Cells[0].Value.ToString();
                 com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = selectRow.Cells[1].Value.ToString();
                 com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = selectRow.Cells[2].Value.ToString();
@@ -52,32 +53,31 @@ namespace WindowsFormsApp2
                 outId = Int32.Parse(r["ID"].ToString());
                 MessageBox.Show(outId.ToString());
                 r.Close();
+                connect.Close();
             }
 
-            using (SqlCommand com = new SqlCommand("UPDATE Visits SET Out = @Leaving Where PersonID = @PersonID AND Out = @Left AND Entrance = @Entrance",connect))
+            using (SqlCommand command = new SqlCommand("UPDATE Visits SET Out = @Leaving FROM Visits WHERE PersonID = @PersonID AND Out is NULL AND Entrance = @Entrance",connect))
             {
-                com.Parameters.Add("@PersonId", SqlDbType.Int).Value = outId;
-                com.Parameters.Add("@Left", SqlDbType.DateTime2).Value = DBNull.Value;
-                com.Parameters.Add("@Leaving", SqlDbType.DateTime2).Value = DateTime.Now;
-                com.Parameters.Add("@Entrance", SqlDbType.DateTime2).Value = selectRow.Cells[4].Value;
+                connect.Open();
+                command.Parameters.Add("@PersonID", SqlDbType.Int).Value = outId;
+                command.Parameters.Add("@Leaving", SqlDbType.DateTime).Value = DateTime.Now;
+                command.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = dT;
 
 
-                com.ExecuteNonQuery();
+                string query = command.CommandText;
+
+                foreach (SqlParameter p in command.Parameters)
+                {
+                    query = query.Replace(p.ParameterName, p.Value.ToString());
+                }
+                MessageBox.Show(query);
+                command.ExecuteNonQuery();
                 SqlTransaction trans = connect.BeginTransaction();
                 trans.Commit();
+                connect.Close();
             }
-            connect.Close();
-            MessageBox.Show("Visitor checked out!");
+            goodCheckOut.Visible = true;
             updateTable();
-        }
-
-        private DateTime makeTime(string v)
-        {
-            String[] splitted = v.Split(null);
-            String[] day = splitted[0].Split('/');
-            String[] time = splitted[1].Split(':');
-            DateTime date = new DateTime(getInt(day[2]), getInt(day[1]), getInt(day[0]), getInt(time[0]),getInt(time[1]),getInt(time[2]));
-            return date;
         }
 
         private int getInt(string v)

@@ -16,19 +16,25 @@ namespace WindowsFormsApp2
     public partial class Main : Form
     {
         private const string V = " , ";
+        private const string FIRST_CONFIG = "Please configure the device first";
         public IcarConstants.IcarConstants Iconstants;
         public ICAR Icar;
         protected Boolean config;
         SqlConnection connection;
         String connectStr;
         private static String SPLITTER = "|";
+        private Boolean admin;
 
         public Main()
         {
+            this.Name = null;
             connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename="+ @"C:\USERS\USER\DESKTOP\ICARVISITOR\EST-GIO\WINDOWSFORMSAPP2\WINDOWSFORMSAPP2\Database.mdf" + ";Integrated Security=True";
             InitializeComponent();
 
             connection = new SqlConnection(connectStr);
+
+            
+            
             
             //ICAR 
             Iconstants = new IcarConstants.IcarConstants();
@@ -36,6 +42,11 @@ namespace WindowsFormsApp2
             Icar.initialize();
             checkIcarError();
             config = false;
+
+            Login log = new Login(connection);
+            log.ShowDialog();
+            admin = log.getType();
+            log.Close();
 
             fillCompany();
 
@@ -68,7 +79,7 @@ namespace WindowsFormsApp2
         {
             if (!config)
             {
-                MessageBox.Show("Please configure the device first");
+                MessageBox.Show(FIRST_CONFIG);
                 configure();
             }
 
@@ -86,6 +97,16 @@ namespace WindowsFormsApp2
 
             String res = Icar.getResultString().Replace(" # ", " |\n");
             processResult(res);
+        }
+
+        private void configure()
+        {
+            Configurations conf = new Configurations(Icar);
+            conf.ShowDialog();
+            this.Hide();
+            while (conf.Visible) { }
+            config = true;
+            this.Show();
         }
 
         private void processResult(string res)
@@ -132,64 +153,57 @@ namespace WindowsFormsApp2
             configure();
         }
 
-        public void configure()
-        {
-            Configurations conf = new Configurations(Icar);
-            conf.ShowDialog();
-            config = true;
-        }
-
         private void SetDefault()
         {
-            String path = System.IO.Directory.GetCurrentDirectory() + @"\bin\image.bmp";
+            String path = Directory.GetCurrentDirectory() + @"\bin\image.bmp";
             Icar.checkError();
             Icar.setPropertyString(Iconstants.getDeviceName(), ""); //device name
             Icar.checkError();
-            Icar.setPropertyString(Iconstants.getImgPath(), path);
+            Icar.setPropertyString(Iconstants.getImgPath(), path); //image path
             Icar.checkError();
-            Icar.setPropertyString(Iconstants.getDirctPath(), path);
+            Icar.setPropertyString(Iconstants.getDirctPath(), path); //
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getDevice(), 25);
+            Icar.setPropertyNumber(Iconstants.getDevice(), 25); //device type
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getRFIDDevice(), 3);
+            Icar.setPropertyNumber(Iconstants.getRFIDDevice(), 3); //RFID Device
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getSCdevice(), 1);
+            Icar.setPropertyNumber(Iconstants.getSCdevice(), 1);    //SmartCard Device  
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getUVLight(), 1);
+            Icar.setPropertyNumber(Iconstants.getUVLight(), 1);     //UV Light Y or N
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getIRLight(), 1);
+            Icar.setPropertyNumber(Iconstants.getIRLight(), 1);     //IR Light Y or N
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getImageMerging(), 5);
+            Icar.setPropertyNumber(Iconstants.getImageMerging(), 5);   //Merge front and back 
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getDateFormat(), 0);
+            Icar.setPropertyNumber(Iconstants.getDateFormat(), 0);      //Date Format
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getUpperCase(), 1);
+            Icar.setPropertyNumber(Iconstants.getUpperCase(), 1);       //UpperCase
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getRemoveAccents(), 1);
+            Icar.setPropertyNumber(Iconstants.getRemoveAccents(), 1);   //with Accents
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getDeleteFileProcess(), 0);
+            Icar.setPropertyNumber(Iconstants.getDeleteFileProcess(), 0);   //delete file after process
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getProcessMode(), 0);
+            Icar.setPropertyNumber(Iconstants.getProcessMode(), 0);         //how process
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getDigiCopyWidth(), 55);
+            Icar.setPropertyNumber(Iconstants.getDigiCopyWidth(), 55);      //width digital copy
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getDigiCopyWidth(), 86);
+            Icar.setPropertyNumber(Iconstants.getDigiCopyHeight(), 86);      //height Digital Copy
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getPathDocImage(), 200);
+            Icar.setPropertyNumber(Iconstants.getPathDocImage(), 200);      //doc Image path   
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getPathPhotoImg(), 200);
+            Icar.setPropertyNumber(Iconstants.getPathPhotoImg(), 200);      //photo path
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getPathSigImg(), 200);
+            Icar.setPropertyNumber(Iconstants.getPathSigImg(), 200);        //signature path
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getPathFingerImg(), 200);
+            Icar.setPropertyNumber(Iconstants.getPathFingerImg(), 200);     //finger path
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getOutputUVImage(), 200);
+            Icar.setPropertyNumber(Iconstants.getOutputUVImage(), 200);     //UV Image
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getOutputIRImage(), 200);
+            Icar.setPropertyNumber(Iconstants.getOutputIRImage(), 200);     //IR image
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getColorDocIMG(), 1);
+            Icar.setPropertyNumber(Iconstants.getColorDocIMG(), 1);         //doc color
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getColorPhotoImg(), 1);
+            Icar.setPropertyNumber(Iconstants.getColorPhotoImg(), 1);       
             Icar.checkError();
             Icar.setPropertyNumber(Iconstants.getColorSigImg(), 1);
             Icar.checkError();
@@ -237,7 +251,6 @@ namespace WindowsFormsApp2
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            connection.Close();
             Environment.Exit(0);
         }
 
@@ -269,7 +282,7 @@ namespace WindowsFormsApp2
         {
             
             int delivery;
-            if (DeliveryNo.Checked == true)
+            if (DeliveryNo.Checked)
             {
                 delivery = 0;
             }
@@ -289,8 +302,8 @@ namespace WindowsFormsApp2
                 com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
                 com.Parameters.Add("@Company", SqlDbType.Int).Value = company;
                 com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
-                com.Parameters.Add("@Entrance", SqlDbType.DateTime2).Value = DateTime.Now;
-                com.Parameters.Add("@Out", SqlDbType.DateTime2).Value = DBNull.Value;
+                com.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = DateTime.Now;
+                com.Parameters.Add("@Out", SqlDbType.DateTime).Value = DBNull.Value;
                 com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
                 com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text); 
                 com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
@@ -310,7 +323,6 @@ namespace WindowsFormsApp2
             connection.Close();
 
             clearFields();
-
             
         }
 
@@ -446,8 +458,11 @@ namespace WindowsFormsApp2
         {
             PersonForm form = new PersonForm(connection);
             form.ShowDialog();
+            this.Hide();
+            while (form.Visible) { }
             VisitingCombo.Items.Clear();
             fillVisiting();
+            this.Show();
         }
 
         private void fillVisiting()
@@ -469,8 +484,11 @@ namespace WindowsFormsApp2
         {
             NewCompFloorBuild form = new NewCompFloorBuild(connection);
             form.ShowDialog();
+            this.Hide();
+            while (form.Visible) { }
             CompCombo.Items.Clear();
             fillCompany();
+            this.Show();
         }
 
         private void fillCompany()
@@ -487,23 +505,22 @@ namespace WindowsFormsApp2
 
         private void selectedChange(object sender, EventArgs e)
         {
-            VisitingCombo.Enabled = true;
-            VisitingAdd.Enabled = true;
-            VisitingCombo.Text = null;
-            VisitingCombo.Items.Clear();
-            fillVisiting();
+            if (CompCombo.Text == null) { }
+            else
+            {
+                VisitingCombo.Enabled = true;
+                VisitingAdd.Enabled = true;
+                VisitingCombo.Text = null;
+                VisitingCombo.Items.Clear();
+                fillVisiting();
+            }
         }
 
         private void OutButton_Click(object sender, EventArgs e)
         {
             CheckOut form = new CheckOut(connection);
             form.Show();
-            this.Enabled = false;
-            while (form.Focused)
-            {
-                continue;
-            }
-            this.Enabled = true;
+            
         }
     }
 }

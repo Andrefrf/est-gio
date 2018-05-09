@@ -408,7 +408,6 @@
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.Configure);
             this.Controls.Add(this.Scan);
-            this.Text = "IcarVisitor";
             ((System.ComponentModel.ISupportInitialize)(this.Photo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
