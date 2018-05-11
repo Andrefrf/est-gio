@@ -37,7 +37,7 @@ namespace WindowsFormsApp2
                 MessageBox.Show(WRONG_LOG);
             }
             else{
-                Boolean admin = reader.GetBoolean(2);
+                admin = reader.GetBoolean(2);
             }
             connect.Close();
             this.Hide();

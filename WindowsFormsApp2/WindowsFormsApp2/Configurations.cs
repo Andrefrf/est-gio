@@ -41,7 +41,7 @@ namespace WindowsFormsApp2
             this.Close();
         }
 
-        private void configure()
+        public void configure()
         {
             icar.setPropertyString(Iconstants.getDeviceName(), DeviceNameBox.Text); //device name
             icar.checkError();
@@ -319,7 +319,12 @@ namespace WindowsFormsApp2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
+        }
+
+        public ICAR getI()
+        {
+            return icar;
         }
     }
 }

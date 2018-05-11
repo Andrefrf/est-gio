@@ -33,26 +33,24 @@ namespace WindowsFormsApp2
 
             connection = new SqlConnection(connectStr);
 
-            
-            
-            
+            Login log = new Login(connection);
+            log.ShowDialog();
+            admin = log.getType();
+            log.Close();
+            Configure.Enabled = admin;
+            fillCompany();
+
+
+            CompCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            VisitingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cardNBox.Text = null;
+
             //ICAR 
             Iconstants = new IcarConstants.IcarConstants();
             Icar = new ICAR();
             Icar.initialize();
             checkIcarError();
             config = false;
-
-            Login log = new Login(connection);
-            log.ShowDialog();
-            admin = log.getType();
-            log.Close();
-
-            fillCompany();
-
-            CompCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            VisitingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cardNBox.Text = null;
         }
 
         private void checkIcarError()
@@ -82,31 +80,39 @@ namespace WindowsFormsApp2
                 MessageBox.Show(FIRST_CONFIG);
                 configure();
             }
-
-            SetDefault();
-            String output = Icar.process();
-            checkIcarError();
-            byte[] bytes = Convert.FromBase64String(Icar.getResultImageBase64(1));
-            Image img;
-            using (MemoryStream ms = new MemoryStream(bytes))
+            else
             {
-                img = Image.FromStream(ms);
+                SetDefault();
+                String output = Icar.process();
+                checkIcarError();
+                String resultimg = Icar.getResultImageBase64(1);
+                MessageBox.Show(resultimg);
+                byte[] bytes = Convert.FromBase64String(resultimg);
+                Image img;
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    img = Image.FromStream(ms);
+                }
+                Photo.Image = img;
+
+
+                String res = Icar.getResultString().Replace(" # ", " |\n");
+                processResult(res);
             }
-            Photo.Image = img;
-
-
-            String res = Icar.getResultString().Replace(" # ", " |\n");
-            processResult(res);
         }
 
         private void configure()
         {
+            Icar.cleanup();
+            Icar.initialize();
             Configurations conf = new Configurations(Icar);
             conf.ShowDialog();
             this.Hide();
             while (conf.Visible) { }
             config = true;
             this.Show();
+            Icar = conf.getI();
+            conf.Close();
         }
 
         private void processResult(string res)
@@ -251,7 +257,28 @@ namespace WindowsFormsApp2
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            Login log = new Login(connection);
+            log.ShowDialog();
+            this.Visible = false; ;
+            cleanup();
+            while (log.Visible) { }
+            this.Visible = true;
+            Configure.Enabled = log.getType();
+            log.Close();
+        }
+
+        private void cleanup()
+        {
+            NameBox.Text = null;
+            Surname.Text = null;
+            TypeBox.Text = null;
+            idNBox.Text = null;
+            cardNBox.Text = null;
+            Companybox.Text = null;
+            CompCombo.Text = null;
+            VisitingCombo.Text = null;
+            DeliveryNo.Checked = false;
+            DeliveryYes.Checked = true;
         }
 
         private void DeliveryYes_CheckedChanged(object sender, EventArgs e)
@@ -520,6 +547,9 @@ namespace WindowsFormsApp2
         {
             CheckOut form = new CheckOut(connection);
             form.Show();
+            this.Enabled = false;
+            while (form.Visible) { }
+            this.Enabled = true;
             
         }
     }
