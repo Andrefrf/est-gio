@@ -7,13 +7,20 @@ namespace WindowsFormsApp2
 {
     public partial class CheckOut : Form
     {
-        SqlConnection connect;
-        DataGridViewRow selectRow;
+        private SqlConnection connect;
+        private DataGridViewRow selectRow;
+        private int toFilter;
+
         public CheckOut(SqlConnection connection)
         {
             InitializeComponent();
             connect = connection;
             updateTable();
+            foreach(DataGridViewColumn c in outGrid.Columns)
+            {
+                columnCombo.Items.Add(c.Name);
+            }
+            columnCombo.Text = columnCombo.Items[0].ToString();
         }
 
         private void CheckOut_Load(object sender, EventArgs e)
@@ -51,7 +58,6 @@ namespace WindowsFormsApp2
                 SqlDataReader r = com.ExecuteReader();
                 r.Read();
                 outId = Int32.Parse(r["ID"].ToString());
-                MessageBox.Show(outId.ToString());
                 r.Close();
                 connect.Close();
             }
@@ -70,7 +76,6 @@ namespace WindowsFormsApp2
                 {
                     query = query.Replace(p.ParameterName, p.Value.ToString());
                 }
-                MessageBox.Show(query);
                 command.ExecuteNonQuery();
                 SqlTransaction trans = connect.BeginTransaction();
                 trans.Commit();
@@ -93,6 +98,27 @@ namespace WindowsFormsApp2
             DataTable dtb = new DataTable();
             sqlData.Fill(dtb);
             outGrid.DataSource = dtb;
+        }
+
+        private void Filter_Click(object sender, EventArgs e)
+        {
+            updateTable();
+            for (int u = 0; u < outGrid.RowCount; u++)
+            {
+                if (outGrid.Rows[u].Cells[toFilter].Value.Equals(FilterValue.Text))
+                {
+                    outGrid.Rows[u].Visible = true;
+                }
+                else
+                {
+                    outGrid.Rows.RemoveAt(u);
+                }
+            }
+        }
+
+        private void columnCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            toFilter = columnCombo.Items.IndexOf(columnCombo.Text);
         }
     }
 }

@@ -34,7 +34,6 @@
             this.userNameBox = new System.Windows.Forms.TextBox();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.ConfirmButton = new System.Windows.Forms.Button();
-            this.AddButton = new System.Windows.Forms.Button();
             this.OutButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -42,7 +41,7 @@
             // 
             this.UserLoginLabel.AutoSize = true;
             this.UserLoginLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UserLoginLabel.Location = new System.Drawing.Point(224, 48);
+            this.UserLoginLabel.Location = new System.Drawing.Point(157, 43);
             this.UserLoginLabel.Name = "UserLoginLabel";
             this.UserLoginLabel.Size = new System.Drawing.Size(145, 31);
             this.UserLoginLabel.TabIndex = 0;
@@ -52,7 +51,7 @@
             // 
             this.NameLabel.AutoSize = true;
             this.NameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NameLabel.Location = new System.Drawing.Point(150, 144);
+            this.NameLabel.Location = new System.Drawing.Point(53, 150);
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(60, 20);
             this.NameLabel.TabIndex = 1;
@@ -62,7 +61,7 @@
             // 
             this.PasswordLabel.AutoSize = true;
             this.PasswordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PasswordLabel.Location = new System.Drawing.Point(150, 203);
+            this.PasswordLabel.Location = new System.Drawing.Point(53, 209);
             this.PasswordLabel.Name = "PasswordLabel";
             this.PasswordLabel.Size = new System.Drawing.Size(91, 20);
             this.PasswordLabel.TabIndex = 2;
@@ -71,23 +70,25 @@
             // userNameBox
             // 
             this.userNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userNameBox.Location = new System.Drawing.Point(271, 141);
+            this.userNameBox.Location = new System.Drawing.Point(174, 147);
             this.userNameBox.Name = "userNameBox";
             this.userNameBox.Size = new System.Drawing.Size(167, 26);
             this.userNameBox.TabIndex = 3;
+            this.userNameBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userNameBox_KeyPress);
             // 
             // PasswordBox
             // 
             this.PasswordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PasswordBox.Location = new System.Drawing.Point(271, 197);
+            this.PasswordBox.Location = new System.Drawing.Point(174, 203);
             this.PasswordBox.Name = "PasswordBox";
             this.PasswordBox.PasswordChar = '*';
             this.PasswordBox.Size = new System.Drawing.Size(167, 26);
             this.PasswordBox.TabIndex = 4;
+            this.PasswordBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userNameBox_KeyPress);
             // 
             // ConfirmButton
             // 
-            this.ConfirmButton.Location = new System.Drawing.Point(29, 256);
+            this.ConfirmButton.Location = new System.Drawing.Point(37, 262);
             this.ConfirmButton.Name = "ConfirmButton";
             this.ConfirmButton.Size = new System.Drawing.Size(162, 55);
             this.ConfirmButton.TabIndex = 5;
@@ -95,19 +96,9 @@
             this.ConfirmButton.UseVisualStyleBackColor = true;
             this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
             // 
-            // AddButton
-            // 
-            this.AddButton.Location = new System.Drawing.Point(230, 256);
-            this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(162, 55);
-            this.AddButton.TabIndex = 6;
-            this.AddButton.Text = "Add User";
-            this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
-            // 
             // OutButton
             // 
-            this.OutButton.Location = new System.Drawing.Point(433, 256);
+            this.OutButton.Location = new System.Drawing.Point(247, 262);
             this.OutButton.Name = "OutButton";
             this.OutButton.Size = new System.Drawing.Size(162, 55);
             this.OutButton.TabIndex = 7;
@@ -120,9 +111,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(648, 374);
+            this.ClientSize = new System.Drawing.Size(448, 357);
             this.Controls.Add(this.OutButton);
-            this.Controls.Add(this.AddButton);
             this.Controls.Add(this.ConfirmButton);
             this.Controls.Add(this.PasswordBox);
             this.Controls.Add(this.userNameBox);
@@ -143,7 +133,6 @@
         private System.Windows.Forms.TextBox userNameBox;
         private System.Windows.Forms.TextBox PasswordBox;
         private System.Windows.Forms.Button ConfirmButton;
-        private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Button OutButton;
     }
 }

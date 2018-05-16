@@ -297,6 +297,7 @@
             this.VisitorButton.TabIndex = 39;
             this.VisitorButton.Text = "Visitors";
             this.VisitorButton.UseVisualStyleBackColor = true;
+            this.VisitorButton.Click += new System.EventHandler(this.VisitorButton_Click);
             // 
             // CompLabel
             // 

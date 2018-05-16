@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -15,7 +10,7 @@ namespace WindowsFormsApp2
     {
         SqlConnection connect;
 
-        public PersonForm(System.Data.SqlClient.SqlConnection connection)
+        public PersonForm(SqlConnection connection)
         {
             InitializeComponent();
             connect = connection;
@@ -32,19 +27,18 @@ namespace WindowsFormsApp2
             try
             {
                 connect.Open();
+                SqlCommand command = new SqlCommand("SELECT Company,Department FROM Companies", connect);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    companyCombo.Items.Add(reader["Company"].ToString() + "," + reader["Department"].ToString());
+                }
+                connect.Close();
             }
             catch (Exception)
             {
                 MessageBox.Show("Could not connect to DB");
             }
-
-            SqlCommand command = new SqlCommand("SELECT Company,Department FROM Companies", connect);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                companyCombo.Items.Add(reader["Company"].ToString() + "," + reader["Department"].ToString());
-            }
-            connect.Close();
         }
 
 

@@ -63,6 +63,16 @@
             this.SavePhotoBox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.DateFormatCombo = new System.Windows.Forms.ComboBox();
+            this.RemoveUserButton = new System.Windows.Forms.Button();
+            this.AddUserButton = new System.Windows.Forms.Button();
+            this.daysBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.xmlPath = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -236,7 +246,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(188, 290);
+            this.button1.Location = new System.Drawing.Point(15, 380);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(154, 44);
             this.button1.TabIndex = 18;
@@ -246,7 +256,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(403, 290);
+            this.button2.Location = new System.Drawing.Point(230, 380);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(154, 44);
             this.button2.TabIndex = 19;
@@ -421,11 +431,95 @@
             this.DateFormatCombo.Size = new System.Drawing.Size(265, 21);
             this.DateFormatCombo.TabIndex = 35;
             // 
+            // RemoveUserButton
+            // 
+            this.RemoveUserButton.Location = new System.Drawing.Point(639, 380);
+            this.RemoveUserButton.Name = "RemoveUserButton";
+            this.RemoveUserButton.Size = new System.Drawing.Size(154, 44);
+            this.RemoveUserButton.TabIndex = 37;
+            this.RemoveUserButton.Text = "Remove User";
+            this.RemoveUserButton.UseVisualStyleBackColor = true;
+            this.RemoveUserButton.Click += new System.EventHandler(this.RemoveUserButton_Click);
+            // 
+            // AddUserButton
+            // 
+            this.AddUserButton.Location = new System.Drawing.Point(424, 380);
+            this.AddUserButton.Name = "AddUserButton";
+            this.AddUserButton.Size = new System.Drawing.Size(154, 44);
+            this.AddUserButton.TabIndex = 36;
+            this.AddUserButton.Text = "Add User";
+            this.AddUserButton.UseVisualStyleBackColor = true;
+            this.AddUserButton.Click += new System.EventHandler(this.AddUserButton_Click);
+            // 
+            // daysBox
+            // 
+            this.daysBox.Location = new System.Drawing.Point(143, 298);
+            this.daysBox.Name = "daysBox";
+            this.daysBox.Size = new System.Drawing.Size(45, 20);
+            this.daysBox.TabIndex = 38;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(12, 301);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(125, 13);
+            this.label14.TabIndex = 40;
+            this.label14.Text = "Number of days for reset:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(703, 301);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 41;
+            this.button3.Text = "Export XML";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // xmlPath
+            // 
+            this.xmlPath.Location = new System.Drawing.Point(348, 298);
+            this.xmlPath.Name = "xmlPath";
+            this.xmlPath.Size = new System.Drawing.Size(159, 20);
+            this.xmlPath.TabIndex = 42;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(254, 301);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(88, 13);
+            this.label15.TabIndex = 43;
+            this.label15.Text = "XML export path:";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(513, 296);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 44;
+            this.button4.Text = "Browse";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Configurations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 346);
+            this.ClientSize = new System.Drawing.Size(855, 436);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.xmlPath);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.daysBox);
+            this.Controls.Add(this.RemoveUserButton);
+            this.Controls.Add(this.AddUserButton);
             this.Controls.Add(this.DateFormatCombo);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.SavePhotoBox);
@@ -505,5 +599,15 @@
         private System.Windows.Forms.TextBox SavePhotoBox;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox DateFormatCombo;
+        private System.Windows.Forms.Button RemoveUserButton;
+        private System.Windows.Forms.Button AddUserButton;
+        private System.Windows.Forms.TextBox daysBox;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox xmlPath;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button4;
     }
 }

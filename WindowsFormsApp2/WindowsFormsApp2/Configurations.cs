@@ -3,17 +3,19 @@ using ICARCOMLib;
 using IcarConstants;
 using System.Windows.Forms;
 using WindowsFormsApp2.Properties;
-
-
+using System.Data.SqlClient;
+using System.IO;
+using System.Data;
 
 namespace WindowsFormsApp2
 {
-    public partial class Configurations : Form 
+    public partial class Configurations : Form
     {
         public ICAR icar;
         public IcarConstants.IcarConstants Iconstants;
+        public SqlConnection connection;
 
-        public Configurations(ICARCOMLib.ICAR icar)
+        public Configurations(ICAR icar, SqlConnection connection)
         {
             InitializeComponent();
             this.icar = icar;
@@ -21,7 +23,7 @@ namespace WindowsFormsApp2
             String path = System.IO.Directory.GetCurrentDirectory() + @"\bin\image.bmp";
             FolderTextBox.Text = path;
 
-            DeviceCombo.Text = DeviceCombo.Items[0].ToString();
+            DeviceCombo.Text = DeviceCombo.Items[5].ToString();
 
             DocColor.Text = DocColor.Items[0].ToString();
             DocEnhancement.Text = DocEnhancement.Items[0].ToString();
@@ -33,11 +35,22 @@ namespace WindowsFormsApp2
             TiltingComboBox.Text = TiltingComboBox.Items[2].ToString();
 
             DateFormatCombo.Text = DateFormatCombo.Items[0].ToString();
+
+            using (StreamReader reader = new StreamReader("daysToReset.txt"))
+            {
+                daysBox.Text = reader.ReadLine().Split(null)[1];
+            }
+
+            this.connection = connection;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             configure();
+            using (StreamWriter write = new StreamWriter("daysToReset.txt"))
+            {
+                write.WriteLine("Days for Reset: " + daysBox.Text);
+            }
             this.Close();
         }
 
@@ -51,31 +64,31 @@ namespace WindowsFormsApp2
             icar.checkError();
 
             String type = DeviceCombo.Text;
-            if(type.Equals("IcarBox 250"))
+            if (type.Equals("IcarBox 250"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBox250());
             }
-            else if(type.Equals("IcarBox 250 VIU"))
+            else if (type.Equals("IcarBox 250 VIU"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBox250Viu());
             }
-            else if(type.Equals("IcarBox 260"))
+            else if (type.Equals("IcarBox 260"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBox260());
             }
-            else if(type.Equals("IcarBox 260 VIU"))
+            else if (type.Equals("IcarBox 260 VIU"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBox260viu());
             }
-            else if(type.Equals("IcarBox 240B"))
+            else if (type.Equals("IcarBox 240B"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBoxIcar240());
             }
-            else if(type.Equals("IDBox"))
+            else if (type.Equals("IDBox"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getIDBox());
             }
-            else if( type.Equals("IDBox VIU"))
+            else if (type.Equals("IDBox VIU"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getIdBoxviu());
             }
@@ -83,24 +96,24 @@ namespace WindowsFormsApp2
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getIdBoxE());
             }
-            else if(type.Equals("IDBoxE VIU"))
+            else if (type.Equals("IDBoxE VIU"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getIdBoxEviu());
 
             }
-            else if(type.Equals("TWAIN compatible scanner"))
+            else if (type.Equals("TWAIN compatible scanner"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBoxTwain());
             }
-            else if( type.Equals("Virtual folder device"))
+            else if (type.Equals("Virtual folder device"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBoxvirtual());
             }
-            else if(type.Equals("Image file"))
+            else if (type.Equals("Image file"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getDocImageImg());
             }
-            else if(type.Equals("HP Photo Scan 1200"))
+            else if (type.Equals("HP Photo Scan 1200"))
             {
                 icar.setPropertyNumber(Iconstants.getDevice(), Iconstants.getBoxHP());
             }
@@ -122,7 +135,8 @@ namespace WindowsFormsApp2
             icar.checkError();
 
             type = DateFormatCombo.Text;
-            if (type.Equals("DD-MM-YY")){
+            if (type.Equals("DD-MM-YY"))
+            {
                 icar.setPropertyNumber(Iconstants.getDateFormat(), 0);
             }
             else if (type.Equals("DD-MM-YYYY"))
@@ -145,7 +159,7 @@ namespace WindowsFormsApp2
             {
                 icar.setPropertyNumber(Iconstants.getDateFormat(), 5);
             }
-            else if(type.Equals("YY-MM-DD"))
+            else if (type.Equals("YY-MM-DD"))
             {
                 icar.setPropertyNumber(Iconstants.getDateFormat(), 6);
             }
@@ -175,7 +189,8 @@ namespace WindowsFormsApp2
             }
             icar.checkError();
 
-            if (UpperCaseCheck.Checked == true) {
+            if (UpperCaseCheck.Checked == true)
+            {
                 icar.setPropertyNumber(Iconstants.getUpperCase(), 1);
             }
             else
@@ -184,7 +199,8 @@ namespace WindowsFormsApp2
             }
             icar.checkError();
 
-            if (accentOutputCheck.Checked == true) {
+            if (accentOutputCheck.Checked == true)
+            {
                 icar.setPropertyNumber(Iconstants.getRemoveAccents(), 1);
             }
             else
@@ -193,15 +209,18 @@ namespace WindowsFormsApp2
             }
             icar.checkError();
 
-            if (deleteDocAfterProcess.Checked == true) {
+            if (deleteDocAfterProcess.Checked == true)
+            {
                 icar.setPropertyNumber(Iconstants.getDeleteFileProcess(), 1);
             }
-            else {
+            else
+            {
                 icar.setPropertyNumber(Iconstants.getDeleteFileProcess(), 0);
             }
             icar.checkError();
 
-            if (ProcessModeCombo.Text.Equals("Document Reading")) {
+            if (ProcessModeCombo.Text.Equals("Document Reading"))
+            {
                 icar.setPropertyNumber(Iconstants.getProcessMode(), 0);
             }
             else
@@ -221,7 +240,8 @@ namespace WindowsFormsApp2
             {
                 icar.setPropertyNumber(Iconstants.getPathPhotoImg(), 200);
             }
-            else {
+            else
+            {
                 icar.setPropertyString(Iconstants.getPathPhotoImg(), SavePhotoBox.Text);
             }
             icar.checkError();
@@ -277,7 +297,7 @@ namespace WindowsFormsApp2
 
             if (PhotoEnhancement.Text.Equals("Apply"))
             {
-                icar.setPropertyNumber(Iconstants.getEnhancePhotoImg(),1);
+                icar.setPropertyNumber(Iconstants.getEnhancePhotoImg(), 1);
             }
             else
             {
@@ -325,6 +345,40 @@ namespace WindowsFormsApp2
         public ICAR getI()
         {
             return icar;
+        }
+
+        private void AddUserButton_Click(object sender, EventArgs e)
+        {
+            UserAdd adder = new UserAdd(connection);
+            adder.ShowDialog();
+            this.Enabled = false;
+            while (adder.Visible) { }
+            this.Enabled = true;
+        }
+
+        private void RemoveUserButton_Click(object sender, EventArgs e)
+        {
+            UserDelete del = new UserDelete(connection);
+            del.ShowDialog();
+            this.Enabled = false;
+            while (del.Visible) { }
+            this.Enabled = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //TODO: Exportar tudo da DB
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = new SqlCommand("Select * From ",connection);
+            DataTable dt = new DataTable("database");
+            dt.WriteXml(@xmlPath.Text + @"\database.xml", XmlWriteMode.WriteSchema);
+            MessageBox.Show("Data Exported");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.ShowDialog();
+            xmlPath.Text = folderBrowserDialog1.SelectedPath;
         }
     }
 }

@@ -24,11 +24,17 @@ namespace WindowsFormsApp2
         String connectStr;
         private static String SPLITTER = "|";
         private Boolean admin;
+        private int days;
 
         public Main()
         {
+            using (StreamReader reader = new StreamReader("daysToReset.txt"))
+            {
+                String line = reader.ReadLine();
+                days = Int32.Parse(line.Split(null)[3]);
+            }
             this.Name = null;
-            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename="+ @"C:\USERS\USER\DESKTOP\ICARVISITOR\EST-GIO\WINDOWSFORMSAPP2\WINDOWSFORMSAPP2\Database.mdf" + ";Integrated Security=True";
+            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=" + @"C:\USERS\USER\DESKTOP\ICARVISITOR\EST-GIO\WINDOWSFORMSAPP2\WINDOWSFORMSAPP2\Database.mdf" + ";Integrated Security=True";
             InitializeComponent();
 
             connection = new SqlConnection(connectStr);
@@ -37,6 +43,8 @@ namespace WindowsFormsApp2
             log.ShowDialog();
             admin = log.getType();
             log.Close();
+            visitorsTime();
+
             Configure.Enabled = admin;
             fillCompany();
 
@@ -51,6 +59,22 @@ namespace WindowsFormsApp2
             Icar.initialize();
             checkIcarError();
             config = false;
+
+            Configurations conf = new Configurations(Icar, connection);
+            conf.configure();
+        }
+
+        private void visitorsTime()
+        {
+            DataTable dt = new DataTable();
+            using (SqlCommand com = new SqlCommand("DELETE FROM Visits Where Entrance < @date",connection))
+            {
+                connection.Open();
+                com.Parameters.Add("@date", SqlDbType.DateTime).Value = DateTime.Now.AddDays(-days);
+                com.ExecuteNonQuery();
+                SqlTransaction trans = connection.BeginTransaction();
+                connection.Close();
+            }
         }
 
         private void checkIcarError()
@@ -75,49 +99,39 @@ namespace WindowsFormsApp2
         //scans document
         private void Scan_Click(object sender, EventArgs e)
         {
-            if (!config)
-            {
-                MessageBox.Show(FIRST_CONFIG);
-                configure();
-            }
-            else
-            {
-                SetDefault();
-                String output = Icar.process();
-                checkIcarError();
-                String resultimg = Icar.getResultImageBase64(1);
-                MessageBox.Show(resultimg);
-                byte[] bytes = Convert.FromBase64String(resultimg);
-                Image img;
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    img = Image.FromStream(ms);
-                }
-                Photo.Image = img;
 
-
-                String res = Icar.getResultString().Replace(" # ", " |\n");
-                processResult(res);
+            SetDefault();
+            String output = Icar.process();
+            checkIcarError();
+            String resultimg = Icar.getResultImageBase64(1);
+            byte[] bytes = Convert.FromBase64String(resultimg);
+            Image img;
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                img = Image.FromStream(ms);
             }
+            Photo.Image = img;
+
+            String res = Icar.getResultString().Replace(" # ", " |\n");
+            processResult(res);
         }
 
         private void configure()
         {
             Icar.cleanup();
             Icar.initialize();
-            Configurations conf = new Configurations(Icar);
+            Configurations conf = new Configurations(Icar, connection);
             conf.ShowDialog();
-            this.Hide();
+            this.Enabled = false;
             while (conf.Visible) { }
             config = true;
-            this.Show();
+            this.Enabled = true;
             Icar = conf.getI();
             conf.Close();
         }
 
         private void processResult(string res)
         {
-
             //docType
             String[] result = res.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0].Split(null);
             TypeBox.Text = result[1];
@@ -209,7 +223,7 @@ namespace WindowsFormsApp2
             Icar.checkError();
             Icar.setPropertyNumber(Iconstants.getColorDocIMG(), 1);         //doc color
             Icar.checkError();
-            Icar.setPropertyNumber(Iconstants.getColorPhotoImg(), 1);       
+            Icar.setPropertyNumber(Iconstants.getColorPhotoImg(), 1);
             Icar.checkError();
             Icar.setPropertyNumber(Iconstants.getColorSigImg(), 1);
             Icar.checkError();
@@ -258,17 +272,18 @@ namespace WindowsFormsApp2
         private void Exit_Click(object sender, EventArgs e)
         {
             Login log = new Login(connection);
+            this.Hide();
             log.ShowDialog();
-            this.Visible = false; ;
             cleanup();
             while (log.Visible) { }
-            this.Visible = true;
+            this.Show();
             Configure.Enabled = log.getType();
             log.Close();
         }
 
         private void cleanup()
         {
+            Photo.Image = null;
             NameBox.Text = null;
             Surname.Text = null;
             TypeBox.Text = null;
@@ -278,7 +293,7 @@ namespace WindowsFormsApp2
             CompCombo.Text = null;
             VisitingCombo.Text = null;
             DeliveryNo.Checked = false;
-            DeliveryYes.Checked = true;
+            DeliveryYes.Checked = false;
         }
 
         private void DeliveryYes_CheckedChanged(object sender, EventArgs e)
@@ -307,7 +322,7 @@ namespace WindowsFormsApp2
 
         private void InButton_Click(object sender, EventArgs e)
         {
-            
+
             int delivery;
             if (DeliveryNo.Checked)
             {
@@ -317,45 +332,79 @@ namespace WindowsFormsApp2
             {
                 delivery = 1;
             }
-            int Visiting = getWorker();
-            addPerson();
-            int res = getPerson();
-            StringBuilder sb = new StringBuilder();
-            int company = getCompany();
-            sb.Append("INSERT INTO Visits(PersonID,Company,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany) VALUES(@PersonID,@Company,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany)");
-            using (SqlCommand com = new SqlCommand(sb.ToString(),connection))
+            if (!checkFields())
             {
 
-                com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
-                com.Parameters.Add("@Company", SqlDbType.Int).Value = company;
-                com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
-                com.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = DateTime.Now;
-                com.Parameters.Add("@Out", SqlDbType.DateTime).Value = DBNull.Value;
-                com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
-                com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text); 
-                com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
-
-                com.CommandType = System.Data.CommandType.Text;
-
-                com.Connection = connection;
-
-                connection.Open();
-
-                com.ExecuteNonQuery();
-                SqlTransaction trans = connection.BeginTransaction();
-                trans.Commit();
-                MessageBox.Show("Data Inserted!");
             }
+            else
+            {
+                int Visiting = getWorker();
+                addPerson();
+                int res = getPerson();
+                StringBuilder sb = new StringBuilder();
+                int company = getCompany();
+                sb.Append("INSERT INTO Visits(PersonID,Company,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany) VALUES(@PersonID,@Company,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany)");
+                using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
+                {
 
-            connection.Close();
+                    com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
+                    com.Parameters.Add("@Company", SqlDbType.Int).Value = company;
+                    com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
+                    com.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = DateTime.Now;
+                    com.Parameters.Add("@Out", SqlDbType.DateTime).Value = DBNull.Value;
+                    com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
+                    com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text);
+                    com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
 
-            clearFields();
-            
+                    com.CommandType = System.Data.CommandType.Text;
+
+                    com.Connection = connection;
+
+                    connection.Open();
+
+                    com.ExecuteNonQuery();
+                    SqlTransaction trans = connection.BeginTransaction();
+                    trans.Commit();
+                    MessageBox.Show("Data Inserted!");
+                }
+
+                connection.Close();
+
+                clearFields();
+            }
+        }
+
+        private Boolean checkFields()
+        {
+            if (Companybox.Text == "")
+            {
+                MessageBox.Show("Insert the name of the viisitor's company.");
+                return false;
+            }
+            else if ((DeliveryNo.Checked) == false && (DeliveryYes.Checked == false))
+            {
+                MessageBox.Show("Specify if the visitor has a delivery.");
+                return false;
+            }
+            else if (CompCombo.Text == "")
+            {
+                MessageBox.Show("Please identify wich company and wich division the visitor is visitng.");
+                return false;
+            }
+            else if (VisitingCombo.Text == "")
+            {
+                MessageBox.Show("Please specfy who is being visited.");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private object checkCard(String cardn)
         {
-            if(cardn == "")
+            if (cardn == "")
             {
                 return DBNull.Value;
             }
@@ -414,7 +463,7 @@ namespace WindowsFormsApp2
         private void addPerson()
         {
             connection.Open();
-            
+
             try
             {
                 SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber,PersonID) values(@Name,@Surname,@DocType,@IdNumber,NEXT VALUE FOR Person_Id_Seq)", connection);
@@ -424,11 +473,11 @@ namespace WindowsFormsApp2
                 com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = TypeBox.Text;
                 com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
 
-                
+
                 com.ExecuteNonQuery();
                 SqlTransaction trans = connection.BeginTransaction();
                 trans.Commit();
-                
+
             }
             catch (SqlException)
             {
@@ -443,7 +492,7 @@ namespace WindowsFormsApp2
             String[] compText = CompCombo.Text.Split(',');
             connection.Open();
 
-            SqlCommand com  = new SqlCommand("Select Id from WorkerCompany Where Name = @Name AND Company = @Company AND Department = @Department", connection);
+            SqlCommand com = new SqlCommand("Select Id from WorkerCompany Where Name = @Name AND Company = @Company AND Department = @Department", connection);
 
             com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = VisitingCombo.Text.Trim();
             com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compText[0];
@@ -453,7 +502,7 @@ namespace WindowsFormsApp2
             SqlDataReader reader = com.ExecuteReader();
             while (reader.Read())
             {
-                WorkId = Int32.Parse(reader["Id"].ToString()) ;
+                WorkId = Int32.Parse(reader["Id"].ToString());
             }
             connection.Close();
             return WorkId;
@@ -525,7 +574,7 @@ namespace WindowsFormsApp2
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                CompCombo.Items.Add(reader["Company"].ToString().Trim()+","+reader["Department"].ToString().Trim());
+                CompCombo.Items.Add(reader["Company"].ToString().Trim() + "," + reader["Department"].ToString().Trim());
             }
             connection.Close();
         }
@@ -546,11 +595,20 @@ namespace WindowsFormsApp2
         private void OutButton_Click(object sender, EventArgs e)
         {
             CheckOut form = new CheckOut(connection);
-            form.Show();
+            form.ShowDialog();
             this.Enabled = false;
             while (form.Visible) { }
             this.Enabled = true;
-            
+
+        }
+
+        private void VisitorButton_Click(object sender, EventArgs e)
+        {
+            VisitorTable visit = new VisitorTable(connection);
+            visit.ShowDialog();
+            this.Enabled = false;
+            while (visit.Visible) { }
+            this.Enabled = true;
         }
     }
 }

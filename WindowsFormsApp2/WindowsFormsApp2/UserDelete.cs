@@ -13,12 +13,13 @@ namespace WindowsFormsApp2
 {
     public partial class UserDelete : Form
     {
-        private SqlConnection connect;
+        public SqlConnection connect;
 
-        public UserDelete(System.Data.SqlClient.SqlConnection connect)
+        public UserDelete(SqlConnection connection)
         {
             InitializeComponent();
-            this.connect = connect;
+            //MessageBox.Show((connection == null).ToString());
+            this.connect = connection;
             fillUsers();
         }
 
@@ -43,6 +44,7 @@ namespace WindowsFormsApp2
             SqlTransaction trans = connect.BeginTransaction();
             trans.Commit();
             connect.Close();
+            MessageBox.Show("User Removed!");
             this.Close();
         }
 

@@ -28,11 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.PWLabel = new System.Windows.Forms.Label();
-            this.UserName = new System.Windows.Forms.Label();
-            this.pwBox = new System.Windows.Forms.TextBox();
-            this.userBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,59 +37,8 @@
             this.newUserBox = new System.Windows.Forms.TextBox();
             this.ConfirmButton = new System.Windows.Forms.Button();
             this.outButton = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.PWLabel);
-            this.groupBox1.Controls.Add(this.UserName);
-            this.groupBox1.Controls.Add(this.pwBox);
-            this.groupBox1.Controls.Add(this.userBox);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(23, 26);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(10);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(344, 157);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "User Adding";
-            // 
-            // PWLabel
-            // 
-            this.PWLabel.AutoSize = true;
-            this.PWLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PWLabel.Location = new System.Drawing.Point(6, 95);
-            this.PWLabel.Name = "PWLabel";
-            this.PWLabel.Size = new System.Drawing.Size(103, 22);
-            this.PWLabel.TabIndex = 8;
-            this.PWLabel.Text = "Password:";
-            // 
-            // UserName
-            // 
-            this.UserName.AutoSize = true;
-            this.UserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UserName.Location = new System.Drawing.Point(51, 45);
-            this.UserName.Name = "UserName";
-            this.UserName.Size = new System.Drawing.Size(58, 22);
-            this.UserName.TabIndex = 7;
-            this.UserName.Text = "User:";
-            // 
-            // pwBox
-            // 
-            this.pwBox.Location = new System.Drawing.Point(115, 97);
-            this.pwBox.Name = "pwBox";
-            this.pwBox.PasswordChar = '*';
-            this.pwBox.Size = new System.Drawing.Size(222, 23);
-            this.pwBox.TabIndex = 1;
-            // 
-            // userBox
-            // 
-            this.userBox.Location = new System.Drawing.Point(115, 47);
-            this.userBox.Name = "userBox";
-            this.userBox.Size = new System.Drawing.Size(222, 23);
-            this.userBox.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -105,7 +49,7 @@
             this.groupBox2.Controls.Add(this.newPWBox);
             this.groupBox2.Controls.Add(this.newUserBox);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(453, 26);
+            this.groupBox2.Location = new System.Drawing.Point(19, 19);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(10);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(326, 216);
@@ -169,7 +113,7 @@
             // 
             // ConfirmButton
             // 
-            this.ConfirmButton.Location = new System.Drawing.Point(23, 196);
+            this.ConfirmButton.Location = new System.Drawing.Point(375, 52);
             this.ConfirmButton.Name = "ConfirmButton";
             this.ConfirmButton.Size = new System.Drawing.Size(140, 46);
             this.ConfirmButton.TabIndex = 2;
@@ -179,7 +123,7 @@
             // 
             // outButton
             // 
-            this.outButton.Location = new System.Drawing.Point(227, 196);
+            this.outButton.Location = new System.Drawing.Point(375, 155);
             this.outButton.Name = "outButton";
             this.outButton.Size = new System.Drawing.Size(140, 46);
             this.outButton.TabIndex = 3;
@@ -192,14 +136,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(800, 266);
+            this.ClientSize = new System.Drawing.Size(527, 242);
             this.Controls.Add(this.outButton);
             this.Controls.Add(this.ConfirmButton);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Name = "UserAdd";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -207,13 +148,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label PWLabel;
-        private System.Windows.Forms.Label UserName;
-        private System.Windows.Forms.TextBox pwBox;
-        private System.Windows.Forms.TextBox userBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

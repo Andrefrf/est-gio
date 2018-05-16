@@ -26,6 +26,7 @@ namespace WindowsFormsApp2
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
+
             connect.Open();
             SqlCommand command = new SqlCommand("SELECT * FROM Users Where Name = @Name AND Password = @Password", connect);
             command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = userNameBox.Text;
@@ -33,14 +34,32 @@ namespace WindowsFormsApp2
 
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
-            if (reader["Name"].ToString() == null) {
-                MessageBox.Show(WRONG_LOG);
+            try
+            {
+                if (reader["Name"].ToString() == null)
+                {
+                    MessageBox.Show(WRONG_LOG);
+                }
+                else
+                {
+                    admin = reader.GetBoolean(2);
+                }
+                connect.Close();
+                this.Hide();
             }
-            else{
-                admin = reader.GetBoolean(2);
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("User/Password does not exist.");
+                this.clear();
+                connect.Close();
             }
-            connect.Close();
-            this.Hide();
+
+        }
+
+        private void clear()
+        {
+            userNameBox.Text = null;
+            PasswordBox.Text = null;
         }
 
         public Boolean getType()
@@ -65,6 +84,21 @@ namespace WindowsFormsApp2
 
             }
             this.Show();
+        }
+
+        private void userNameBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                if (userNameBox.Focused)
+                {
+                    PasswordBox.Focus();
+                }
+                else if (PasswordBox.Focused)
+                {
+                    ConfirmButton.Focus();
+                }
+            }
         }
     }
 }

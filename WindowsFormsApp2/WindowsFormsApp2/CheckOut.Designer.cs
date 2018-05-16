@@ -36,6 +36,11 @@
             this.ExitButton = new System.Windows.Forms.Button();
             this.outGrid = new System.Windows.Forms.DataGridView();
             this.goodCheckOut = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.columnCombo = new System.Windows.Forms.ComboBox();
+            this.FilterValue = new System.Windows.Forms.TextBox();
+            this.Filter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outGrid)).BeginInit();
@@ -57,7 +62,7 @@
             // 
             // CheckOutButton
             // 
-            this.CheckOutButton.Location = new System.Drawing.Point(160, 278);
+            this.CheckOutButton.Location = new System.Drawing.Point(88, 325);
             this.CheckOutButton.Name = "CheckOutButton";
             this.CheckOutButton.Size = new System.Drawing.Size(152, 51);
             this.CheckOutButton.TabIndex = 1;
@@ -67,7 +72,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(457, 278);
+            this.ExitButton.Location = new System.Drawing.Point(385, 325);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(152, 51);
             this.ExitButton.TabIndex = 2;
@@ -80,7 +85,7 @@
             this.outGrid.AllowUserToAddRows = false;
             this.outGrid.AllowUserToDeleteRows = false;
             this.outGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.outGrid.Location = new System.Drawing.Point(98, 25);
+            this.outGrid.Location = new System.Drawing.Point(26, 72);
             this.outGrid.Name = "outGrid";
             this.outGrid.ReadOnly = true;
             this.outGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -94,18 +99,67 @@
             this.goodCheckOut.BackColor = System.Drawing.SystemColors.Control;
             this.goodCheckOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.goodCheckOut.ForeColor = System.Drawing.Color.Lime;
-            this.goodCheckOut.Location = new System.Drawing.Point(351, 233);
+            this.goodCheckOut.Location = new System.Drawing.Point(279, 280);
             this.goodCheckOut.Name = "goodCheckOut";
             this.goodCheckOut.Size = new System.Drawing.Size(123, 13);
             this.goodCheckOut.TabIndex = 3;
             this.goodCheckOut.Text = "Visitor checked Out!";
             this.goodCheckOut.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(23, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Column:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(221, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(37, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Value:";
+            // 
+            // columnCombo
+            // 
+            this.columnCombo.FormattingEnabled = true;
+            this.columnCombo.Location = new System.Drawing.Point(74, 33);
+            this.columnCombo.Name = "columnCombo";
+            this.columnCombo.Size = new System.Drawing.Size(110, 21);
+            this.columnCombo.TabIndex = 6;
+            this.columnCombo.SelectedIndexChanged += new System.EventHandler(this.columnCombo_SelectedIndexChanged);
+            // 
+            // FilterValue
+            // 
+            this.FilterValue.Location = new System.Drawing.Point(264, 33);
+            this.FilterValue.Name = "FilterValue";
+            this.FilterValue.Size = new System.Drawing.Size(100, 20);
+            this.FilterValue.TabIndex = 7;
+            // 
+            // Filter
+            // 
+            this.Filter.Location = new System.Drawing.Point(394, 32);
+            this.Filter.Name = "Filter";
+            this.Filter.Size = new System.Drawing.Size(81, 21);
+            this.Filter.TabIndex = 8;
+            this.Filter.Text = "Filter";
+            this.Filter.UseVisualStyleBackColor = true;
+            this.Filter.Click += new System.EventHandler(this.Filter_Click);
+            // 
             // CheckOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(837, 341);
+            this.ClientSize = new System.Drawing.Size(697, 392);
+            this.Controls.Add(this.Filter);
+            this.Controls.Add(this.FilterValue);
+            this.Controls.Add(this.columnCombo);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.goodCheckOut);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.CheckOutButton);
@@ -129,5 +183,10 @@
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.DataGridView outGrid;
         private System.Windows.Forms.Label goodCheckOut;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox columnCombo;
+        private System.Windows.Forms.TextBox FilterValue;
+        private System.Windows.Forms.Button Filter;
     }
 }
