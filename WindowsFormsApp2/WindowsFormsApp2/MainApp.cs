@@ -46,6 +46,7 @@ namespace WindowsFormsApp2
             visitorsTime();
 
             Configure.Enabled = admin;
+            VisitorButton.Enabled = admin;
             fillCompany();
 
 
@@ -111,8 +112,10 @@ namespace WindowsFormsApp2
                 img = Image.FromStream(ms);
             }
             Photo.Image = img;
+            
 
             String res = Icar.getResultString().Replace(" # ", " |\n");
+            Console.WriteLine(res);
             processResult(res);
         }
 
@@ -140,7 +143,7 @@ namespace WindowsFormsApp2
             NameBox.Text = searchField("NAME:", result);
             SurnameBox.Text = searchField("SURNAME:", result);
 
-            idNBox.Text = searchField("DOC_NUMBER:", result).Substring(0, 8);
+            idNBox.Text = searchField("DOC_NUMBER:", result);
 
         }
 
@@ -278,6 +281,7 @@ namespace WindowsFormsApp2
             while (log.Visible) { }
             this.Show();
             Configure.Enabled = log.getType();
+            fillCompany();
             log.Close();
         }
 
@@ -294,6 +298,8 @@ namespace WindowsFormsApp2
             VisitingCombo.Text = null;
             DeliveryNo.Checked = false;
             DeliveryYes.Checked = false;
+            CompCombo.Items.Clear();
+            VisitingCombo.Items.Clear();
         }
 
         private void DeliveryYes_CheckedChanged(object sender, EventArgs e)
@@ -343,18 +349,19 @@ namespace WindowsFormsApp2
                 int res = getPerson();
                 StringBuilder sb = new StringBuilder();
                 int company = getCompany();
-                sb.Append("INSERT INTO Visits(PersonID,Company,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany) VALUES(@PersonID,@Company,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany)");
+                sb.Append("INSERT INTO Visits(PersonID,CompanyID,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany,State) VALUES(@PersonID,@CompanyID,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany,@State)");
                 using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
                 {
 
                     com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
-                    com.Parameters.Add("@Company", SqlDbType.Int).Value = company;
+                    com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = company;
                     com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
                     com.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = DateTime.Now;
                     com.Parameters.Add("@Out", SqlDbType.DateTime).Value = DBNull.Value;
                     com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
                     com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text);
                     com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
+                    com.Parameters.Add("@State", SqlDbType.Bit).Value = 0;
 
                     com.CommandType = System.Data.CommandType.Text;
 
@@ -362,6 +369,12 @@ namespace WindowsFormsApp2
 
                     connection.Open();
 
+                    String output  = com.CommandText.ToString();
+                    foreach(SqlParameter p in com.Parameters)
+                    {
+                        output = output.Replace(p.ParameterName, p.Value.ToString());
+                    }
+                    Console.WriteLine(output);
                     com.ExecuteNonQuery();
                     SqlTransaction trans = connection.BeginTransaction();
                     trans.Commit();
@@ -441,9 +454,9 @@ namespace WindowsFormsApp2
             int compID = 0;
             try
             {
-                SqlCommand com = new SqlCommand("Select ID from Companies where Company = @Company AND Department = @Department  ", connection);
+                SqlCommand com = new SqlCommand("Select CompanyID as ID from Companies where CompanyName = @CompanyName AND Department = @Department  ", connection);
 
-                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compDep[0];
+                com.Parameters.Add("@CompanyName", SqlDbType.NVarChar).Value = compDep[0];
                 com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compDep[1];
 
                 com.ExecuteNonQuery();
@@ -558,7 +571,7 @@ namespace WindowsFormsApp2
 
         private void VCompAdd_Click(object sender, EventArgs e)
         {
-            NewCompFloorBuild form = new NewCompFloorBuild(connection);
+            NewDepartment form = new NewDepartment(connection);
             form.ShowDialog();
             this.Hide();
             while (form.Visible) { }
@@ -570,7 +583,7 @@ namespace WindowsFormsApp2
         private void fillCompany()
         {
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT Company,Department FROM Companies", connection);
+            SqlCommand command = new SqlCommand("SELECT CompanyName as Company,Department FROM Companies", connection);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {

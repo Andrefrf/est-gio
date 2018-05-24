@@ -62,12 +62,13 @@ namespace WindowsFormsApp2
                 connect.Close();
             }
 
-            using (SqlCommand command = new SqlCommand("UPDATE Visits SET Out = @Leaving FROM Visits WHERE PersonID = @PersonID AND Out is NULL AND Entrance = @Entrance",connect))
+            using (SqlCommand command = new SqlCommand("UPDATE Visits SET Out = @Leaving , State = @State FROM Visits WHERE PersonID = @PersonID AND Out is NULL AND Entrance = @Entrance",connect))
             {
                 connect.Open();
                 command.Parameters.Add("@PersonID", SqlDbType.Int).Value = outId;
                 command.Parameters.Add("@Leaving", SqlDbType.DateTime).Value = DateTime.Now;
                 command.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = dT;
+                command.Parameters.Add("@State", SqlDbType.Bit).Value = 1;
 
 
                 string query = command.CommandText;
@@ -98,22 +99,26 @@ namespace WindowsFormsApp2
             DataTable dtb = new DataTable();
             sqlData.Fill(dtb);
             outGrid.DataSource = dtb;
+            NumberLabel.Text = outGrid.RowCount.ToString();
         }
 
         private void Filter_Click(object sender, EventArgs e)
         {
             updateTable();
+            if (FilterValue.Text != "") {
             for (int u = 0; u < outGrid.RowCount; u++)
             {
-                if (outGrid.Rows[u].Cells[toFilter].Value.Equals(FilterValue.Text))
-                {
-                    outGrid.Rows[u].Visible = true;
-                }
-                else
-                {
-                    outGrid.Rows.RemoveAt(u);
+                    if (outGrid.Rows[u].Cells[toFilter].Value.Equals(FilterValue.Text))
+                    {
+                        outGrid.Rows[u].Visible = true;
+                    }
+                    else
+                    {
+                        outGrid.Rows.RemoveAt(u);
+                    }
                 }
             }
+            NumberLabel.Text = outGrid.RowCount.ToString();
         }
 
         private void columnCombo_SelectedIndexChanged(object sender, EventArgs e)

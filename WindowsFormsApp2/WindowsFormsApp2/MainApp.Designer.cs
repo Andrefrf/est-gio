@@ -285,7 +285,7 @@
             this.OutButton.Name = "OutButton";
             this.OutButton.Size = new System.Drawing.Size(200, 75);
             this.OutButton.TabIndex = 38;
-            this.OutButton.Text = "Check Out";
+            this.OutButton.Text = "Visitors";
             this.OutButton.UseVisualStyleBackColor = true;
             this.OutButton.Click += new System.EventHandler(this.OutButton_Click);
             // 
@@ -295,7 +295,7 @@
             this.VisitorButton.Name = "VisitorButton";
             this.VisitorButton.Size = new System.Drawing.Size(296, 48);
             this.VisitorButton.TabIndex = 39;
-            this.VisitorButton.Text = "Visitors";
+            this.VisitorButton.Text = "Reports";
             this.VisitorButton.UseVisualStyleBackColor = true;
             this.VisitorButton.Click += new System.EventHandler(this.VisitorButton_Click);
             // 

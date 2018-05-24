@@ -11,10 +11,10 @@ using System.Data.SqlClient;
 
 namespace WindowsFormsApp2
 {
-    public partial class NewCompFloorBuild : Form
+    public partial class NewDepartment : Form
     {
         SqlConnection connect;
-        public NewCompFloorBuild(System.Data.SqlClient.SqlConnection connection)
+        public NewDepartment(System.Data.SqlClient.SqlConnection connection)
         {
             InitializeComponent();
             connect = connection;
@@ -25,7 +25,7 @@ namespace WindowsFormsApp2
         {
             try
             {
-                using (SqlCommand com = new SqlCommand("insert into companies(Company, Department ,ID) Values(@Company,@Department, Next Value for Id_Seq_Company)", connect))
+                using (SqlCommand com = new SqlCommand("insert into Companies(CompanyName, Department ,CompanyID) Values(@Company,@Department, Next Value for Id_Seq_Company)", connect))
                 {
                     com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = CompanyCombo.Text;
                     com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = DepartmentBox.Text;
@@ -37,8 +37,9 @@ namespace WindowsFormsApp2
                 }
                 this.Close();
             }
-            catch(SqlException)
+            catch(SqlException exc)
             {
+                MessageBox.Show(exc.Message);
                 MessageBox.Show("Department already exists in this company");
                 connect.Close();
             }
@@ -66,7 +67,7 @@ namespace WindowsFormsApp2
                 MessageBox.Show("Could not connect to DB");
             }
 
-            SqlCommand command = new SqlCommand("SELECT DISTINCT Company FROM Companies", connect);
+            SqlCommand command = new SqlCommand("SELECT DISTINCT CompanyName as Company FROM Companies", connect);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {

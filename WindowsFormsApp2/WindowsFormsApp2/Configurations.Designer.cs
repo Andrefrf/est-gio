@@ -73,6 +73,8 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button4 = new System.Windows.Forms.Button();
+            this.watermarkBox = new System.Windows.Forms.TextBox();
+            this.WatermarkLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -142,7 +144,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 206);
+            this.label4.Location = new System.Drawing.Point(12, 161);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 7;
@@ -151,7 +153,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 238);
+            this.label5.Location = new System.Drawing.Point(12, 193);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 8;
@@ -160,7 +162,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(116, 178);
+            this.label6.Location = new System.Drawing.Point(116, 133);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 13);
             this.label6.TabIndex = 9;
@@ -169,7 +171,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(209, 178);
+            this.label7.Location = new System.Drawing.Point(209, 133);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 13);
             this.label7.TabIndex = 10;
@@ -178,7 +180,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(269, 178);
+            this.label8.Location = new System.Drawing.Point(269, 133);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(73, 13);
             this.label8.TabIndex = 11;
@@ -186,7 +188,7 @@
             // 
             // DocRes
             // 
-            this.DocRes.Location = new System.Drawing.Point(119, 203);
+            this.DocRes.Location = new System.Drawing.Point(119, 158);
             this.DocRes.Name = "DocRes";
             this.DocRes.Size = new System.Drawing.Size(54, 20);
             this.DocRes.TabIndex = 12;
@@ -194,7 +196,7 @@
             // 
             // PhotoRes
             // 
-            this.PhotoRes.Location = new System.Drawing.Point(119, 235);
+            this.PhotoRes.Location = new System.Drawing.Point(119, 190);
             this.PhotoRes.Name = "PhotoRes";
             this.PhotoRes.Size = new System.Drawing.Size(54, 20);
             this.PhotoRes.TabIndex = 13;
@@ -206,7 +208,7 @@
             this.DocEnhancement.Items.AddRange(new object[] {
             "None",
             "Apply"});
-            this.DocEnhancement.Location = new System.Drawing.Point(272, 203);
+            this.DocEnhancement.Location = new System.Drawing.Point(272, 158);
             this.DocEnhancement.Name = "DocEnhancement";
             this.DocEnhancement.Size = new System.Drawing.Size(70, 21);
             this.DocEnhancement.TabIndex = 14;
@@ -217,7 +219,7 @@
             this.DocColor.Items.AddRange(new object[] {
             "Color",
             "Grayscale"});
-            this.DocColor.Location = new System.Drawing.Point(197, 202);
+            this.DocColor.Location = new System.Drawing.Point(197, 157);
             this.DocColor.Name = "DocColor";
             this.DocColor.Size = new System.Drawing.Size(54, 21);
             this.DocColor.TabIndex = 15;
@@ -228,7 +230,7 @@
             this.PhotoColor.Items.AddRange(new object[] {
             "Color",
             "Grayscale"});
-            this.PhotoColor.Location = new System.Drawing.Point(197, 235);
+            this.PhotoColor.Location = new System.Drawing.Point(197, 190);
             this.PhotoColor.Name = "PhotoColor";
             this.PhotoColor.Size = new System.Drawing.Size(54, 21);
             this.PhotoColor.TabIndex = 16;
@@ -239,7 +241,7 @@
             this.PhotoEnhancement.Items.AddRange(new object[] {
             "None",
             "Apply"});
-            this.PhotoEnhancement.Location = new System.Drawing.Point(272, 235);
+            this.PhotoEnhancement.Location = new System.Drawing.Point(272, 190);
             this.PhotoEnhancement.Name = "PhotoEnhancement";
             this.PhotoEnhancement.Size = new System.Drawing.Size(70, 21);
             this.PhotoEnhancement.TabIndex = 17;
@@ -293,7 +295,7 @@
             "Horizontal Tilting",
             "Vertical Tilting",
             "No Image Tilting"});
-            this.TiltingComboBox.Location = new System.Drawing.Point(388, 117);
+            this.TiltingComboBox.Location = new System.Drawing.Point(388, 121);
             this.TiltingComboBox.Name = "TiltingComboBox";
             this.TiltingComboBox.Size = new System.Drawing.Size(129, 21);
             this.TiltingComboBox.TabIndex = 22;
@@ -343,7 +345,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(649, 124);
+            this.label10.Location = new System.Drawing.Point(549, 124);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 27;
@@ -352,7 +354,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(702, 150);
+            this.label11.Location = new System.Drawing.Point(733, 124);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(38, 13);
             this.label11.TabIndex = 28;
@@ -361,7 +363,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(607, 150);
+            this.label12.Location = new System.Drawing.Point(638, 124);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 13);
             this.label12.TabIndex = 29;
@@ -369,7 +371,7 @@
             // 
             // digiCopyHeight
             // 
-            this.digiCopyHeight.Location = new System.Drawing.Point(654, 147);
+            this.digiCopyHeight.Location = new System.Drawing.Point(685, 121);
             this.digiCopyHeight.Name = "digiCopyHeight";
             this.digiCopyHeight.Size = new System.Drawing.Size(32, 20);
             this.digiCopyHeight.TabIndex = 30;
@@ -377,7 +379,7 @@
             // 
             // digiCopyWidth
             // 
-            this.digiCopyWidth.Location = new System.Drawing.Point(746, 147);
+            this.digiCopyWidth.Location = new System.Drawing.Point(777, 121);
             this.digiCopyWidth.Name = "digiCopyWidth";
             this.digiCopyWidth.Size = new System.Drawing.Size(32, 20);
             this.digiCopyWidth.TabIndex = 31;
@@ -386,7 +388,7 @@
             // SavePhotoCheck
             // 
             this.SavePhotoCheck.AutoSize = true;
-            this.SavePhotoCheck.Location = new System.Drawing.Point(377, 179);
+            this.SavePhotoCheck.Location = new System.Drawing.Point(384, 192);
             this.SavePhotoCheck.Name = "SavePhotoCheck";
             this.SavePhotoCheck.Size = new System.Drawing.Size(114, 17);
             this.SavePhotoCheck.TabIndex = 32;
@@ -395,15 +397,15 @@
             // 
             // SavePhotoBox
             // 
-            this.SavePhotoBox.Location = new System.Drawing.Point(445, 202);
+            this.SavePhotoBox.Location = new System.Drawing.Point(513, 190);
             this.SavePhotoBox.Name = "SavePhotoBox";
-            this.SavePhotoBox.Size = new System.Drawing.Size(322, 20);
+            this.SavePhotoBox.Size = new System.Drawing.Size(265, 20);
             this.SavePhotoBox.TabIndex = 33;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(374, 238);
+            this.label13.Location = new System.Drawing.Point(385, 160);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(88, 13);
             this.label13.TabIndex = 34;
@@ -426,7 +428,7 @@
             "MM-YY",
             "MM-YYYY",
             "MM-YY??"});
-            this.DateFormatCombo.Location = new System.Drawing.Point(502, 235);
+            this.DateFormatCombo.Location = new System.Drawing.Point(513, 157);
             this.DateFormatCombo.Name = "DateFormatCombo";
             this.DateFormatCombo.Size = new System.Drawing.Size(265, 21);
             this.DateFormatCombo.TabIndex = 35;
@@ -453,7 +455,7 @@
             // 
             // daysBox
             // 
-            this.daysBox.Location = new System.Drawing.Point(143, 298);
+            this.daysBox.Location = new System.Drawing.Point(134, 337);
             this.daysBox.Name = "daysBox";
             this.daysBox.Size = new System.Drawing.Size(45, 20);
             this.daysBox.TabIndex = 38;
@@ -461,7 +463,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 301);
+            this.label14.Location = new System.Drawing.Point(3, 340);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(125, 13);
             this.label14.TabIndex = 40;
@@ -469,7 +471,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(703, 301);
+            this.button3.Location = new System.Drawing.Point(585, 335);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 41;
@@ -479,7 +481,7 @@
             // 
             // xmlPath
             // 
-            this.xmlPath.Location = new System.Drawing.Point(348, 298);
+            this.xmlPath.Location = new System.Drawing.Point(339, 337);
             this.xmlPath.Name = "xmlPath";
             this.xmlPath.Size = new System.Drawing.Size(159, 20);
             this.xmlPath.TabIndex = 42;
@@ -487,7 +489,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(254, 301);
+            this.label15.Location = new System.Drawing.Point(245, 340);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(88, 13);
             this.label15.TabIndex = 43;
@@ -499,7 +501,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(513, 296);
+            this.button4.Location = new System.Drawing.Point(504, 335);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 44;
@@ -507,11 +509,29 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // watermarkBox
+            // 
+            this.watermarkBox.Location = new System.Drawing.Point(119, 230);
+            this.watermarkBox.Name = "watermarkBox";
+            this.watermarkBox.Size = new System.Drawing.Size(223, 20);
+            this.watermarkBox.TabIndex = 45;
+            // 
+            // WatermarkLabel
+            // 
+            this.WatermarkLabel.AutoSize = true;
+            this.WatermarkLabel.Location = new System.Drawing.Point(12, 233);
+            this.WatermarkLabel.Name = "WatermarkLabel";
+            this.WatermarkLabel.Size = new System.Drawing.Size(83, 13);
+            this.WatermarkLabel.TabIndex = 46;
+            this.WatermarkLabel.Text = "Watermark Text";
+            // 
             // Configurations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 436);
+            this.ClientSize = new System.Drawing.Size(813, 436);
+            this.Controls.Add(this.WatermarkLabel);
+            this.Controls.Add(this.watermarkBox);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.xmlPath);
@@ -609,5 +629,7 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox watermarkBox;
+        private System.Windows.Forms.Label WatermarkLabel;
     }
 }

@@ -122,11 +122,11 @@
     <Compile Include="NewEmployee.Designer.cs">
       <DependentUpon>NewEmployee.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewCompFloorBuild.cs">
+    <Compile Include="NewDepartment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewCompFloorBuild.Designer.cs">
-      <DependentUpon>NewCompFloorBuild.cs</DependentUpon>
+    <Compile Include="NewDepartment.Designer.cs">
+      <DependentUpon>NewDepartment.cs</DependentUpon>
     </Compile>
     <Compile Include="AddComp.cs">
       <SubType>Form</SubType>
@@ -154,8 +154,8 @@
     <EmbeddedResource Include="NewEmployee.resx">
       <DependentUpon>NewEmployee.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewCompFloorBuild.resx">
-      <DependentUpon>NewCompFloorBuild.cs</DependentUpon>
+    <EmbeddedResource Include="NewDepartment.resx">
+      <DependentUpon>NewDepartment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddComp.resx">
       <DependentUpon>AddComp.cs</DependentUpon>

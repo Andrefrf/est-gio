@@ -27,7 +27,7 @@ namespace WindowsFormsApp2
             try
             {
                 connect.Open();
-                SqlCommand command = new SqlCommand("SELECT Company,Department FROM Companies", connect);
+                SqlCommand command = new SqlCommand("SELECT CompanyName as Company,Department FROM Companies", connect);
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -48,7 +48,7 @@ namespace WindowsFormsApp2
             {
                 String name = NameBox.Text;
                 StringBuilder sb = new StringBuilder();
-                sb.Append("INSERT INTO Workers(Name,WorkerId) VALUES(@Name,NEXT VALUE For Id_Seq_Worker)");
+                sb.Append("INSERT INTO Workers(WorkerName,WorkerId) VALUES(@Name,NEXT VALUE For Id_Seq_Worker)");
                 using (SqlCommand com = new SqlCommand(sb.ToString(), connect))
                 {
                     connect.Open();
@@ -61,7 +61,7 @@ namespace WindowsFormsApp2
                     trans.Commit();
                     connect.Close();
                 }
-                using (SqlCommand com = new SqlCommand("Insert into WorksIn(Company,WorkerId) values(@Company,@Worker)", connect))
+                using (SqlCommand com = new SqlCommand("Insert into WorksIn(CompanyID,WorkerId) values(@Company,@Worker)", connect))
                 {
                     int IDw = getWorkerId(name);
                     connect.Close();
@@ -90,7 +90,7 @@ namespace WindowsFormsApp2
         private int getCompanyId(string text)
         {
             String[] compD = text.Split(',');
-            using (SqlCommand com = new SqlCommand("Select ID from Companies where Company = @Company AND Department = @Department", connect))
+            using (SqlCommand com = new SqlCommand("Select CompanyID as ID from Companies where CompanyName = @Company AND Department = @Department", connect))
             {
                 connect.Open();
                 com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compD[0];
@@ -105,7 +105,7 @@ namespace WindowsFormsApp2
 
         private int getWorkerId(string name)
         {
-            using (SqlCommand com = new SqlCommand("Select WorkerId from Workers where Name = @Name", connect))
+            using (SqlCommand com = new SqlCommand("Select WorkerId from Workers where WorkerName = @Name", connect))
             {
 
                 connect.Open();

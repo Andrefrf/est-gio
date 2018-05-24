@@ -41,6 +41,8 @@
             this.columnCombo = new System.Windows.Forms.ComboBox();
             this.FilterValue = new System.Windows.Forms.TextBox();
             this.Filter = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.NumberLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outGrid)).BeginInit();
@@ -150,11 +152,36 @@
             this.Filter.UseVisualStyleBackColor = true;
             this.Filter.Click += new System.EventHandler(this.Filter_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.SystemColors.Control;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label3.Location = new System.Drawing.Point(490, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(118, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Number of Visitors: ";
+            // 
+            // NumberLabel
+            // 
+            this.NumberLabel.AutoSize = true;
+            this.NumberLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.NumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NumberLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.NumberLabel.Location = new System.Drawing.Point(614, 36);
+            this.NumberLabel.Name = "NumberLabel";
+            this.NumberLabel.Size = new System.Drawing.Size(0, 13);
+            this.NumberLabel.TabIndex = 11;
+            // 
             // CheckOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(697, 392);
+            this.Controls.Add(this.NumberLabel);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.Filter);
             this.Controls.Add(this.FilterValue);
             this.Controls.Add(this.columnCombo);
@@ -188,5 +215,7 @@
         private System.Windows.Forms.ComboBox columnCombo;
         private System.Windows.Forms.TextBox FilterValue;
         private System.Windows.Forms.Button Filter;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label NumberLabel;
     }
 }

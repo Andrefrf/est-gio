@@ -26,7 +26,7 @@ namespace WindowsFormsApp2
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-            if (newPWBox.Text.ToCharArray().Length <= 5)
+            if (newPWBox.Text.ToCharArray().Length < 5)
             {
                 MessageBox.Show("The password must be 5 characters long");
             }

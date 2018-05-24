@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp2
 {
-    partial class NewCompFloorBuild
+    partial class NewDepartment
     {
         /// <summary>
         /// Required designer variable.

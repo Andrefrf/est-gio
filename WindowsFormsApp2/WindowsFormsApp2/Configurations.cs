@@ -6,6 +6,7 @@ using WindowsFormsApp2.Properties;
 using System.Data.SqlClient;
 using System.IO;
 using System.Data;
+using System.Xml;
 
 namespace WindowsFormsApp2
 {
@@ -38,7 +39,7 @@ namespace WindowsFormsApp2
 
             using (StreamReader reader = new StreamReader("daysToReset.txt"))
             {
-                daysBox.Text = reader.ReadLine().Split(null)[1];
+                daysBox.Text = reader.ReadLine().Split(null)[3];
             }
 
             this.connection = connection;
@@ -368,11 +369,38 @@ namespace WindowsFormsApp2
         private void button3_Click(object sender, EventArgs e)
         {
             //TODO: Exportar tudo da DB
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = new SqlCommand("Select * From ",connection);
-            DataTable dt = new DataTable("database");
-            dt.WriteXml(@xmlPath.Text + @"\database.xml", XmlWriteMode.WriteSchema);
-            MessageBox.Show("Data Exported");
+
+            string strSQL = "Select * from Person";
+
+            SqlDataAdapter dt = new SqlDataAdapter(strSQL, connection);
+            DataSet ds = new DataSet("Databse");
+            dt.Fill(ds, "Person");
+
+            strSQL = "Select * from Visits";
+            dt = new SqlDataAdapter(strSQL,connection);
+            dt.Fill(ds, "Visit");
+
+            strSQL = "Select * from Users";
+            dt = new SqlDataAdapter(strSQL, connection);
+            dt.Fill(ds, "User");
+
+            strSQL = "Select * from Workers";
+            dt = new SqlDataAdapter(strSQL, connection);
+            dt.Fill(ds, "Worker");
+
+            strSQL = "Select * from WorksIn";
+            dt = new SqlDataAdapter(strSQL, connection);
+            dt.Fill(ds, "Working In");
+
+            strSQL = "Select * from Companies";
+            dt = new SqlDataAdapter(strSQL, connection);
+            dt.Fill(ds, "Companie and Department");
+
+            String path = xmlPath.Text + @"\database.xml";
+
+            ds.WriteXml(path);
+
+            MessageBox.Show("Data Exported to "+path);
         }
 
         private void button4_Click(object sender, EventArgs e)
