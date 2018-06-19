@@ -75,6 +75,11 @@
             this.button4 = new System.Windows.Forms.Button();
             this.watermarkBox = new System.Windows.Forms.TextBox();
             this.WatermarkLabel = new System.Windows.Forms.Label();
+            this.nationCheck = new System.Windows.Forms.CheckBox();
+            this.genderCheck = new System.Windows.Forms.CheckBox();
+            this.expireCheck = new System.Windows.Forms.CheckBox();
+            this.addressCheck = new System.Windows.Forms.CheckBox();
+            this.commentsCheck = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -525,11 +530,76 @@
             this.WatermarkLabel.TabIndex = 46;
             this.WatermarkLabel.Text = "Watermark Text";
             // 
+            // nationCheck
+            // 
+            this.nationCheck.AutoSize = true;
+            this.nationCheck.Checked = true;
+            this.nationCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.nationCheck.Location = new System.Drawing.Point(390, 241);
+            this.nationCheck.Name = "nationCheck";
+            this.nationCheck.Size = new System.Drawing.Size(75, 17);
+            this.nationCheck.TabIndex = 47;
+            this.nationCheck.Text = "Nationality";
+            this.nationCheck.UseVisualStyleBackColor = true;
+            // 
+            // genderCheck
+            // 
+            this.genderCheck.AutoSize = true;
+            this.genderCheck.Checked = true;
+            this.genderCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.genderCheck.Location = new System.Drawing.Point(390, 264);
+            this.genderCheck.Name = "genderCheck";
+            this.genderCheck.Size = new System.Drawing.Size(61, 17);
+            this.genderCheck.TabIndex = 48;
+            this.genderCheck.Text = "Gender";
+            this.genderCheck.UseVisualStyleBackColor = true;
+            // 
+            // expireCheck
+            // 
+            this.expireCheck.AutoSize = true;
+            this.expireCheck.Checked = true;
+            this.expireCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.expireCheck.Location = new System.Drawing.Point(502, 241);
+            this.expireCheck.Name = "expireCheck";
+            this.expireCheck.Size = new System.Drawing.Size(98, 17);
+            this.expireCheck.TabIndex = 49;
+            this.expireCheck.Text = "Expiration Date";
+            this.expireCheck.UseVisualStyleBackColor = true;
+            // 
+            // addressCheck
+            // 
+            this.addressCheck.AutoSize = true;
+            this.addressCheck.Checked = true;
+            this.addressCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.addressCheck.Location = new System.Drawing.Point(502, 273);
+            this.addressCheck.Name = "addressCheck";
+            this.addressCheck.Size = new System.Drawing.Size(64, 17);
+            this.addressCheck.TabIndex = 50;
+            this.addressCheck.Text = "Address";
+            this.addressCheck.UseVisualStyleBackColor = true;
+            // 
+            // commentsCheck
+            // 
+            this.commentsCheck.AutoSize = true;
+            this.commentsCheck.Checked = true;
+            this.commentsCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.commentsCheck.Location = new System.Drawing.Point(390, 287);
+            this.commentsCheck.Name = "commentsCheck";
+            this.commentsCheck.Size = new System.Drawing.Size(75, 17);
+            this.commentsCheck.TabIndex = 51;
+            this.commentsCheck.Text = "Comments";
+            this.commentsCheck.UseVisualStyleBackColor = true;
+            // 
             // Configurations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(813, 436);
+            this.Controls.Add(this.commentsCheck);
+            this.Controls.Add(this.addressCheck);
+            this.Controls.Add(this.expireCheck);
+            this.Controls.Add(this.genderCheck);
+            this.Controls.Add(this.nationCheck);
             this.Controls.Add(this.WatermarkLabel);
             this.Controls.Add(this.watermarkBox);
             this.Controls.Add(this.button4);
@@ -631,5 +701,10 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox watermarkBox;
         private System.Windows.Forms.Label WatermarkLabel;
+        private System.Windows.Forms.CheckBox nationCheck;
+        private System.Windows.Forms.CheckBox genderCheck;
+        private System.Windows.Forms.CheckBox expireCheck;
+        private System.Windows.Forms.CheckBox addressCheck;
+        private System.Windows.Forms.CheckBox commentsCheck;
     }
 }

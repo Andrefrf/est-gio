@@ -1,0 +1,2 @@
+﻿CREATE VIEW WorkerCompany AS 
+Select Workers.WorkerId AS Id,WorkerName as Name, Companies.CompanyName as Company, Department from Workers INNER JOIN WorksIn on (Workers.WorkerId = WorksIn.WorkerId) INNER JOIN Companies on (WorksIn.CompanyID = Companies.CompanyID)

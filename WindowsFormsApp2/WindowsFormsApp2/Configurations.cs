@@ -42,7 +42,49 @@ namespace WindowsFormsApp2
                 daysBox.Text = reader.ReadLine().Split(null)[3];
             }
 
+            enabledFields();
+
             this.connection = connection;
+        }
+
+        private void enabledFields()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string fileName = Path.Combine(path, "fieldConfig.txt");
+            bool field = false;
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                nationCheck.Checked = field;
+                
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                genderCheck.Checked = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                expireCheck.Checked = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                addressCheck.Checked = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                commentsCheck.Checked = field;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -336,6 +378,17 @@ namespace WindowsFormsApp2
             icar.checkError();
             icar.setPropertyNumber(Iconstants.getTwainSizeY(), 111);
             icar.checkError();
+        }
+
+        internal bool[] getFields()
+        {
+            bool[] fields = new bool[5];
+            fields[0] = nationCheck.Checked;
+            fields[1] = genderCheck.Checked;
+            fields[2] = expireCheck.Checked;
+            fields[3] = addressCheck.Checked;
+            fields[4] = commentsCheck.Checked;
+            return fields;
         }
 
         private void button2_Click(object sender, EventArgs e)

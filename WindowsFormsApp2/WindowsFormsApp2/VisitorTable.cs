@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -14,12 +8,18 @@ namespace WindowsFormsApp2
     public partial class VisitorTable : Form
     {
         private SqlConnection connect;
-        private int toFilter;
         public VisitorTable(SqlConnection connection)
         {
             InitializeComponent();
             connect = connection;
             fillTable();
+            foreach (DataGridViewColumn c in VisitTable.Columns)
+            {
+                comboBox1.Items.Add(c.Name);
+            }
+            comboBox1.Text = comboBox1.Items[1].ToString();
+            checkBox1.Visible = false;
+            textBox1.Visible = true;
         }
 
         private void fillTable()
@@ -36,22 +36,22 @@ namespace WindowsFormsApp2
         private void button1_Click(object sender, EventArgs e)
         {
             updateTable();
-            if (textBox1.Text != "")
+            string rowFilter = null ;
+            if (textBox1.Visible)
             {
-                for (int u = 0; u < VisitTable.RowCount; u++)
+                if (textBox1.Text != "")
                 {
-                    if (VisitTable.Rows[u].Cells[toFilter].Value.Equals(textBox1.Text))
-                    {
-                        VisitTable.Rows[u].Visible = true;
-                    }
-                    else
-                    {
-                        VisitTable.Rows.RemoveAt(u);
-                    }
+                    rowFilter = string.Format("[{0}] = '{1}'", comboBox1.Text, textBox1.Text);
                 }
             }
+            else
+            {
+                rowFilter = string.Format("[{0}] = '{1}'", comboBox1.Text, checkBox1.Checked.ToString());
+
+            }
+            (VisitTable.DataSource as DataTable).DefaultView.RowFilter = rowFilter;
         }
-        
+
         private void updateTable()
         {
             SqlDataAdapter sqlData = new SqlDataAdapter();
@@ -60,6 +60,33 @@ namespace WindowsFormsApp2
             DataTable dtb = new DataTable();
             sqlData.Fill(dtb);
             VisitTable.DataSource = dtb;
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                button1.Focus();
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "State" || comboBox1.Text == "Delivery")
+            {
+                checkBox1.Visible = true;
+                textBox1.Visible = false;
+            }
+            else
+            {
+                checkBox1.Visible = false;
+                textBox1.Visible = true;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

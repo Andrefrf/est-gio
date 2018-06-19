@@ -90,7 +90,7 @@
             this.outGrid.Location = new System.Drawing.Point(26, 72);
             this.outGrid.Name = "outGrid";
             this.outGrid.ReadOnly = true;
-            this.outGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.outGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.outGrid.Size = new System.Drawing.Size(646, 184);
             this.outGrid.TabIndex = 0;
             this.outGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);

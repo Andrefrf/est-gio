@@ -26,7 +26,6 @@ namespace WindowsFormsApp2
         private void CheckOut_Load(object sender, EventArgs e)
         {
             updateTable();
-
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -38,7 +37,6 @@ namespace WindowsFormsApp2
         {
             int index = e.RowIndex;
             selectRow = outGrid.Rows[index];
-            
         }
 
         private void CheckOutButton_Click(object sender, EventArgs e)

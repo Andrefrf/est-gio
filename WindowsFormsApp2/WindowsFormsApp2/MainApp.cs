@@ -13,7 +13,7 @@ using System.Text;
 namespace WindowsFormsApp2
 {
 
-    public partial class Main : Form
+    public partial class IcarVisitor : Form
     {
         private const string V = " , ";
         private const string FIRST_CONFIG = "Please configure the device first";
@@ -25,8 +25,9 @@ namespace WindowsFormsApp2
         private static String SPLITTER = "|";
         private Boolean admin;
         private int days;
+        string path = AppDomain.CurrentDomain.BaseDirectory;
 
-        public Main()
+        public IcarVisitor()
         {
             using (StreamReader reader = new StreamReader("daysToReset.txt"))
             {
@@ -47,8 +48,12 @@ namespace WindowsFormsApp2
 
             Configure.Enabled = admin;
             VisitorButton.Enabled = admin;
+            VCompAdd.Enabled = admin;
+            VisitingAdd.Enabled = admin;
             fillCompany();
+            fillVisitor();
 
+            fieldEnabler();
 
             CompCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             VisitingCombo.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -63,6 +68,50 @@ namespace WindowsFormsApp2
 
             Configurations conf = new Configurations(Icar, connection);
             conf.configure();
+            
+        }
+
+        private void fieldEnabler()
+        {
+            string fileName = Path.Combine(path, "fieldConfig.txt");
+            bool field = false;
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                nationBox.Visible = field;
+                nationText.Visible = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                genderBox.Visible = field;
+                genderText.Visible = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                dateBox.Visible = field;
+                dateText.Visible = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                addressBox.Visible = field;
+                addressText.Visible = field;
+
+                if (sr.ReadLine() == "True")
+                {
+                    field = true;
+                }
+                commentBox.Visible = field;
+                commentText.Visible = field;
+            }
         }
 
         private void visitorsTime()
@@ -111,12 +160,45 @@ namespace WindowsFormsApp2
             {
                 img = Image.FromStream(ms);
             }
+            img = new Bitmap(img, Photo.Width, Photo.Height);
+
+            MakeWatermark(img);
+
             Photo.Image = img;
-            
 
             String res = Icar.getResultString().Replace(" # ", " |\n");
             Console.WriteLine(res);
             processResult(res);
+        }
+
+        private static void MakeWatermark(Image img)
+        {
+            Graphics g = Graphics.FromImage(img);
+
+            // Trigonometry: Tangent = Opposite / Adjacent
+            double tangent = (double)img.Height /
+                             (double)img.Width;
+
+            // convert arctangent to degrees
+            double angle = Math.Atan(tangent) * (180 / Math.PI);
+
+            // a^2 = b^2 + c^2 ; a = sqrt(b^2 + c^2)
+            double halfHypotenuse = (Math.Sqrt((img.Height
+                                   * img.Height) +
+                                   (img.Width *
+                                   img.Width))) / 2;
+
+            // Horizontally and vertically aligned the string
+            // This makes the placement Point the physical 
+            // center of the string instead of top-left.
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+
+            g.RotateTransform((float)angle);
+            g.DrawString("!TEST!_!TEST!-!TEST!", new Font("Arial", 16), new SolidBrush(Color.DimGray),
+                         new Point((int)halfHypotenuse, 0),
+                         stringFormat);
         }
 
         private void configure()
@@ -130,7 +212,36 @@ namespace WindowsFormsApp2
             config = true;
             this.Enabled = true;
             Icar = conf.getI();
+            processFields(conf.getFields());
             conf.Close();
+        }
+
+        private void processFields(bool[] fields)
+        {
+            nationBox.Visible = fields[0];
+            nationText.Visible = fields[0];
+
+            genderBox.Visible = fields[1];
+            genderText.Visible = fields[1];
+
+            dateBox.Visible = fields[2];
+            dateText.Visible = fields[2];
+
+            addressBox.Visible = fields[3];
+            addressText.Visible = fields[3];
+
+            commentBox.Visible = fields[4];
+            commentText.Visible = fields[4];
+
+
+            string fileName = Path.Combine(path, "fieldConfig.txt");
+            using (StreamWriter wr = new StreamWriter(fileName))
+            {
+                for(int i = 0; i < fields.Length; i++)
+                {
+                    wr.WriteLine(fields[i]);
+                }
+            }
         }
 
         private void processResult(string res)
@@ -139,11 +250,18 @@ namespace WindowsFormsApp2
             String[] result = res.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0].Split(null);
             TypeBox.Text = result[1];
 
+            Console.WriteLine(result);
 
             NameBox.Text = searchField("NAME:", result);
             SurnameBox.Text = searchField("SURNAME:", result);
 
             idNBox.Text = searchField("DOC_NUMBER:", result);
+
+            nationBox.Text = searchField("NATIONALITY:", result);
+
+            genderBox.Text = searchField("SEX:", result);
+
+            dateBox.Text = searchField("EXPIRY:", result);
 
         }
 
@@ -282,6 +400,7 @@ namespace WindowsFormsApp2
             this.Show();
             Configure.Enabled = log.getType();
             fillCompany();
+            fieldEnabler();
             log.Close();
         }
 
@@ -289,7 +408,7 @@ namespace WindowsFormsApp2
         {
             Photo.Image = null;
             NameBox.Text = null;
-            Surname.Text = null;
+            SurnameBox.Text = null;
             TypeBox.Text = null;
             idNBox.Text = null;
             cardNBox.Text = null;
@@ -349,7 +468,8 @@ namespace WindowsFormsApp2
                 int res = getPerson();
                 StringBuilder sb = new StringBuilder();
                 int company = getCompany();
-                sb.Append("INSERT INTO Visits(PersonID,CompanyID,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany,State) VALUES(@PersonID,@CompanyID,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany,@State)");
+                sb.Append("INSERT INTO Visits(PersonID,CompanyID,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany,State,Address, Comment) " +
+                    "VALUES(@PersonID,@CompanyID,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany,@State,@Address,@Comment)");
                 using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
                 {
 
@@ -362,6 +482,8 @@ namespace WindowsFormsApp2
                     com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text);
                     com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
                     com.Parameters.Add("@State", SqlDbType.Bit).Value = 0;
+                    com.Parameters.Add("@Address", SqlDbType.NVarChar).Value = addressBox.Text;
+                    com.Parameters.Add("@Comment", SqlDbType.NVarChar).Value = commentBox.Text;
 
                     com.CommandType = System.Data.CommandType.Text;
 
@@ -479,12 +601,16 @@ namespace WindowsFormsApp2
 
             try
             {
-                SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber,PersonID) values(@Name,@Surname,@DocType,@IdNumber,NEXT VALUE FOR Person_Id_Seq)", connection);
+                SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber,PersonID,Expiry,Gender,Nationality) " +
+                    "values(@Name,@Surname,@DocType,@IdNumber,NEXT VALUE FOR Person_Id_Seq,@Gender,@Expiry,@Nationality)", connection);
 
                 com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = NameBox.Text;
                 com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = SurnameBox.Text;
                 com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = TypeBox.Text;
                 com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
+                com.Parameters.Add("@Expiry", SqlDbType.Date).Value = DateTime.Parse(dateBox.Text);
+                com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = genderBox.Text;
+                com.Parameters.Add("@Nationality", SqlDbType.NVarChar).Value = nationBox.Text;
 
 
                 com.ExecuteNonQuery();
@@ -541,6 +667,12 @@ namespace WindowsFormsApp2
             DeliveryNo.Checked = false;
             DeliveryYes.Checked = false;
             cardNBox.Text = null;
+            commentBox.Text = null;
+            addressBox.Text = null;
+            nationBox.Text = null;
+            dateBox.Text = null;
+            genderBox.Text = null;
+            VisitingCombo.Text = null;
         }
 
         private void VisitingAdd_Click(object sender, EventArgs e)
@@ -622,6 +754,18 @@ namespace WindowsFormsApp2
             this.Enabled = false;
             while (visit.Visible) { }
             this.Enabled = true;
+        }
+
+        private void fillVisitor()
+        {
+            connection.Open();
+            SqlCommand command = new SqlCommand("SELECT DISTINCT VisitingCompany FROM Visits", connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Companybox.Items.Add(reader["VisitingCompany"].ToString().Trim());
+            }
+            connection.Close();
         }
     }
 }
