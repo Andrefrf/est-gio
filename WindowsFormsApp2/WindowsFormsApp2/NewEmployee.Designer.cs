@@ -54,6 +54,7 @@
             // 
             // Save
             // 
+            this.Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Save.Location = new System.Drawing.Point(12, 89);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(119, 41);
@@ -73,6 +74,7 @@
             // 
             // companyCombo
             // 
+            this.companyCombo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.companyCombo.FormattingEnabled = true;
             this.companyCombo.Location = new System.Drawing.Point(75, 54);
             this.companyCombo.Name = "companyCombo";
@@ -81,6 +83,7 @@
             // 
             // OutButton
             // 
+            this.OutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OutButton.Location = new System.Drawing.Point(143, 89);
             this.OutButton.Name = "OutButton";
             this.OutButton.Size = new System.Drawing.Size(119, 41);
@@ -101,7 +104,7 @@
             this.Controls.Add(this.NameBox);
             this.Controls.Add(this.NameLabel);
             this.Name = "PersonForm";
-            this.Text = "New Person";
+            this.Text = "New Employee";
             this.ResumeLayout(false);
             this.PerformLayout();
 

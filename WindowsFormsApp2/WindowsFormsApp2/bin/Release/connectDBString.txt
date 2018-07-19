@@ -1,1 +1,1 @@
-Data Source=tcp:192.168.1.83\MSSQLSERVER01,49271;Network Library=DBMSSOCN;Initial Catalog=IcarVisitor;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+Data Source=192.168.1.118\MSSQLSERVER01,1433;Trusted_Connection=True;Network Library=DBMSSOCN;Initial Catalog=IcarVisitor;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False

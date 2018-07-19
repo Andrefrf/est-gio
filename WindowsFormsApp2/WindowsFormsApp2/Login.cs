@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace WindowsFormsApp2
 {
@@ -16,36 +17,56 @@ namespace WindowsFormsApp2
             InitializeComponent();
             connect = connection;
             admin = false;
+            ConfirmButton.Image = Image.FromFile("images/ok.png");
+            OutButton.Image = Image.FromFile("images/exit.png");
+            this.ControlBox = false;
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-
-            connect.Open();
+            try
+            {
+                connect.Open();
+            
             SqlCommand command = new SqlCommand("SELECT * FROM Users Where Name = @Name AND Password = @Password", connect);
             command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = userNameBox.Text;
             command.Parameters.Add("@Password", SqlDbType.NVarChar).Value = PasswordBox.Text;
 
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Read();
-            try
-            {
-                if (reader["Name"].ToString() == null)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    MessageBox.Show(WRONG_LOG);
+                    reader.Read();
+                    try
+                    {
+                        if (reader[0].ToString() == null)
+                        {
+                            MessageBox.Show(WRONG_LOG);
+                        }
+                        else
+                        {
+                            String val = reader[2].ToString();
+                            if (val == "True")
+                            {
+                                admin = true;
+                            }
+                            else
+                            {
+                                admin = false;
+                            }
+                        }
+                        connect.Close();
+                        this.Hide();
+                    }
+                    catch (SqlException)
+                    {
+                        MessageBox.Show("User/Password does not exist.");
+                        this.clear();
+                        connect.Close();
+                    }
                 }
-                else
-                {
-                    admin = reader.GetBoolean(2);
-                }
-                connect.Close();
-                this.Hide();
             }
-            catch (InvalidOperationException)
+            catch (SqlException ex)
             {
-                MessageBox.Show("User/Password does not exist.");
-                this.clear();
-                connect.Close();
+                MessageBox.Show(ex.Message);
             }
 
         }
@@ -61,25 +82,6 @@ namespace WindowsFormsApp2
             return admin;
         }
 
-        private void OutButton_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
-        private void AddButton_Click(object sender, EventArgs e)
-        {
-            UserAdd adder = new UserAdd(connect);
-            adder.ShowDialog();
-            userNameBox.Text = null;
-            PasswordBox.Text = null;
-            this.Hide();
-            while (adder.Visible)
-            {
-
-            }
-            this.Show();
-        }
-
         private void userNameBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)13)
@@ -93,6 +95,11 @@ namespace WindowsFormsApp2
                     ConfirmButton.Focus();
                 }
             }
+        }
+
+        private void OutButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

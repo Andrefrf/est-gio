@@ -57,6 +57,7 @@
             // 
             // DoneButton
             // 
+            this.DoneButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DoneButton.Location = new System.Drawing.Point(15, 109);
             this.DoneButton.Name = "DoneButton";
             this.DoneButton.Size = new System.Drawing.Size(140, 34);
@@ -67,6 +68,7 @@
             // 
             // AddCompany
             // 
+            this.AddCompany.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddCompany.Location = new System.Drawing.Point(261, 13);
             this.AddCompany.Name = "AddCompany";
             this.AddCompany.Size = new System.Drawing.Size(62, 23);
@@ -86,6 +88,7 @@
             // 
             // CancelButton
             // 
+            this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CancelButton.Location = new System.Drawing.Point(183, 111);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(139, 31);
@@ -102,7 +105,7 @@
             this.DepartmentBox.Size = new System.Drawing.Size(236, 20);
             this.DepartmentBox.TabIndex = 14;
             // 
-            // NewCompFloorBuild
+            // NewDepartment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -114,8 +117,8 @@
             this.Controls.Add(this.DoneButton);
             this.Controls.Add(this.FloorLabel);
             this.Controls.Add(this.CompanyLabel);
-            this.Name = "NewCompFloorBuild";
-            this.Text = "New Company";
+            this.Name = "NewDepartment";
+            this.Text = "New Company and Department";
             this.ResumeLayout(false);
             this.PerformLayout();
 

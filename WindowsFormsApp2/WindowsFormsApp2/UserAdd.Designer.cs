@@ -113,6 +113,7 @@
             // 
             // ConfirmButton
             // 
+            this.ConfirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ConfirmButton.Location = new System.Drawing.Point(375, 52);
             this.ConfirmButton.Name = "ConfirmButton";
             this.ConfirmButton.Size = new System.Drawing.Size(140, 46);
@@ -123,6 +124,7 @@
             // 
             // outButton
             // 
+            this.outButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.outButton.Location = new System.Drawing.Point(375, 155);
             this.outButton.Name = "outButton";
             this.outButton.Size = new System.Drawing.Size(140, 46);
@@ -141,6 +143,7 @@
             this.Controls.Add(this.ConfirmButton);
             this.Controls.Add(this.groupBox2);
             this.Name = "UserAdd";
+            this.Text = "New User";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);

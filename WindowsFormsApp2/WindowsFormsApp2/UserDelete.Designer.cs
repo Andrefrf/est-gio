@@ -35,6 +35,7 @@
             // 
             // DeleteButton
             // 
+            this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteButton.Location = new System.Drawing.Point(238, 12);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(75, 23);
@@ -45,6 +46,7 @@
             // 
             // Cancel
             // 
+            this.Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cancel.Location = new System.Drawing.Point(238, 43);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
@@ -55,6 +57,7 @@
             // 
             // UserCombo
             // 
+            this.UserCombo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UserCombo.FormattingEnabled = true;
             this.UserCombo.Location = new System.Drawing.Point(12, 31);
             this.UserCombo.Name = "UserCombo";
@@ -70,7 +73,7 @@
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.DeleteButton);
             this.Name = "UserDelete";
-            this.Text = "UserDelete";
+            this.Text = "Delete User";
             this.ResumeLayout(false);
 
         }

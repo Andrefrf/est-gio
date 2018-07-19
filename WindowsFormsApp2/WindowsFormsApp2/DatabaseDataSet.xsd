@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="DatabaseDataSet" targetNamespace="http://tempuri.org/DatabaseDataSet.xsd" xmlns:mstns="http://tempuri.org/DatabaseDataSet.xsd" xmlns="http://tempuri.org/DatabaseDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Database1ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Database1ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.WindowsFormsApp2.Properties.Settings.GlobalReference.Default.Database1ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="IcarVisitorConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="IcarVisitorConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.WindowsFormsApp2.Properties.Settings.GlobalReference.Default.IcarVisitorConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="toCheckOutTableAdapter" GeneratorDataComponentClassName="toCheckOutTableAdapter" Name="toCheckOut" UserDataComponentName="toCheckOutTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="Database1ConnectionString (Settings)" DbObjectName="dbo.toCheckOut" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="IcarVisitorConnectionString (Settings)" DbObjectName="IcarVisitor.dbo.toCheckOut" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT Name, Surname, Type, Document, Entrance, Card FROM dbo.toCheckOut</CommandText>
+                    <CommandText>SELECT Name, Surname, Type, Document, Entrance, Card, Company FROM dbo.toCheckOut</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -25,6 +25,7 @@
               <Mapping SourceColumn="Document" DataSetColumn="Document" />
               <Mapping SourceColumn="Entrance" DataSetColumn="Entrance" />
               <Mapping SourceColumn="Card" DataSetColumn="Card" />
+              <Mapping SourceColumn="Company" DataSetColumn="Company" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -33,7 +34,7 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="DatabaseDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="DatabaseDataSet" msprop:Generator_UserDSName="DatabaseDataSet">
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="toCheckOut" msprop:Generator_TableClassName="toCheckOutDataTable" msprop:Generator_TableVarName="tabletoCheckOut" msprop:Generator_TablePropName="toCheckOut" msprop:Generator_RowDeletingName="toCheckOutRowDeleting" msprop:Generator_RowChangingName="toCheckOutRowChanging" msprop:Generator_RowEvHandlerName="toCheckOutRowChangeEventHandler" msprop:Generator_RowDeletedName="toCheckOutRowDeleted" msprop:Generator_UserTableName="toCheckOut" msprop:Generator_RowChangedName="toCheckOutRowChanged" msprop:Generator_RowEvArgName="toCheckOutRowChangeEvent" msprop:Generator_RowClassName="toCheckOutRow">
@@ -42,33 +43,40 @@
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
+                    <xs:maxLength value="2147483647" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="Surname" msprop:Generator_ColumnVarNameInTable="columnSurname" msprop:Generator_ColumnPropNameInRow="Surname" msprop:Generator_ColumnPropNameInTable="SurnameColumn" msprop:Generator_UserColumnName="Surname">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
+                    <xs:maxLength value="2147483647" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" msprop:Generator_UserColumnName="Type">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
+                    <xs:maxLength value="2147483647" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="Document" msprop:Generator_ColumnVarNameInTable="columnDocument" msprop:Generator_ColumnPropNameInRow="Document" msprop:Generator_ColumnPropNameInTable="DocumentColumn" msprop:Generator_UserColumnName="Document">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
+                    <xs:maxLength value="2147483647" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="Entrance" msprop:Generator_ColumnVarNameInTable="columnEntrance" msprop:Generator_ColumnPropNameInRow="Entrance" msprop:Generator_ColumnPropNameInTable="EntranceColumn" msprop:Generator_UserColumnName="Entrance" type="xs:dateTime" />
               <xs:element name="Card" msprop:Generator_ColumnVarNameInTable="columnCard" msprop:Generator_ColumnPropNameInRow="Card" msprop:Generator_ColumnPropNameInTable="CardColumn" msprop:Generator_UserColumnName="Card" type="xs:int" minOccurs="0" />
+              <xs:element name="Company" msprop:Generator_ColumnVarNameInTable="columnCompany" msprop:Generator_ColumnPropNameInRow="Company" msprop:Generator_ColumnPropNameInTable="CompanyColumn" msprop:Generator_UserColumnName="Company">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

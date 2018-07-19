@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 
@@ -40,9 +34,8 @@ namespace WindowsFormsApp2
             catch(SqlException exc)
             {
                 MessageBox.Show(exc.Message);
-                MessageBox.Show("Department already exists in this company");
-                connect.Close();
             }
+            connect.Close();
         }
 
         private void AddCompany_Click(object sender, EventArgs e)
@@ -58,20 +51,19 @@ namespace WindowsFormsApp2
 
         private void companyFill()
         {
+            connect.Open();
             try
             {
-                connect.Open();
+                SqlCommand command = new SqlCommand("SELECT DISTINCT CompanyName as Company FROM Companies", connect);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    CompanyCombo.Items.Add(reader["Company"].ToString());
+                }
             }
-            catch (Exception)
+            catch (SqlException e)
             {
-                MessageBox.Show("Could not connect to DB");
-            }
-
-            SqlCommand command = new SqlCommand("SELECT DISTINCT CompanyName as Company FROM Companies", connect);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                CompanyCombo.Items.Add(reader["Company"].ToString());
+                MessageBox.Show(e.Message);
             }
             connect.Close();
         }

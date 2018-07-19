@@ -25,24 +25,38 @@ namespace WindowsFormsApp2
 
         private void fillUsers()
         {
-            connect.Open();
-            SqlCommand command = new SqlCommand("SELECT Name FROM Users", connect);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                UserCombo.Items.Add(reader["Name"].ToString());
+                connect.Open();
+                SqlCommand command = new SqlCommand("SELECT Name FROM Users", connect);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    UserCombo.Items.Add(reader["Name"].ToString());
+                }
+            }
+            catch(SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
             connect.Close();
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            connect.Open();
-            SqlCommand command = new SqlCommand("DELETE FROM Users WHERE Name = @Name", connect);
-            command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = UserCombo.Text;
-            command.ExecuteNonQuery();
-            SqlTransaction trans = connect.BeginTransaction();
-            trans.Commit();
+            try
+            {
+                connect.Open();
+                SqlCommand command = new SqlCommand("DELETE FROM Users WHERE Name = @Name", connect);
+                command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = UserCombo.Text;
+                command.ExecuteNonQuery();
+                SqlTransaction trans = connect.BeginTransaction();
+                trans.Commit();
+            }
+            catch(SqlException exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
             connect.Close();
             MessageBox.Show("User Removed!");
             this.Close();

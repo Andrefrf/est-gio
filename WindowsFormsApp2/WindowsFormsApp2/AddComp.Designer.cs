@@ -51,6 +51,8 @@
             // 
             // AddCompButton
             // 
+            this.AddCompButton.FlatAppearance.BorderSize = 0;
+            this.AddCompButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddCompButton.Location = new System.Drawing.Point(268, 17);
             this.AddCompButton.Name = "AddCompButton";
             this.AddCompButton.Size = new System.Drawing.Size(54, 23);
@@ -68,7 +70,7 @@
             this.Controls.Add(this.CompanyBox);
             this.Controls.Add(this.CompLabel);
             this.Name = "Form5";
-            this.Text = "Form5";
+            this.Text = "New Company";
             this.ResumeLayout(false);
             this.PerformLayout();
 

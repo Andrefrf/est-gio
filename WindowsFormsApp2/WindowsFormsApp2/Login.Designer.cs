@@ -33,8 +33,8 @@
             this.PasswordLabel = new System.Windows.Forms.Label();
             this.userNameBox = new System.Windows.Forms.TextBox();
             this.PasswordBox = new System.Windows.Forms.TextBox();
-            this.ConfirmButton = new System.Windows.Forms.Button();
             this.OutButton = new System.Windows.Forms.Button();
+            this.ConfirmButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UserLoginLabel
@@ -69,6 +69,7 @@
             // 
             // userNameBox
             // 
+            this.userNameBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.userNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userNameBox.Location = new System.Drawing.Point(174, 147);
             this.userNameBox.Name = "userNameBox";
@@ -78,6 +79,7 @@
             // 
             // PasswordBox
             // 
+            this.PasswordBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PasswordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordBox.Location = new System.Drawing.Point(174, 203);
             this.PasswordBox.Name = "PasswordBox";
@@ -86,32 +88,41 @@
             this.PasswordBox.TabIndex = 4;
             this.PasswordBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userNameBox_KeyPress);
             // 
-            // ConfirmButton
-            // 
-            this.ConfirmButton.Location = new System.Drawing.Point(37, 262);
-            this.ConfirmButton.Name = "ConfirmButton";
-            this.ConfirmButton.Size = new System.Drawing.Size(162, 55);
-            this.ConfirmButton.TabIndex = 5;
-            this.ConfirmButton.Text = "Confirm";
-            this.ConfirmButton.UseVisualStyleBackColor = true;
-            this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
-            // 
             // OutButton
             // 
+            this.OutButton.BackColor = System.Drawing.Color.Salmon;
+            this.OutButton.FlatAppearance.BorderSize = 0;
+            this.OutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OutButton.Location = new System.Drawing.Point(247, 262);
             this.OutButton.Name = "OutButton";
-            this.OutButton.Size = new System.Drawing.Size(162, 55);
+            this.OutButton.Size = new System.Drawing.Size(175, 97);
             this.OutButton.TabIndex = 7;
             this.OutButton.Text = "Exit";
-            this.OutButton.UseVisualStyleBackColor = true;
+            this.OutButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.OutButton.UseVisualStyleBackColor = false;
             this.OutButton.Click += new System.EventHandler(this.OutButton_Click);
+            // 
+            // ConfirmButton
+            // 
+            this.ConfirmButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.ConfirmButton.FlatAppearance.BorderSize = 0;
+            this.ConfirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ConfirmButton.Location = new System.Drawing.Point(37, 262);
+            this.ConfirmButton.Name = "ConfirmButton";
+            this.ConfirmButton.Size = new System.Drawing.Size(175, 97);
+            this.ConfirmButton.TabIndex = 5;
+            this.ConfirmButton.Text = "Confirm";
+            this.ConfirmButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ConfirmButton.UseVisualStyleBackColor = false;
+            this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(448, 357);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(450, 376);
+            this.ControlBox = false;
             this.Controls.Add(this.OutButton);
             this.Controls.Add(this.ConfirmButton);
             this.Controls.Add(this.PasswordBox);
@@ -120,6 +131,7 @@
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.UserLoginLabel);
             this.Name = "Login";
+            this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

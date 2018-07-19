@@ -33,5 +33,16 @@ namespace WindowsFormsApp2.Properties {
                 return ((string)(this["Database1ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-F6BD36Q\\MSSQLSERVER01;Initial Catalog=IcarVisitor;Integrated " +
+            "Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False")]
+        public string IcarVisitorConnectionString {
+            get {
+                return ((string)(this["IcarVisitorConnectionString"]));
+            }
+        }
     }
 }

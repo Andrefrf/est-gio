@@ -42,6 +42,11 @@ namespace WindowsFormsApp2
                 daysBox.Text = reader.ReadLine().Split(null)[3];
             }
 
+            using (StreamReader reader = new StreamReader("watermarkText.txt"))
+            {
+                watermarkBox.Text = reader.ReadLine();
+            }
+
             enabledFields();
 
             this.connection = connection;
@@ -93,6 +98,10 @@ namespace WindowsFormsApp2
             using (StreamWriter write = new StreamWriter("daysToReset.txt"))
             {
                 write.WriteLine("Days for Reset: " + daysBox.Text);
+            }
+            using (StreamWriter write = new StreamWriter("watermarkText.txt"))
+            {
+                write.WriteLine(watermarkBox.Text);
             }
             this.Close();
         }

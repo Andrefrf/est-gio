@@ -32,22 +32,29 @@ namespace WindowsFormsApp2
             }
             else
             {
-                connect.Open();
-                SqlCommand command = new SqlCommand("INSERT INTO Users(Name,Password,isAdmin) VALUES(@Name,@Password,@isAdmin)", connect);
-                command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = newUserBox.Text;
-                command.Parameters.Add("@Password", SqlDbType.NVarChar).Value = newPWBox.Text;
-                Boolean admin = adminCheck.Checked;
-                if (admin)
+                try
                 {
-                    command.Parameters.Add("@isAdmin", SqlDbType.Bit).Value = 1;
+                    connect.Open();
+                    SqlCommand command = new SqlCommand("INSERT INTO Users(Name,Password,isAdmin) VALUES(@Name,@Password,@isAdmin)", connect);
+                    command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = newUserBox.Text;
+                    command.Parameters.Add("@Password", SqlDbType.NVarChar).Value = newPWBox.Text;
+                    Boolean admin = adminCheck.Checked;
+                    if (admin)
+                    {
+                        command.Parameters.Add("@isAdmin", SqlDbType.Bit).Value = 1;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@isAdmin", SqlDbType.Bit).Value = 0;
+                    }
+                    command.ExecuteNonQuery();
+                    SqlTransaction trans = connect.BeginTransaction();
+                    trans.Commit();
                 }
-                else
+                catch(SqlException exc)
                 {
-                    command.Parameters.Add("@isAdmin", SqlDbType.Bit).Value = 0;
+                    MessageBox.Show(exc.Message);
                 }
-                command.ExecuteNonQuery();
-                SqlTransaction trans = connect.BeginTransaction();
-                trans.Commit();
                 connect.Close();
                 MessageBox.Show(ADDED);
 

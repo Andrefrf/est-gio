@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data;
+using System.Drawing;
 
 namespace WindowsFormsApp2
 {
@@ -16,11 +17,13 @@ namespace WindowsFormsApp2
             InitializeComponent();
             connect = connection;
             updateTable();
-            foreach(DataGridViewColumn c in outGrid.Columns)
+            foreach (DataGridViewColumn c in outGrid.Columns)
             {
                 columnCombo.Items.Add(c.Name);
             }
             columnCombo.Text = columnCombo.Items[0].ToString();
+            CheckOutButton.Image = Image.FromFile("images/ok.png");
+            ExitButton.Image = Image.FromFile("images/exit.png");
         }
 
         private void CheckOut_Load(object sender, EventArgs e)
@@ -43,45 +46,56 @@ namespace WindowsFormsApp2
         {
             int outId = 0;
             DateTime dT = (DateTime)selectRow.Cells[4].Value;
-
-            using (SqlCommand com = new SqlCommand("SELECT PersonID as ID from Person where Name = @Name AND Surname = @Surname AND IdNumber = @IdNumber AND DocType = @DocType", connect))
+            try
             {
-                connect.Open();
-                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = selectRow.Cells[0].Value.ToString();
-                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = selectRow.Cells[1].Value.ToString();
-                com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = selectRow.Cells[2].Value.ToString();
-                com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = selectRow.Cells[3].Value.ToString();
-
-                com.ExecuteNonQuery();
-                SqlDataReader r = com.ExecuteReader();
-                r.Read();
-                outId = Int32.Parse(r["ID"].ToString());
-                r.Close();
-                connect.Close();
-            }
-
-            using (SqlCommand command = new SqlCommand("UPDATE Visits SET Out = @Leaving , State = @State FROM Visits WHERE PersonID = @PersonID AND Out is NULL AND Entrance = @Entrance",connect))
-            {
-                connect.Open();
-                command.Parameters.Add("@PersonID", SqlDbType.Int).Value = outId;
-                command.Parameters.Add("@Leaving", SqlDbType.DateTime).Value = DateTime.Now;
-                command.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = dT;
-                command.Parameters.Add("@State", SqlDbType.Bit).Value = 1;
-
-
-                string query = command.CommandText;
-
-                foreach (SqlParameter p in command.Parameters)
+                using (SqlCommand com = new SqlCommand("SELECT PersonID FROM Person Where (Name = @Name OR Surname = @Surname) AND (IdNumber = @IdNumber AND DocType = @DocType)", connect))
                 {
-                    query = query.Replace(p.ParameterName, p.Value.ToString());
+                    connect.Open();
+                    com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = selectRow.Cells[0].Value.ToString();
+                    com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = selectRow.Cells[1].Value.ToString();
+                    com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = selectRow.Cells[2].Value.ToString();
+                    com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = selectRow.Cells[3].Value.ToString();
+
+
+
+                    com.ExecuteNonQuery();
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        outId = Int32.Parse(reader["PersonID"].ToString());
+                    }
+                    reader.Close();
+
+                    connect.Close();
                 }
-                command.ExecuteNonQuery();
-                SqlTransaction trans = connect.BeginTransaction();
-                trans.Commit();
-                connect.Close();
+
+                using (SqlCommand command = new SqlCommand("UPDATE Visits SET Out = @Leaving , State = @State WHERE PersonID = @PersonID AND Out is NULL AND Entrance = @Entrance", connect))
+                {
+                    connect.Open();
+                    command.Parameters.Add("@PersonID", SqlDbType.Int).Value = outId;
+                    command.Parameters.Add("@Leaving", SqlDbType.DateTime).Value = DateTime.Now;
+                    command.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = dT;
+                    command.Parameters.Add("@State", SqlDbType.Bit).Value = 1;
+
+                    string query = command.CommandText;
+
+                    foreach (SqlParameter p in command.Parameters)
+                    {
+                        query = query.Replace(p.ParameterName, p.Value.ToString());
+                    }
+                    command.ExecuteNonQuery();
+                    SqlTransaction trans = connect.BeginTransaction();
+                    trans.Commit();
+                    connect.Close();
+                }
+                goodCheckOut.Visible = true;
+                updateTable();
+                outGrid.Update();
             }
-            goodCheckOut.Visible = true;
-            updateTable();
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private int getInt(string v)
@@ -92,8 +106,8 @@ namespace WindowsFormsApp2
         private void updateTable()
         {
             SqlDataAdapter sqlData = new SqlDataAdapter();
-            sqlData.SelectCommand = new SqlCommand("SELECT * From toCheckOut",connect);
-            
+            sqlData.SelectCommand = new SqlCommand("SELECT * From toCheckOut", connect);
+
             DataTable dtb = new DataTable();
             sqlData.Fill(dtb);
             outGrid.DataSource = dtb;
@@ -103,10 +117,11 @@ namespace WindowsFormsApp2
         private void Filter_Click(object sender, EventArgs e)
         {
             updateTable();
-            if (FilterValue.Text != "") {
-            for (int u = 0; u < outGrid.RowCount; u++)
+            if (FilterValue.Text != "")
             {
-                    if (outGrid.Rows[u].Cells[toFilter].Value.Equals(FilterValue.Text))
+                for (int u = 0; u < outGrid.RowCount; u++)
+                {
+                    if (outGrid.Rows[u].Cells[toFilter].Value.ToString() == FilterValue.Text)
                     {
                         outGrid.Rows[u].Visible = true;
                     }

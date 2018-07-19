@@ -64,28 +64,38 @@
             // 
             // CheckOutButton
             // 
-            this.CheckOutButton.Location = new System.Drawing.Point(88, 325);
+            this.CheckOutButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.CheckOutButton.FlatAppearance.BorderSize = 0;
+            this.CheckOutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckOutButton.Location = new System.Drawing.Point(97, 314);
             this.CheckOutButton.Name = "CheckOutButton";
-            this.CheckOutButton.Size = new System.Drawing.Size(152, 51);
+            this.CheckOutButton.Size = new System.Drawing.Size(175, 97);
             this.CheckOutButton.TabIndex = 1;
             this.CheckOutButton.Text = "Check Out";
-            this.CheckOutButton.UseVisualStyleBackColor = true;
+            this.CheckOutButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.CheckOutButton.UseVisualStyleBackColor = false;
             this.CheckOutButton.Click += new System.EventHandler(this.CheckOutButton_Click);
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(385, 325);
+            this.ExitButton.BackColor = System.Drawing.Color.Salmon;
+            this.ExitButton.FlatAppearance.BorderSize = 0;
+            this.ExitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ExitButton.Location = new System.Drawing.Point(394, 314);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(152, 51);
+            this.ExitButton.Size = new System.Drawing.Size(175, 97);
             this.ExitButton.TabIndex = 2;
             this.ExitButton.Text = "Exit";
-            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ExitButton.UseVisualStyleBackColor = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // outGrid
             // 
             this.outGrid.AllowUserToAddRows = false;
             this.outGrid.AllowUserToDeleteRows = false;
+            this.outGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.outGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.outGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.outGrid.Location = new System.Drawing.Point(26, 72);
             this.outGrid.Name = "outGrid";
@@ -128,6 +138,7 @@
             // 
             // columnCombo
             // 
+            this.columnCombo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.columnCombo.FormattingEnabled = true;
             this.columnCombo.Location = new System.Drawing.Point(74, 33);
             this.columnCombo.Name = "columnCombo";
@@ -144,6 +155,7 @@
             // 
             // Filter
             // 
+            this.Filter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Filter.Location = new System.Drawing.Point(394, 32);
             this.Filter.Name = "Filter";
             this.Filter.Size = new System.Drawing.Size(81, 21);
@@ -179,7 +191,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(697, 392);
+            this.ClientSize = new System.Drawing.Size(697, 423);
             this.Controls.Add(this.NumberLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Filter);
@@ -192,7 +204,7 @@
             this.Controls.Add(this.CheckOutButton);
             this.Controls.Add(this.outGrid);
             this.Name = "CheckOut";
-            this.Text = "CheckOut";
+            this.Text = "Visitor Check Out";
             this.Load += new System.EventHandler(this.CheckOut_Load);
             ((System.ComponentModel.ISupportInitialize)(this.toCheckOutBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).EndInit();

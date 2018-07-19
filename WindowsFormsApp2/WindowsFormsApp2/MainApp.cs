@@ -3,17 +3,14 @@ using System.Windows.Forms;
 using ICARCOMLib;
 using System.Drawing;
 using System.IO;
-using System.Configuration;
 using System.Data.SqlClient;
-using Dapper;
 using System.Data;
-using System.Linq;
 using System.Text;
 
 namespace WindowsFormsApp2
 {
 
-    public partial class IcarVisitor : Form
+    public partial class PostisVisitor : Form
     {
         private const string V = " , ";
         private const string FIRST_CONFIG = "Please configure the device first";
@@ -27,31 +24,50 @@ namespace WindowsFormsApp2
         private int days;
         string path = AppDomain.CurrentDomain.BaseDirectory;
 
-        public IcarVisitor()
+        public PostisVisitor()
         {
+            this.Name = null;
             using (StreamReader reader = new StreamReader("daysToReset.txt"))
             {
                 String line = reader.ReadLine();
                 days = Int32.Parse(line.Split(null)[3]);
             }
             this.Name = null;
-            connectStr = "Data Source=(LocalDB)" + @"\MSSQLLocalDB" + ";AttachDbFilename=" + @"C:\USERS\USER\DESKTOP\ICARVISITOR\EST-GIO\WINDOWSFORMSAPP2\WINDOWSFORMSAPP2\Database.mdf" + ";Integrated Security=True";
+
+            using (StreamReader reader = new StreamReader("connectDBstring.txt"))
+            {
+                string line = reader.ReadLine();
+                //line.Replace("/", "\\");
+                connectStr = line;
+            }
+            //connectStr = "Data Source=192.168.1.101"+@"\MSSQLSERVER01"+ ",1433;Network Library=DBMSSOCN;Initial Catalog=PostisVisitor;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             InitializeComponent();
 
             connection = new SqlConnection(connectStr);
-
+            
             Login log = new Login(connection);
             log.ShowDialog();
             admin = log.getType();
             log.Close();
             visitorsTime();
 
-            Configure.Enabled = admin;
-            VisitorButton.Enabled = admin;
+            if (!admin)
+            {
+                Configure.Hide();
+                Report.Hide();
+            }
+            groupBox1.Hide();
             VCompAdd.Enabled = admin;
             VisitingAdd.Enabled = admin;
             fillCompany();
             fillVisitor();
+
+            VisitingCombo.Hide();
+            VCompAdd.Hide();
+            CompCombo.Hide();
+            VisitingAdd.Hide();
+            VisitingLabel.Hide();
+            CompLabel.Hide();
 
             fieldEnabler();
 
@@ -68,7 +84,45 @@ namespace WindowsFormsApp2
 
             Configurations conf = new Configurations(Icar, connection);
             conf.configure();
-            
+
+            this.Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            this.MaximizeBox = false;
+
+            float Xratio = (float)(Screen.PrimaryScreen.Bounds.Width) / (float)(this.MinimumSize.Width);
+            float Yratio = (float)(Screen.PrimaryScreen.Bounds.Height) / (float)(this.MinimumSize.Height);
+            foreach(Control c in this.Controls)
+            {
+                float x = (float)c.Location.X * Xratio;
+                float y = (float)c.Location.Y * Yratio;
+                c.Location = new Point((int)x, (int)y);
+
+                int w = c.Width * (int)Xratio;
+                int h = c.Height * (int)Yratio;
+                c.Size = new Size(w, h);
+            }
+
+            Scan.Image = Image.FromFile("images/scan.png");
+            Exit.Image = Image.FromFile("images/exit.png");
+            InButton.Image = Image.FromFile("images/ok.png");
+            Configure.Image = Image.FromFile("images/config.png");
+            Visitors.Image = Image.FromFile("images/visitors.png");
+            Report.Image = Image.FromFile("images/report.png");
+            pictureBox1.Image = Image.FromFile("images/company.jpg");
+
+            groupBox2.Height = Height;
+            VisitorsLabel.Text = getVisitors();
+        }
+
+        private string getVisitors()
+        {
+            Int32 count = 0;
+            using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM toCheckOut", connection))
+            {
+                connection.Open();
+                count = (Int32)command.ExecuteScalar();
+                connection.Close();
+            }
+            return count.ToString();
         }
 
         private void fieldEnabler()
@@ -116,7 +170,6 @@ namespace WindowsFormsApp2
 
         private void visitorsTime()
         {
-            DataTable dt = new DataTable();
             using (SqlCommand com = new SqlCommand("DELETE FROM Visits Where Entrance < @date",connection))
             {
                 connection.Open();
@@ -136,7 +189,7 @@ namespace WindowsFormsApp2
                 errorStr = Icar.getErrorDescription();
                 if (errorStr.Equals("warning!"))
                 {
-                    MessageBox.Show("IcarVisitor Form");
+                    MessageBox.Show("PostisVisitor Form");
                 }
                 else
                 {
@@ -149,26 +202,39 @@ namespace WindowsFormsApp2
         //scans document
         private void Scan_Click(object sender, EventArgs e)
         {
-
-            SetDefault();
-            String output = Icar.process();
-            checkIcarError();
-            String resultimg = Icar.getResultImageBase64(1);
-            byte[] bytes = Convert.FromBase64String(resultimg);
-            Image img;
-            using (MemoryStream ms = new MemoryStream(bytes))
+            try
             {
-                img = Image.FromStream(ms);
+                SetDefault();
+                String output = Icar.process();
+                checkIcarError();
+                String resultimg = Icar.getResultImageBase64(1);
+                byte[] bytes = Convert.FromBase64String(resultimg);
+                Image img;
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    img = Image.FromStream(ms);
+                }
+                img = new Bitmap(img, Photo.Width, Photo.Height);
+
+                MakeWatermark(img);
+
+                Photo.Image = img;
+
+                String res = Icar.getResultString().Replace(" # ", " |\n");
+                processResult(res);
+                groupBox1.Show();
+                VisitingCombo.Show();
+                VCompAdd.Show();
+                CompCombo.Show();
+                VisitingAdd.Show();
+                VisitingLabel.Show();
+                CompLabel.Show();
+
             }
-            img = new Bitmap(img, Photo.Width, Photo.Height);
-
-            MakeWatermark(img);
-
-            Photo.Image = img;
-
-            String res = Icar.getResultString().Replace(" # ", " |\n");
-            Console.WriteLine(res);
-            processResult(res);
+            catch(Exception)
+            {
+                MessageBox.Show(new Exception().Message);
+            }
         }
 
         private static void MakeWatermark(Image img)
@@ -194,9 +260,14 @@ namespace WindowsFormsApp2
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
+            String watermark = null;
+            using (StreamReader reader = new StreamReader("watermarkText.txt"))
+            {
+                watermark = reader.ReadLine();
+            }
 
             g.RotateTransform((float)angle);
-            g.DrawString("!TEST!_!TEST!-!TEST!", new Font("Arial", 16), new SolidBrush(Color.DimGray),
+            g.DrawString(watermark, new Font("Arial", 16), new SolidBrush(Color.Black),
                          new Point((int)halfHypotenuse, 0),
                          stringFormat);
         }
@@ -249,8 +320,6 @@ namespace WindowsFormsApp2
             //docType
             String[] result = res.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0].Split(null);
             TypeBox.Text = result[1];
-
-            Console.WriteLine(result);
 
             NameBox.Text = searchField("NAME:", result);
             SurnameBox.Text = searchField("SURNAME:", result);
@@ -392,16 +461,30 @@ namespace WindowsFormsApp2
 
         private void Exit_Click(object sender, EventArgs e)
         {
+            CompCombo.Items.Clear();
+            VisitingCombo.Items.Clear();
             Login log = new Login(connection);
             this.Hide();
             log.ShowDialog();
             cleanup();
             while (log.Visible) { }
             this.Show();
-            Configure.Enabled = log.getType();
+            admin = log.getType();
             fillCompany();
             fieldEnabler();
             log.Close();
+            if (!admin)
+            {
+                Configure.Hide();
+                Report.Hide();
+            }
+            else
+            {
+                Configure.Show();
+                Report.Show();
+            }
+            groupBox1.Hide();
+            VisitorsLabel.Text = getVisitors();
         }
 
         private void cleanup()
@@ -447,66 +530,82 @@ namespace WindowsFormsApp2
 
         private void InButton_Click(object sender, EventArgs e)
         {
-
-            int delivery;
-            if (DeliveryNo.Checked)
+            try
             {
-                delivery = 0;
-            }
-            else
-            {
-                delivery = 1;
-            }
-            if (!checkFields())
-            {
-
-            }
-            else
-            {
-                int Visiting = getWorker();
-                addPerson();
-                int res = getPerson();
-                StringBuilder sb = new StringBuilder();
-                int company = getCompany();
-                sb.Append("INSERT INTO Visits(PersonID,CompanyID,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany,State,Address, Comment) " +
-                    "VALUES(@PersonID,@CompanyID,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany,@State,@Address,@Comment)");
-                using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
+                int delivery;
+                if (DeliveryNo.Checked)
+                {
+                    delivery = 0;
+                }
+                else
+                {
+                    delivery = 1;
+                }
+                if (!checkFields())
                 {
 
-                    com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
-                    com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = company;
-                    com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
-                    com.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = DateTime.Now;
-                    com.Parameters.Add("@Out", SqlDbType.DateTime).Value = DBNull.Value;
-                    com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
-                    com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text);
-                    com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
-                    com.Parameters.Add("@State", SqlDbType.Bit).Value = 0;
-                    com.Parameters.Add("@Address", SqlDbType.NVarChar).Value = addressBox.Text;
-                    com.Parameters.Add("@Comment", SqlDbType.NVarChar).Value = commentBox.Text;
-
-                    com.CommandType = System.Data.CommandType.Text;
-
-                    com.Connection = connection;
-
-                    connection.Open();
-
-                    String output  = com.CommandText.ToString();
-                    foreach(SqlParameter p in com.Parameters)
-                    {
-                        output = output.Replace(p.ParameterName, p.Value.ToString());
-                    }
-                    Console.WriteLine(output);
-                    com.ExecuteNonQuery();
-                    SqlTransaction trans = connection.BeginTransaction();
-                    trans.Commit();
-                    MessageBox.Show("Data Inserted!");
                 }
+                else
+                {
+                    int Visiting = getWorker();
+                    int res = -1;
+                    res = getPerson();
+                    if (res <= 0)
+                    {
+                        MessageBox.Show("-----");
+                        addPerson();
+                        res = getPerson();
+                    }
+                    int company = getCompany();
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("INSERT INTO Visits(PersonID,CompanyID,Delivery,Entrance,Out,WorkerId,cardNumber,VisitingCompany,State,Address, Comment) " +
+                        "VALUES(@PersonID,@CompanyID,@Delivery,@Entrance,@Out,@WorkerId,@cardNumber,@VisitingCompany,@State,@Address,@Comment)");
 
-                connection.Close();
+                    using (SqlCommand com = new SqlCommand(sb.ToString(), connection))
+                    {
 
-                clearFields();
+                        com.Parameters.Add("@PersonID", SqlDbType.Int).Value = res;
+                        com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = company;
+                        com.Parameters.Add("@Delivery", SqlDbType.Bit).Value = delivery;
+                        com.Parameters.Add("@Entrance", SqlDbType.DateTime).Value = DateTime.Now;
+                        com.Parameters.Add("@Out", SqlDbType.DateTime).Value = DBNull.Value;
+                        com.Parameters.Add("@WorkerId", SqlDbType.Int).Value = Visiting;
+                        com.Parameters.Add("@cardNumber", SqlDbType.Int).Value = checkCard(cardNBox.Text);
+                        com.Parameters.Add("@VisitingCompany", SqlDbType.NVarChar).Value = valuesCheck(Companybox.Text);
+                        com.Parameters.Add("@State", SqlDbType.Bit).Value = 0;
+                        com.Parameters.Add("@Address", SqlDbType.NVarChar).Value = addressBox.Text;
+                        com.Parameters.Add("@Comment", SqlDbType.NVarChar).Value = commentBox.Text;
+
+                        com.CommandType = CommandType.Text;
+
+                        com.Connection = connection;
+
+                        connection.Open();
+
+                        String output = com.CommandText.ToString();
+                        com.ExecuteNonQuery();
+                        SqlTransaction trans = connection.BeginTransaction();
+                        trans.Commit();
+                        MessageBox.Show("Data Inserted!");
+                    }
+                    connection.Close();
+                    clearFields();
+                    groupBox1.Hide();
+                    VisitingCombo.Hide();
+                    VCompAdd.Hide();
+                    CompCombo.Hide();
+                    VisitingAdd.Hide();
+                    VisitingLabel.Hide();
+                    CompLabel.Hide();
+                }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            connection.Close();
+
+            VisitorsLabel.Text = getVisitors();
         }
 
         private Boolean checkFields()
@@ -553,19 +652,28 @@ namespace WindowsFormsApp2
         {
             int WorkId = 0;
             connection.Open();
-
-            SqlCommand com = new SqlCommand("Select PersonID from Person Where DocType = @Doctype AND IdNumber = @IdNumber", connection);
-
-            com.Parameters.Add("@Doctype", SqlDbType.NVarChar).Value = TypeBox.Text;
-            com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
-
-            com.ExecuteNonQuery();
-            SqlDataReader reader = com.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                WorkId = Int32.Parse(reader["PersonID"].ToString());
+                SqlCommand com = new SqlCommand("SELECT PersonID FROM Person Where (Name = @Name OR Surname = @Surname) AND (IdNumber = @IdNumber AND DocType = @DocType)", connection);
+                
+
+                com.Parameters.Add("@Doctype", SqlDbType.NVarChar).Value = TypeBox.Text;
+                com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
+                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = NameBox.Text;
+                com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = SurnameBox.Text;
+
+                com.ExecuteNonQuery();
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    WorkId = Int32.Parse(reader["PersonID"].ToString());
+                }
+            }
+            catch (Exception e) {
+                MessageBox.Show("Erro "+e.GetHashCode()+": "+ e.Message);
             }
             connection.Close();
+            MessageBox.Show("Found Person!" + " ID: "+ WorkId.ToString());
             return WorkId;
         }
 
@@ -587,9 +695,9 @@ namespace WindowsFormsApp2
                 compID = Int32.Parse(r["ID"].ToString());
 
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-
+                MessageBox.Show(e.Message);
             }
             connection.Close();
             return compID;
@@ -603,45 +711,52 @@ namespace WindowsFormsApp2
             {
                 SqlCommand com = new SqlCommand("Insert into Person(Name,Surname,DocType,IdNumber,PersonID,Expiry,Gender,Nationality) " +
                     "values(@Name,@Surname,@DocType,@IdNumber,NEXT VALUE FOR Person_Id_Seq,@Gender,@Expiry,@Nationality)", connection);
-
                 com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = NameBox.Text;
                 com.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = SurnameBox.Text;
                 com.Parameters.Add("@DocType", SqlDbType.NVarChar).Value = TypeBox.Text;
                 com.Parameters.Add("@IdNumber", SqlDbType.NVarChar).Value = idNBox.Text;
-                com.Parameters.Add("@Expiry", SqlDbType.Date).Value = DateTime.Parse(dateBox.Text);
-                com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = genderBox.Text;
+                String[] d = dateBox.Text.Split('-');
+                String td = d[0] + "/"+ d[1] +"/" + "20" + d[2];
+                com.Parameters.Add("@Expiry", SqlDbType.NVarChar).Value = genderBox.Text;
+                com.Parameters.Add("@Gender", SqlDbType.NVarChar).Value = dateBox.Text.ToString();
                 com.Parameters.Add("@Nationality", SqlDbType.NVarChar).Value = nationBox.Text;
 
 
                 com.ExecuteNonQuery();
                 SqlTransaction trans = connection.BeginTransaction();
                 trans.Commit();
-
+                Console.WriteLine("New Person Added!");
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-
+                throw ex;
             }
             connection.Close();
         }
 
         private int getWorker()
         {
-            int WorkId = 0;
+            int WorkId = -1;
             String[] compText = CompCombo.Text.Split(',');
             connection.Open();
-
-            SqlCommand com = new SqlCommand("Select Id from WorkerCompany Where Name = @Name AND Company = @Company AND Department = @Department", connection);
-
-            com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = VisitingCombo.Text.Trim();
-            com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compText[0];
-            com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compText[1];
-
-            com.ExecuteNonQuery();
-            SqlDataReader reader = com.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                WorkId = Int32.Parse(reader["Id"].ToString());
+                SqlCommand com = new SqlCommand("Select Id from WorkerCompany Where Name = @Name AND Company = @Company AND Department = @Department", connection);
+
+                com.Parameters.Add("@Name", SqlDbType.NVarChar).Value = VisitingCombo.Text.Trim();
+                com.Parameters.Add("@Company", SqlDbType.NVarChar).Value = compText[0];
+                com.Parameters.Add("@Department", SqlDbType.NVarChar).Value = compText[1];
+
+                com.ExecuteNonQuery();
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    WorkId = Int32.Parse(reader["Id"].ToString());
+                }
+            }
+            catch(SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
             connection.Close();
             return WorkId;
@@ -673,6 +788,7 @@ namespace WindowsFormsApp2
             dateBox.Text = null;
             genderBox.Text = null;
             VisitingCombo.Text = null;
+            fillVisitor();
         }
 
         private void VisitingAdd_Click(object sender, EventArgs e)
@@ -690,13 +806,20 @@ namespace WindowsFormsApp2
         {
             String[] company = CompCombo.Text.Split(',');
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT Name FROM WorkerCompany WHERE Company = @Company AND Department = @Department", connection);
-            command.Parameters.Add("@Company", SqlDbType.NVarChar).Value = company[0];
-            command.Parameters.Add("@Department", SqlDbType.NVarChar).Value = company[1];
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                VisitingCombo.Items.Add(reader["Name"].ToString());
+                SqlCommand command = new SqlCommand("SELECT Name FROM WorkerCompany WHERE Company = @Company AND Department = @Department", connection);
+                command.Parameters.Add("@Company", SqlDbType.NVarChar).Value = company[0];
+                command.Parameters.Add("@Department", SqlDbType.NVarChar).Value = company[1];
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    VisitingCombo.Items.Add(reader["Name"].ToString());
+                }
+            }
+            catch(SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
             connection.Close();
         }
@@ -715,11 +838,18 @@ namespace WindowsFormsApp2
         private void fillCompany()
         {
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT CompanyName as Company,Department FROM Companies", connection);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                CompCombo.Items.Add(reader["Company"].ToString().Trim() + "," + reader["Department"].ToString().Trim());
+                SqlCommand command = new SqlCommand("SELECT CompanyName as Company,Department FROM Companies", connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    CompCombo.Items.Add(reader["Company"].ToString().Trim() + "," + reader["Department"].ToString().Trim());
+                }
+            }
+            catch(SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
             connection.Close();
         }
@@ -744,7 +874,7 @@ namespace WindowsFormsApp2
             this.Enabled = false;
             while (form.Visible) { }
             this.Enabled = true;
-
+            VisitorsLabel.Text = getVisitors();
         }
 
         private void VisitorButton_Click(object sender, EventArgs e)
@@ -759,11 +889,18 @@ namespace WindowsFormsApp2
         private void fillVisitor()
         {
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT DISTINCT VisitingCompany FROM Visits", connection);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                Companybox.Items.Add(reader["VisitingCompany"].ToString().Trim());
+                SqlCommand command = new SqlCommand("SELECT DISTINCT VisitingCompany FROM Visits", connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Companybox.Items.Add(reader["VisitingCompany"].ToString().Trim());
+                }
+            }
+            catch(SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
             connection.Close();
         }

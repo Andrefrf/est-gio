@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp2
 {
-    partial class IcarVisitor
+    partial class PostisVisitor
     {
 
         /// <summary>
@@ -29,7 +29,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Photo = new System.Windows.Forms.PictureBox();
             this.NameBox = new System.Windows.Forms.TextBox();
             this.SurnameBox = new System.Windows.Forms.TextBox();
             this.idNBox = new System.Windows.Forms.TextBox();
@@ -40,17 +39,12 @@
             this.Surname = new System.Windows.Forms.Label();
             this.DeliveryLabel = new System.Windows.Forms.Label();
             this.CompanyLabel = new System.Windows.Forms.Label();
-            this.Scan = new System.Windows.Forms.Button();
             this.Configure = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
             this.DeliveryYes = new System.Windows.Forms.CheckBox();
             this.DeliveryNo = new System.Windows.Forms.CheckBox();
             this.VisitingLabel = new System.Windows.Forms.Label();
             this.VisitingCombo = new System.Windows.Forms.ComboBox();
-            this.PrintButton = new System.Windows.Forms.Button();
-            this.InButton = new System.Windows.Forms.Button();
-            this.OutButton = new System.Windows.Forms.Button();
-            this.VisitorButton = new System.Windows.Forms.Button();
             this.CompLabel = new System.Windows.Forms.Label();
             this.CompCombo = new System.Windows.Forms.ComboBox();
             this.VisitingAdd = new System.Windows.Forms.Button();
@@ -69,22 +63,24 @@
             this.Companybox = new System.Windows.Forms.ComboBox();
             this.cardNLabel = new System.Windows.Forms.Label();
             this.cardNBox = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.Photo)).BeginInit();
+            this.Photo = new System.Windows.Forms.PictureBox();
+            this.Report = new System.Windows.Forms.Button();
+            this.Visitors = new System.Windows.Forms.Button();
+            this.InButton = new System.Windows.Forms.Button();
+            this.Scan = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.VisitorsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Photo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // Photo
-            // 
-            this.Photo.BackColor = System.Drawing.SystemColors.Info;
-            this.Photo.Location = new System.Drawing.Point(22, 19);
-            this.Photo.Name = "Photo";
-            this.Photo.Size = new System.Drawing.Size(144, 170);
-            this.Photo.TabIndex = 0;
-            this.Photo.TabStop = false;
             // 
             // NameBox
             // 
-            this.NameBox.BackColor = System.Drawing.Color.Lavender;
+            this.NameBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.NameBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.NameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NameBox.Location = new System.Drawing.Point(209, 42);
@@ -95,7 +91,7 @@
             // 
             // SurnameBox
             // 
-            this.SurnameBox.BackColor = System.Drawing.Color.Lavender;
+            this.SurnameBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.SurnameBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.SurnameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SurnameBox.Location = new System.Drawing.Point(420, 42);
@@ -106,7 +102,7 @@
             // 
             // idNBox
             // 
-            this.idNBox.BackColor = System.Drawing.Color.Lavender;
+            this.idNBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.idNBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.idNBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.idNBox.Location = new System.Drawing.Point(420, 109);
@@ -117,7 +113,7 @@
             // 
             // TypeBox
             // 
-            this.TypeBox.BackColor = System.Drawing.Color.Lavender;
+            this.TypeBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TypeBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TypeBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TypeBox.Location = new System.Drawing.Point(209, 98);
@@ -131,7 +127,7 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label3.Location = new System.Drawing.Point(411, 79);
+            this.label3.Location = new System.Drawing.Point(418, 79);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 18);
             this.label3.TabIndex = 8;
@@ -164,7 +160,7 @@
             this.Surname.AutoSize = true;
             this.Surname.BackColor = System.Drawing.Color.Transparent;
             this.Surname.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.Surname.Location = new System.Drawing.Point(411, 21);
+            this.Surname.Location = new System.Drawing.Point(418, 21);
             this.Surname.Name = "Surname";
             this.Surname.Size = new System.Drawing.Size(68, 18);
             this.Surname.TabIndex = 16;
@@ -186,40 +182,38 @@
             this.CompanyLabel.AutoSize = true;
             this.CompanyLabel.BackColor = System.Drawing.Color.Transparent;
             this.CompanyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CompanyLabel.Location = new System.Drawing.Point(411, 135);
+            this.CompanyLabel.Location = new System.Drawing.Point(418, 135);
             this.CompanyLabel.Name = "CompanyLabel";
             this.CompanyLabel.Size = new System.Drawing.Size(72, 18);
             this.CompanyLabel.TabIndex = 18;
             this.CompanyLabel.Text = "Company";
             // 
-            // Scan
-            // 
-            this.Scan.Location = new System.Drawing.Point(235, 441);
-            this.Scan.Name = "Scan";
-            this.Scan.Size = new System.Drawing.Size(298, 102);
-            this.Scan.TabIndex = 23;
-            this.Scan.Text = "Scan";
-            this.Scan.UseVisualStyleBackColor = true;
-            this.Scan.Click += new System.EventHandler(this.Scan_Click);    
-            // 
             // Configure
             // 
-            this.Configure.Location = new System.Drawing.Point(26, 441);
+            this.Configure.BackColor = System.Drawing.Color.LightGreen;
+            this.Configure.FlatAppearance.BorderSize = 0;
+            this.Configure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Configure.Location = new System.Drawing.Point(508, 452);
             this.Configure.Name = "Configure";
-            this.Configure.Size = new System.Drawing.Size(191, 48);
+            this.Configure.Size = new System.Drawing.Size(175, 97);
             this.Configure.TabIndex = 24;
             this.Configure.Text = "Configure";
-            this.Configure.UseVisualStyleBackColor = true;
+            this.Configure.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.Configure.UseVisualStyleBackColor = false;
             this.Configure.Click += new System.EventHandler(this.Configure_Click);
             // 
             // Exit
             // 
-            this.Exit.Location = new System.Drawing.Point(26, 495);
+            this.Exit.BackColor = System.Drawing.Color.Salmon;
+            this.Exit.FlatAppearance.BorderSize = 0;
+            this.Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Exit.Location = new System.Drawing.Point(923, 12);
             this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(191, 48);
+            this.Exit.Size = new System.Drawing.Size(175, 97);
             this.Exit.TabIndex = 25;
             this.Exit.Text = "Exit";
-            this.Exit.UseVisualStyleBackColor = true;
+            this.Exit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.Exit.UseVisualStyleBackColor = false;
             this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // DeliveryYes
@@ -250,7 +244,7 @@
             // 
             this.VisitingLabel.AutoSize = true;
             this.VisitingLabel.BackColor = System.Drawing.Color.Transparent;
-            this.VisitingLabel.Location = new System.Drawing.Point(633, 336);
+            this.VisitingLabel.Location = new System.Drawing.Point(923, 452);
             this.VisitingLabel.Name = "VisitingLabel";
             this.VisitingLabel.Size = new System.Drawing.Size(40, 13);
             this.VisitingLabel.TabIndex = 34;
@@ -260,54 +254,15 @@
             // 
             this.VisitingCombo.Enabled = false;
             this.VisitingCombo.FormattingEnabled = true;
-            this.VisitingCombo.Location = new System.Drawing.Point(633, 352);
+            this.VisitingCombo.Location = new System.Drawing.Point(923, 468);
             this.VisitingCombo.Name = "VisitingCombo";
-            this.VisitingCombo.Size = new System.Drawing.Size(114, 21);
+            this.VisitingCombo.Size = new System.Drawing.Size(88, 21);
             this.VisitingCombo.TabIndex = 35;
-            // 
-            // PrintButton
-            // 
-            this.PrintButton.Location = new System.Drawing.Point(26, 387);
-            this.PrintButton.Name = "PrintButton";
-            this.PrintButton.Size = new System.Drawing.Size(191, 48);
-            this.PrintButton.TabIndex = 36;
-            this.PrintButton.Text = "Print";
-            this.PrintButton.UseVisualStyleBackColor = true;
-            // 
-            // InButton
-            // 
-            this.InButton.Location = new System.Drawing.Point(539, 387);
-            this.InButton.Name = "InButton";
-            this.InButton.Size = new System.Drawing.Size(200, 75);
-            this.InButton.TabIndex = 37;
-            this.InButton.Text = "Check In";
-            this.InButton.UseVisualStyleBackColor = true;
-            this.InButton.Click += new System.EventHandler(this.InButton_Click);
-            // 
-            // OutButton
-            // 
-            this.OutButton.Location = new System.Drawing.Point(539, 468);
-            this.OutButton.Name = "OutButton";
-            this.OutButton.Size = new System.Drawing.Size(200, 75);
-            this.OutButton.TabIndex = 38;
-            this.OutButton.Text = "Visitors";
-            this.OutButton.UseVisualStyleBackColor = true;
-            this.OutButton.Click += new System.EventHandler(this.OutButton_Click);
-            // 
-            // VisitorButton
-            // 
-            this.VisitorButton.Location = new System.Drawing.Point(235, 387);
-            this.VisitorButton.Name = "VisitorButton";
-            this.VisitorButton.Size = new System.Drawing.Size(296, 48);
-            this.VisitorButton.TabIndex = 39;
-            this.VisitorButton.Text = "Reports";
-            this.VisitorButton.UseVisualStyleBackColor = true;
-            this.VisitorButton.Click += new System.EventHandler(this.VisitorButton_Click);
             // 
             // CompLabel
             // 
             this.CompLabel.AutoSize = true;
-            this.CompLabel.Location = new System.Drawing.Point(424, 336);
+            this.CompLabel.Location = new System.Drawing.Point(714, 452);
             this.CompLabel.Name = "CompLabel";
             this.CompLabel.Size = new System.Drawing.Size(91, 13);
             this.CompLabel.TabIndex = 40;
@@ -316,37 +271,41 @@
             // CompCombo
             // 
             this.CompCombo.FormattingEnabled = true;
-            this.CompCombo.Location = new System.Drawing.Point(427, 352);
+            this.CompCombo.Location = new System.Drawing.Point(717, 468);
             this.CompCombo.Name = "CompCombo";
-            this.CompCombo.Size = new System.Drawing.Size(121, 21);
+            this.CompCombo.Size = new System.Drawing.Size(95, 21);
             this.CompCombo.TabIndex = 41;
             this.CompCombo.SelectedIndexChanged += new System.EventHandler(this.selectedChange);
             // 
             // VisitingAdd
             // 
+            this.VisitingAdd.BackColor = System.Drawing.Color.Gainsboro;
             this.VisitingAdd.Enabled = false;
-            this.VisitingAdd.Location = new System.Drawing.Point(753, 350);
+            this.VisitingAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.VisitingAdd.Location = new System.Drawing.Point(1017, 466);
             this.VisitingAdd.Name = "VisitingAdd";
             this.VisitingAdd.Size = new System.Drawing.Size(42, 23);
             this.VisitingAdd.TabIndex = 45;
             this.VisitingAdd.Text = "Add";
-            this.VisitingAdd.UseVisualStyleBackColor = true;
+            this.VisitingAdd.UseVisualStyleBackColor = false;
             this.VisitingAdd.Click += new System.EventHandler(this.VisitingAdd_Click);
             // 
             // VCompAdd
             // 
-            this.VCompAdd.Location = new System.Drawing.Point(556, 350);
+            this.VCompAdd.BackColor = System.Drawing.Color.Gainsboro;
+            this.VCompAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.VCompAdd.Location = new System.Drawing.Point(818, 466);
             this.VCompAdd.Name = "VCompAdd";
-            this.VCompAdd.Size = new System.Drawing.Size(43, 23);
+            this.VCompAdd.Size = new System.Drawing.Size(48, 23);
             this.VCompAdd.TabIndex = 46;
             this.VCompAdd.Text = "Add";
-            this.VCompAdd.UseVisualStyleBackColor = true;
+            this.VCompAdd.UseVisualStyleBackColor = false;
             this.VCompAdd.Click += new System.EventHandler(this.VCompAdd_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.AutoSize = true;
-            this.groupBox1.BackColor = System.Drawing.Color.Lavender;
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.groupBox1.Controls.Add(this.addressText);
             this.groupBox1.Controls.Add(this.addressBox);
             this.groupBox1.Controls.Add(this.dateText);
@@ -374,11 +333,11 @@
             this.groupBox1.Controls.Add(this.NameBox);
             this.groupBox1.Controls.Add(this.Photo);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.Location = new System.Drawing.Point(26, 31);
+            this.groupBox1.Location = new System.Drawing.Point(296, 132);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox1.Size = new System.Drawing.Size(795, 295);
+            this.groupBox1.Size = new System.Drawing.Size(819, 295);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             // 
@@ -407,7 +366,7 @@
             this.dateText.AutoSize = true;
             this.dateText.BackColor = System.Drawing.Color.Transparent;
             this.dateText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.dateText.Location = new System.Drawing.Point(206, 135);
+            this.dateText.Location = new System.Drawing.Point(203, 135);
             this.dateText.Name = "dateText";
             this.dateText.Size = new System.Drawing.Size(108, 18);
             this.dateText.TabIndex = 50;
@@ -415,10 +374,10 @@
             // 
             // dateBox
             // 
-            this.dateBox.BackColor = System.Drawing.Color.Lavender;
+            this.dateBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.dateBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dateBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateBox.Location = new System.Drawing.Point(212, 165);
+            this.dateBox.Location = new System.Drawing.Point(209, 165);
             this.dateBox.Name = "dateBox";
             this.dateBox.ReadOnly = true;
             this.dateBox.Size = new System.Drawing.Size(182, 13);
@@ -437,7 +396,7 @@
             // 
             // genderBox
             // 
-            this.genderBox.BackColor = System.Drawing.Color.Lavender;
+            this.genderBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.genderBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.genderBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.genderBox.Location = new System.Drawing.Point(610, 109);
@@ -459,7 +418,7 @@
             // 
             // nationBox
             // 
-            this.nationBox.BackColor = System.Drawing.Color.Lavender;
+            this.nationBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.nationBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nationBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nationBox.Location = new System.Drawing.Point(610, 42);
@@ -492,7 +451,7 @@
             // 
             this.Companybox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Companybox.FormattingEnabled = true;
-            this.Companybox.Location = new System.Drawing.Point(418, 158);
+            this.Companybox.Location = new System.Drawing.Point(421, 158);
             this.Companybox.Name = "Companybox";
             this.Companybox.Size = new System.Drawing.Size(121, 28);
             this.Companybox.TabIndex = 42;
@@ -517,33 +476,147 @@
             this.cardNBox.Size = new System.Drawing.Size(147, 26);
             this.cardNBox.TabIndex = 32;
             // 
-            // IcarVisitor
+            // Photo
+            // 
+            this.Photo.BackColor = System.Drawing.SystemColors.Info;
+            this.Photo.Location = new System.Drawing.Point(22, 19);
+            this.Photo.Name = "Photo";
+            this.Photo.Size = new System.Drawing.Size(144, 170);
+            this.Photo.TabIndex = 0;
+            this.Photo.TabStop = false;
+            // 
+            // Report
+            // 
+            this.Report.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.Report.FlatAppearance.BorderSize = 0;
+            this.Report.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Report.Location = new System.Drawing.Point(296, 452);
+            this.Report.Name = "Report";
+            this.Report.Size = new System.Drawing.Size(175, 97);
+            this.Report.TabIndex = 39;
+            this.Report.Text = "Reports";
+            this.Report.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.Report.UseVisualStyleBackColor = false;
+            this.Report.Click += new System.EventHandler(this.VisitorButton_Click);
+            // 
+            // Visitors
+            // 
+            this.Visitors.BackColor = System.Drawing.Color.Wheat;
+            this.Visitors.FlatAppearance.BorderSize = 0;
+            this.Visitors.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Visitors.Location = new System.Drawing.Point(717, 12);
+            this.Visitors.Name = "Visitors";
+            this.Visitors.Size = new System.Drawing.Size(175, 97);
+            this.Visitors.TabIndex = 38;
+            this.Visitors.Text = "Visitors";
+            this.Visitors.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.Visitors.UseVisualStyleBackColor = false;
+            this.Visitors.Click += new System.EventHandler(this.OutButton_Click);
+            // 
+            // InButton
+            // 
+            this.InButton.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.InButton.FlatAppearance.BorderSize = 0;
+            this.InButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.InButton.Location = new System.Drawing.Point(508, 12);
+            this.InButton.Name = "InButton";
+            this.InButton.Size = new System.Drawing.Size(175, 97);
+            this.InButton.TabIndex = 37;
+            this.InButton.Text = "Check In";
+            this.InButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.InButton.UseVisualStyleBackColor = false;
+            this.InButton.Click += new System.EventHandler(this.InButton_Click);
+            // 
+            // Scan
+            // 
+            this.Scan.BackColor = System.Drawing.Color.LimeGreen;
+            this.Scan.FlatAppearance.BorderSize = 0;
+            this.Scan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Scan.Location = new System.Drawing.Point(296, 12);
+            this.Scan.Name = "Scan";
+            this.Scan.Size = new System.Drawing.Size(175, 97);
+            this.Scan.TabIndex = 23;
+            this.Scan.Text = "Scan";
+            this.Scan.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.Scan.UseVisualStyleBackColor = false;
+            this.Scan.Click += new System.EventHandler(this.Scan_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox1.Location = new System.Drawing.Point(717, 495);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(342, 58);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 48;
+            this.pictureBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.LightGray;
+            this.groupBox2.Controls.Add(this.VisitorsLabel);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(299, 561);
+            this.groupBox2.TabIndex = 49;
+            this.groupBox2.TabStop = false;
+            // 
+            // VisitorsLabel
+            // 
+            this.VisitorsLabel.AutoSize = true;
+            this.VisitorsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VisitorsLabel.Location = new System.Drawing.Point(114, 54);
+            this.VisitorsLabel.Name = "VisitorsLabel";
+            this.VisitorsLabel.Size = new System.Drawing.Size(0, 13);
+            this.VisitorsLabel.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(23, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Visitors inside:";
+            // 
+            // PostisVisitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(826, 555);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1115, 559);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.VCompAdd);
             this.Controls.Add(this.VisitingAdd);
             this.Controls.Add(this.CompCombo);
             this.Controls.Add(this.CompLabel);
-            this.Controls.Add(this.VisitorButton);
-            this.Controls.Add(this.OutButton);
+            this.Controls.Add(this.Report);
+            this.Controls.Add(this.Visitors);
             this.Controls.Add(this.InButton);
-            this.Controls.Add(this.PrintButton);
             this.Controls.Add(this.VisitingCombo);
             this.Controls.Add(this.VisitingLabel);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.Configure);
             this.Controls.Add(this.Scan);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MinimumSize = new System.Drawing.Size(1121, 598);
             this.Text = "Visitor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)(this.Photo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Photo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -571,10 +644,9 @@
         private System.Windows.Forms.CheckBox DeliveryNo;
         private System.Windows.Forms.Label VisitingLabel;
         private System.Windows.Forms.ComboBox VisitingCombo;
-        private System.Windows.Forms.Button PrintButton;
         private System.Windows.Forms.Button InButton;
-        private System.Windows.Forms.Button OutButton;
-        private System.Windows.Forms.Button VisitorButton;
+        private System.Windows.Forms.Button Visitors;
+        private System.Windows.Forms.Button Report;
         private System.Windows.Forms.Label CompLabel;
         private System.Windows.Forms.ComboBox CompCombo;
         private System.Windows.Forms.Button VisitingAdd;
@@ -593,6 +665,10 @@
         private System.Windows.Forms.TextBox dateBox;
         private System.Windows.Forms.TextBox addressBox;
         private System.Windows.Forms.Label addressText;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label VisitorsLabel;
+        private System.Windows.Forms.Label label1;
     }
 }
 

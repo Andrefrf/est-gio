@@ -43,6 +43,7 @@
             // 
             this.VisitTable.AllowUserToAddRows = false;
             this.VisitTable.AllowUserToDeleteRows = false;
+            this.VisitTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.VisitTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.VisitTable.Location = new System.Drawing.Point(12, 58);
             this.VisitTable.Name = "VisitTable";
@@ -53,6 +54,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(77, 16);
@@ -92,6 +94,7 @@
             // 
             // button1
             // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(458, 16);
             this.button1.Name = "button1";
@@ -103,6 +106,7 @@
             // 
             // button3
             // 
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.Location = new System.Drawing.Point(266, 348);
             this.button3.Name = "button3";
@@ -115,13 +119,12 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(311, 21);
+            this.checkBox1.Location = new System.Drawing.Point(311, 19);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(44, 17);
+            this.checkBox1.Size = new System.Drawing.Size(48, 17);
             this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "Yes";
+            this.checkBox1.Text = "True";
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Visible = false;
             // 
             // VisitorTable
             // 
@@ -137,7 +140,7 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.VisitTable);
             this.Name = "VisitorTable";
-            this.Text = "VisitorTable";
+            this.Text = "All Visitors";
             ((System.ComponentModel.ISupportInitialize)(this.VisitTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
